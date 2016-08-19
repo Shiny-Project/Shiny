@@ -18,7 +18,10 @@
     <div v-for="event in events" transition="fade">
       <div class="mdl-card mdl-shadow--2dp" style="width: 100%;">
         <div class="mdl-card__title">
-          <h2 class="mdl-card__title-text">{{ event.title }}</h2>
+          <h2 class="mdl-card__title-text">
+            {{{ event.title }}}
+            <h4 class="mdl-card__subtitle-text">{{ event.spiderName }} # {{ event.hash }} : {{ event.level }}</h4>
+          </h2>
         </div>
         <div class="mdl-card__supporting-text">
           {{ event.content }}
@@ -41,6 +44,10 @@
 
   .fade-enter, .fade-leave {
     opacity: 0;
+  }
+
+  .important {
+    color: red;
   }
 </style>
 </html>
