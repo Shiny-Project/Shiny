@@ -46,7 +46,6 @@ $(document).ready(()=>{
           });
 
           item.level = levelChart[event && event.level];
-          if (event.level >= 3) item.title = '<span style="color: red">' + item.title + '</span>';
 
           if (item.title && item.content && item.link){
             this.events.unshift(item);
@@ -57,6 +56,7 @@ $(document).ready(()=>{
         }
         catch(e){
           console.log(e);
+          console.log(data);
           console.log('无法解析事件');
         }
       });
