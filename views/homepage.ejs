@@ -19,17 +19,25 @@
       <div class="mdl-card mdl-shadow--2dp" style="width: 100%;">
         <div class="mdl-card__title">
           <h2 class="mdl-card__title-text">
-            {{{ event.title }}}
+            <a href="{{ event.link }}" target="_blank">{{{ event.title }}}</a>
             <h4 class="mdl-card__subtitle-text">{{ event.spiderName }} # {{ event.hash }} : {{ event.level }}</h4>
           </h2>
         </div>
         <div class="mdl-card__supporting-text">
-          {{ event.content }}
+          {{{ event.content }}}
         </div>
         <div class="mdl-card__menu">
           <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" v-on:click="removeEvent($index)">
             <i class="material-icons">close</i>
           </button>
+        </div>
+        <div class="mdl-card__actions mdl-card--border">
+          <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" v-on:click="block($index)">
+            屏蔽此来源
+          </a>
+          <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" v-on:click="star($index)">
+            特别关注此来源
+          </a>
         </div>
       </div>
     </div>
