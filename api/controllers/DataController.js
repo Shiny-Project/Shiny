@@ -66,6 +66,7 @@ module.exports = {
       if (err){
         return response.error(500, 'database_error', '数据库错误');
       }
+      data.data = JSON.parse(data.data);
       return response.success(data);
     })
   }
