@@ -36,6 +36,7 @@ module.exports.policies = {
   ***************************************************************************/
 	DataController:{
 	  '*': false,
-    'add': 'isPost'
+    'add': 'isPost',
+    'recent': true
   }
 };
