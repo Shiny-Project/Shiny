@@ -29,5 +29,5 @@ module.exports = {
         password: '', //optional
         database: 'mirai' //optional
     }
-  }
+  },
 };
