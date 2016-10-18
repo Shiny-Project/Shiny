@@ -95,10 +95,10 @@ module.exports = {
           return response.error(403, 'unexisted_api_key', '不存在的APIKEY');
         }
 
-        shasum = crypto.createHash('sha1');
+        var shasum = crypto.createHash('sha1');
         shasum.update(api.api_key + api.api_secret_key + event);
         var server_side_sign = shasum.digest('hex');
-
+        sign = sign.toLowerCase && sign.toLowerCase();
         if (sign !== server_side_sign){
           reject();
         }
