@@ -77,12 +77,11 @@ module.exports = {
   auth: function(request, response){
     return new Promise((resolve, reject) => {
       var APIKey = request.param('api_key');
-      var APISecretKey = request.param('api_secret_key');
       var sign = request.param('sign');
       var event = request.param('event') || '';
 
-      if (!APIKey || !APISecretKey){
-        return response.error(403, 'need_api_identification', '需要提供API_KEY和API_SECRET_KEY');
+      if (!APIKey){
+        return response.error(403, 'need_api_identification', '需要提供API_KEY');
       }
 
       if (!sign){
@@ -96,14 +95,11 @@ module.exports = {
           return response.error(403, 'unexisted_api_key', '不存在的APIKEY');
         }
 
-        shasum1 = crypto.createHash('sha1');
-        shasum1.update(APIKey + APISecretKey + event);
-        var client_side_sign = shasum1.digest('hex');
-        shasum2 = crypto.createHash('sha1');
-        shasum2.update(api.api_key + api.api_secret_key + event);
-        var server_side_sign = shasum2.digest('hex');
+        shasum = crypto.createHash('sha1');
+        shasum.update(api.api_key + api.api_secret_key + event);
+        var server_side_sign = shasum.digest('hex');
 
-        if (client_side_sign !== server_side_sign){
+        if (sign !== server_side_sign){
           reject();
         }
         resolve();
