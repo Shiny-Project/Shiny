@@ -76,9 +76,9 @@ module.exports = {
   },
   auth: function(request, response){
     return new Promise((resolve, reject) => {
+      var event = request.param('event');
       var APIKey = request.param('api_key');
       var sign = request.param('sign');
-      var event = request.param('event') || '';
 
       if (!APIKey){
         return response.error(403, 'need_api_identification', '需要提供API_KEY');
@@ -98,7 +98,8 @@ module.exports = {
         var shasum = crypto.createHash('sha1');
         shasum.update(api.api_key + api.api_secret_key + event);
         var server_side_sign = shasum.digest('hex');
-        sign = sign.toLowerCase && sign.toLowerCase();
+        sign = sign.toLowerCase && sign.toLowerCase() || sign;
+
         if (sign !== server_side_sign){
           reject();
         }
