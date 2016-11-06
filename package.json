@@ -26,7 +26,8 @@
     "sails-disk": "~0.10.9",
     "sails-hook-autoreload": "^0.13.1",
     "sails-mysql": "^0.11.5",
-    "socket.io-client": "^1.4.8"
+    "socket.io-client": "^1.4.8",
+    "bcryptjs": "latest"
   },
   "scripts": {
     "debug": "node debug app.js",

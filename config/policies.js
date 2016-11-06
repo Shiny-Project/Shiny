@@ -38,5 +38,12 @@ module.exports.policies = {
 	  '*': false,
     'add': 'isPost',
     'recent': true
+  },
+  UserController:{
+    '*': false,
+    'create': 'isPost',
+    'info': true,
+    'login': 'isPost',
+    'isLogin': 'isLogin'
   }
 };

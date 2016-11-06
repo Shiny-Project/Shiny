@@ -1,5 +1,5 @@
 /**
- * isLogin
+ * isPost
  *
  * @module      :: Policy
  * @description :: 验证是否是POST提交
