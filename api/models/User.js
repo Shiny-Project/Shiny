@@ -21,9 +21,10 @@ module.exports = {
       type: 'string',
       size: '255'
     },
-    subscriptions:{
-      collection: 'Subscription',
-      via: 'user'
+    subscriptions: {
+      collection: 'SpiderInfo',
+      via: 'user',
+      dominant: true
     }
   }
 };

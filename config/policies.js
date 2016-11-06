@@ -44,6 +44,11 @@ module.exports.policies = {
     'create': 'isPost',
     'info': true,
     'login': 'isPost',
-    'isLogin': 'isLogin'
+    'isLogin': 'isLogin',
+    'controlPanel': 'isLogin'
+  },
+  SpiderController:{
+    '*': false,
+    'list': true
   }
 };

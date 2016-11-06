@@ -168,6 +168,9 @@ $(document).ready(()=>{
           removeFromList('block', spiderName);
           appendToList('star', spiderName)
         }
+      },
+      login:function () {
+        window.open('./login');
       }
     }
   })

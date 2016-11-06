@@ -61,10 +61,16 @@ module.exports = {
       if (!user){
         return response.error(404, 'unexisted_user', '不存在的用户')
       }
-
+      delete user.password;
       return response.success(user);
     })
   },
+  /**
+   * 登录
+   * @param request
+   * @param response
+   * @returns {*}
+   */
   login:function (request, response) {
     let email = request.param('email');
     let password = request.param('password');
@@ -107,6 +113,9 @@ module.exports = {
   },
   isLogin:function (request, response) {
     return response.success();
+  },
+  controlPanel: function (request, response) {
+    return response.view('controlPanel');
   }
 };
 

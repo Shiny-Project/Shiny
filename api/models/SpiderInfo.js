@@ -8,7 +8,26 @@
 module.exports = {
 
   attributes: {
-
+    id: {
+      type: 'integer',
+      autoIncrement: true,
+      primaryKey: true
+    },
+    name: {
+      type: 'string',
+      size: 255
+    },
+    description: {
+      type: 'text'
+    },
+    frequency: {
+      type: 'string',
+      size: 255
+    },
+    user: {
+      collection: 'User',
+      via: 'subscriptions'
+    }
   }
 };
 

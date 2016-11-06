@@ -34,7 +34,15 @@ module.exports.routes = {
 
   '/': {
     view: 'homepage'
+  },
+  '/login':{
+    view: 'login'
+  },
+  '/kashikoikawaiielichika': 'UserController.controlPanel',
+  '/register':{
+    view: 'register'
   }
+
 
   /***************************************************************************
   *                                                                          *
