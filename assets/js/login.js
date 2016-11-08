@@ -1,22 +1,18 @@
 $(document).ready(()=>{
-  $('#login').click(function(){
-    $(this).attr('disabled', 'disabled');
-    let self = $(this);
+  $('#login_fingerprint').attr('disabled','disabled');
+  new Fingerprint2().get((result, components)=>{
     $.ajax({
-      url: './User/login',
-      type: 'POST',
-      data:{
-        email: $('#email').val(),
-        password: $('#password').val()
+      url: './User/info',
+      data: {
+        'fingerprint': result
       },
-      dataType: 'json',
-      success: function (data) {
-        location.href = './kashikoikawaiielichika';
+      success: data=>{
+        $('#login_fingerprint').removeAttr('disabled');
+        $('#tip').text('看起来您可以使用设备指纹登录哦');
       },
-      error: function (e) {
-        console.log(e.responseJSON);
-        self.removeAttr('disabled');
+      error: e=>{
+        $('#tip').text('经过注册的设备才能使用设备指纹登录哦');
       }
     })
-  })
+  });
 });

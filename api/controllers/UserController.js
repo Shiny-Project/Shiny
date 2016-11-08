@@ -103,13 +103,22 @@ module.exports = {
    */
   info: function (request, response) {
     let id = request.param('id');
+    let fingerprint = request.param('fingerprint');
 
-    if (!id) {
+    if (!id && !fingerprint) {
       return response.error(403, 'miss_parameters', '缺少必要参数');
     }
 
+
     User.findOne({
-      'id': id
+      'or':[
+        {
+          'id': id || ''
+        },
+        {
+          'fingerprint': fingerprint || ''
+        }
+      ]
     }).populate('subscriptions').then(user => {
       if (!user) {
         return response.error(404, 'unexisted_user', '不存在的用户')

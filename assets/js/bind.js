@@ -9,7 +9,7 @@ $(document).ready(()=>{
       dataType: 'json',
       success: function (data) {
         if (data.data.isBinded){
-          location.href = './User/login'
+          location.href = './login'
         }
         else{
           $('#bind,#later').removeAttr('disabled');
@@ -22,9 +22,32 @@ $(document).ready(()=>{
     });
     $('#bind').click(function(){
       let self = $(this);
+      if (!$('#password1').val() || !$('#password2').val() || !$('#email').val()){
+        $('#tip').text('请填写所有项目');
+        return;
+      }
+      if ($('#password1').val() !== $('#password2').val()){
+        $('#tip').text('两次输入的密码不一致');
+        return;
+      }
 
       $.ajax({
-        url: './User/create'
+        url: './User/create',
+        type: 'POST',
+        data:{
+          email: $('#email').val(),
+          password: $('#password2').val(),
+          fingerprint: result
+        },
+        success: data=>{
+          location.href = './login';
+        },
+        error: e=>{
+          if (e.responseJSON && e.responseJSON.error && e.responseJSON.error.code){
+            $('#tip').text(e.responseJSON.error.message);
+            $('#bind,#later').removeAttr('disabled');
+          }
+        }
       })
     })
   });
