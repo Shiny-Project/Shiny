@@ -1,29 +1,27 @@
 $(document).ready(()=>{
-  $('#login').click(function(){
+  $('#register_fingerprint').click(function(){
     $(this).attr('disabled', 'disabled');
+    $(this).text('Please wait.');
     let self = $(this);
-
-    if ($("#password1").val() !== $('#password2')){
-      console.log('两次密码不一致');
-      self.removeAttr('disabled');
-      return;
-    }
-
-    $.ajax({
-      url: './User/create',
-      type: 'POST',
-      data:{
-        email: $('#email').val(),
-        password: $('#password').val()
-      },
-      dataType: 'json',
-      success: function (data) {
-        location.href = './login';
-      },
-      error: function (e) {
-        console.log(e.responseJSON);
-        self.removeAttr('disabled');
-      }
-    })
-  })
+    new Fingerprint2().get((result, components)=>{
+      $.ajax({
+        url: './User/createByFingerprint',
+        type: 'POST',
+        data:{
+          fingerprint: result
+        },
+        dataType: 'json',
+        success: function (data) {
+          location.href = './bind';
+        },
+        error: function (e) {
+          if (e.responseJSON && e.responseJSON.error && e.responseJSON.error.code == 'existed_device'){
+            location.href = './bind';
+          }
+          self.removeAttr('disabled');
+        }
+      })
+    });
+  });
+  $('#register_fingerprint').click();
 });

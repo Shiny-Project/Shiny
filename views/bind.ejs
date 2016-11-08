@@ -12,14 +12,14 @@
   <script defer src="/js/dependencies/mdl.js"></script>
   <!-- dependencies -->
 
-  <script src="/js/login.js"></script>
-
+  <script src="/js/bind.js"></script>
 </head>
 <body>
 <div class="mdl-grid" id="app">
   <div class="mdl-cell mdl-cell--1-col"></div>
   <div class="mdl-cell mdl-cell--10-col">
     <form action="#">
+      <p class="mdl-color-text--grey-600" id="tip">请稍候</p>
       <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
         <input class="mdl-textfield__input" type="email" id="email">
         <label class="mdl-textfield__label" for="email">Email</label>
@@ -30,7 +30,8 @@
         <label class="mdl-textfield__label" for="password">Password</label>
       </div>
       <br>
-      <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" id="login">Log in</button>
+      <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" id="bind">Bind</button>
+      <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" id="later">Not Now</button>
     </form>
   </div>
   <div class="mdl-cell mdl-cell--1-col"></div>

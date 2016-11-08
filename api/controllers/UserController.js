@@ -7,7 +7,7 @@
 
 module.exports = {
   /**
-   * 创建新用户
+   * 绑定设备与账户或者直接注册
    * @param request
    * @param response
    * @returns {*}
@@ -15,31 +15,84 @@ module.exports = {
   create: function (request, response) {
     let email = request.param('email');
     let password = request.param('password');
+    let fingerprint = request.param('fingerprint');
 
-    if (!email || !password) {
+    if (!email || !password || !fingerprint) {
       return response.error(403, 'miss_parameters', '缺少必要参数');
     }
 
     User.findOne({
-      'email': email
+      or: [
+        {
+          'fingerprint': fingerprint
+        },
+        {
+          'email': email
+        }
+      ]
     }).then(user=> {
       if (user) {
-        return response.error(403, 'existed_user', '该Email已经被占用');
+        if (user.email) {
+          // 已经注册完了
+          return response.error(403, 'binded_user', '用户已经绑定');
+        }
+
+        // 用设备指纹注册但还没有绑定密码
+        User.update({
+          'id': user.id
+        }, {
+          email: email,
+          password: EncryptionService.doEncryption(password)
+        }).then(newUser => {
+          return response.success({
+            'id': newUser.id
+          });
+        }).catch(err=> {
+          return response.error(500, 'database_error', '数据库通信错误');
+        })
+      }
+      else {
+        // 新用户
+        User.create({
+          'email': email,
+          'password': EncryptionService.doEncryption(password),
+          'fingerprint': fingerprint
+        }).then(newUser=> {
+          return response.success({
+            'id': newUser.id
+          })
+        }).catch(err=> {
+          return response.error(500, 'database_error', '数据库通信错误');
+        })
+      }
+    })
+  },
+  /**
+   * 根据设备指纹注册
+   * @param request
+   * @param response
+   * @returns {*}
+   */
+  createByFingerprint: function (request, response) {
+    let fingerprint = request.param('fingerprint');
+    if (!fingerprint) {
+      return response.error(403, 'miss_parameters', '缺少必要参数');
+    }
+
+    User.findOne({
+      'fingerprint': fingerprint
+    }).then(user=> {
+      if (user) {
+        return response.error(403, 'existed_device', '设备已经被注册');
       }
 
-      password = EncryptionService.doEncryption(password);
-
       User.create({
-        'email': email,
-        'password': password
-      }).then(user => {
-        return response.success();
-      }).catch(e=> {
-        return response.error();
+        'fingerprint': fingerprint
+      }).then(user=> {
+        return response.success({
+          'uid': user.id
+        });
       })
-
-    }).catch(e=> {
-      return response.error();
     })
   },
   /**
@@ -48,17 +101,17 @@ module.exports = {
    * @param response
    * @returns {*}
    */
-  info:function (request, response) {
+  info: function (request, response) {
     let id = request.param('id');
 
-    if (!id){
+    if (!id) {
       return response.error(403, 'miss_parameters', '缺少必要参数');
     }
 
     User.findOne({
       'id': id
     }).populate('subscriptions').then(user => {
-      if (!user){
+      if (!user) {
         return response.error(404, 'unexisted_user', '不存在的用户')
       }
       delete user.password;
@@ -71,51 +124,78 @@ module.exports = {
    * @param response
    * @returns {*}
    */
-  login:function (request, response) {
+  login: function (request, response) {
     let email = request.param('email');
     let password = request.param('password');
 
-    if (!email || !password){
+    if (!email || !password) {
       return response.error(403, 'miss_parameters', '缺少必要参数');
     }
 
     User.findOne({
       'email': email
-    }).then(user =>{
-      if (!user){
+    }).then(user => {
+      if (!user) {
         return response.error(404, 'unexisted_user', '不存在的用户');
       }
 
-      if (EncryptionService.compare(password, user.password)){
+      if (EncryptionService.compare(password, user.password)) {
         // 登录成功
         let remenber_token = CommonUtils.generateToken();
         request.session.uid = user.id;
 
         response.cookie('uid', user.id, {
-          maxAge: 60*60*24*365
+          maxAge: 60 * 60 * 24 * 365
         });
-        response.cookie('remenber_token', remenber_token , {
-          maxAge: 60*60*24*365
+        response.cookie('remenber_token', remenber_token, {
+          maxAge: 60 * 60 * 24 * 365
         });
         response.cookie('token', EncryptionService.doEncryption(user.id + user.password + remenber_token), {
           // uuid+密码拼接 保证 改密码后失效 并每次登陆唯一
-          maxAge: 60*60*24*365
+          maxAge: 60 * 60 * 24 * 365
         });
 
         return response.success({
           'uid': user.id
         });
       }
-      else{
+      else {
         return response.error(403, 'wrong_password', '密码错误');
       }
     })
   },
-  isLogin:function (request, response) {
+  isLogin: function (request, response) {
     return response.success();
   },
   controlPanel: function (request, response) {
     return response.view('controlPanel');
+  },
+  /**
+   * 判断是否已经绑定
+   * @param request
+   * @param response
+   * @returns {*}
+   */
+  isBinded:function (request, response) {
+    let fingerprint = request.param('fingerprint');
+
+    if (!fingerprint){
+      return response.error(403, 'miss_parameters', '缺少必要参数');
+    }
+
+    User.findOne({
+      'fingerprint': fingerprint
+    }).then(user=>{
+      if (user && user.email){
+        return response.success({
+          'isBinded': true
+        });
+      }
+      return response.success({
+        'isBinded': false
+      });
+    })
+
   }
 };
 

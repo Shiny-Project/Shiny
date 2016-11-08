@@ -19,7 +19,11 @@ module.exports = {
     },
     password: {
       type: 'string',
-      size: '255'
+      size: 255
+    },
+    fingerprint:{
+      type: 'string',
+      size: 255
     },
     subscriptions: {
       collection: 'SpiderInfo',

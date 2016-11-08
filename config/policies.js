@@ -42,10 +42,12 @@ module.exports.policies = {
   UserController:{
     '*': false,
     'create': 'isPost',
+    'createByFingerprint': 'isPost',
     'info': true,
     'login': 'isPost',
     'isLogin': 'isLogin',
-    'controlPanel': 'isLogin'
+    'controlPanel': 'isLogin',
+    'isBinded': true
   },
   SpiderController:{
     '*': false,
