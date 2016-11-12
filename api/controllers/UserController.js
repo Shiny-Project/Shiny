@@ -136,42 +136,79 @@ module.exports = {
   login: function (request, response) {
     let email = request.param('email');
     let password = request.param('password');
+    let fingerprint = request.param('fingerprint');
 
-    if (!email || !password) {
+    if (!((email && password) || fingerprint)) {
       return response.error(403, 'miss_parameters', '缺少必要参数');
     }
 
-    User.findOne({
-      'email': email
-    }).then(user => {
-      if (!user) {
-        return response.error(404, 'unexisted_user', '不存在的用户');
-      }
+    if (fingerprint){
+      User.findOne({
+        'fingerprint': fingerprint
+      }).then(user=>{
+        if (!user){
+          return response.error(403, 'unexisted_device', '未注册的设备');
+        }
 
-      if (EncryptionService.compare(password, user.password)) {
-        // 登录成功
-        let remenber_token = CommonUtils.generateToken();
+        if (user.email){
+          return response.error(403, 'binded_user', '已经绑定的用户只能使用密码登录');
+        }
         request.session.uid = user.id;
 
         response.cookie('uid', user.id, {
-          maxAge: 60 * 60 * 24 * 365
-        });
-        response.cookie('remenber_token', remenber_token, {
-          maxAge: 60 * 60 * 24 * 365
-        });
-        response.cookie('token', EncryptionService.doEncryption(user.id + user.password + remenber_token), {
-          // uuid+密码拼接 保证 改密码后失效 并每次登陆唯一
           maxAge: 60 * 60 * 24 * 365
         });
 
         return response.success({
           'uid': user.id
         });
-      }
-      else {
-        return response.error(403, 'wrong_password', '密码错误');
-      }
-    })
+      })
+    }
+    else{
+      User.findOne({
+        'email': email
+      }).then(user => {
+        if (!user) {
+          return response.error(404, 'unexisted_user', '不存在的用户');
+        }
+
+        if (EncryptionService.compare(password, user.password)) {
+          // 登录成功
+          let remenber_token = CommonUtils.generateToken();
+          request.session.uid = user.id;
+
+          response.cookie('uid', user.id, {
+            maxAge: 60 * 60 * 24 * 365
+          });
+          response.cookie('remenber_token', remenber_token, {
+            maxAge: 60 * 60 * 24 * 365
+          });
+          response.cookie('token', EncryptionService.doEncryption(user.id + user.password + remenber_token), {
+            // uuid+密码拼接 保证 改密码后失效 并每次登陆唯一
+            maxAge: 60 * 60 * 24 * 365
+          });
+
+          return response.success({
+            'uid': user.id
+          });
+        }
+        else {
+          return response.error(403, 'wrong_password', '密码错误');
+        }
+      })
+    }
+  },
+  /**
+   * 登出
+   * @param request
+   * @param response
+   */
+  logout:function (request, response) {
+    request.session.uid = undefined;
+    response.clearCookie('uid');
+    response.clearCookie('token');
+    response.clearCookie('remenber_token');
+    return response.success();
   },
   isLogin: function (request, response) {
     return response.success();
@@ -204,7 +241,31 @@ module.exports = {
         'isBinded': false
       });
     })
+  },
+  /**
+   * 订阅
+   * @param request
+   * @param response
+   * @returns {*}
+   */
+  subscribe:function (request, response) {
+    let uid = request.session.uid;
+    let subscriptionId = request.param('subscriptionId');
 
+    if (!subscriptionId){
+      return response.error(403, 'miss_parameters', '缺少必要参数');
+    }
+
+    User.findOne({
+      'id': uid
+    }).then(user=>{
+      user.subscriptions.add(subscriptionId);
+      user.save().then(()=>{
+        return response.success();
+      }).catch(e=>{
+        return response.error(500, 'database_error', '数据库通信错误');
+      })
+    })
   }
 };
 

@@ -14,16 +14,48 @@ $(document).ready(function(){
         },
         dataType: 'json',
         success: response=>{
+          let subscriptionList = [];
+
+          for (var item of response.data.subscriptions){
+            subscriptionList.push(item.id);
+          }
           self.subscriptions = response.data.subscriptions;
+
+          $.ajax({
+            url: './Spider/list',
+            dataType:'json',
+            success:response=>{
+              for (var spider of response.data){
+                spider.isSubscribed = !!(subscriptionList.includes(spider.id));
+              }
+              self.spiderMarket = response.data;
+            }
+          });
         }
       });
-      $.ajax({
-        url: './Spider/list',
-        dataType:'json',
-        success:response=>{
-          self.spiderMarket = response.data;
+
+    },
+    methods:{
+      subscribe(index){
+        let subscriptionId = this.spiderMarket[index].id;
+
+        if (this.spiderMarket[index].isSubscribed){
+          return;
         }
-      });
+
+        let self = this;
+        $.ajax({
+          'url': './User/subscribe',
+          'data': {
+            'subscriptionId': subscriptionId
+          },
+          type: 'POST',
+          dataType: 'json',
+          success: response=>{
+            self.spiderMarket[index].isSubscribed = true;
+          }
+        })
+      }
     }
   })
 });

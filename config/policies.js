@@ -45,9 +45,11 @@ module.exports.policies = {
     'createByFingerprint': 'isPost',
     'info': true,
     'login': 'isPost',
+    'logout': true,
     'isLogin': 'isLogin',
     'controlPanel': 'isLogin',
-    'isBinded': true
+    'isBinded': true,
+    'subscribe': 'isPost'
   },
   SpiderController:{
     '*': false,

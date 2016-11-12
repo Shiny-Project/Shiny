@@ -60,7 +60,7 @@
         </div>
         <div class="mdl-card__actions mdl-card--border">
           <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" v-on:click="subscribe($index)">
-            订阅
+            {{ !!spider.isSubscribed ? '已订阅' : '订阅' }}
           </a>
         </div>
       </div>
