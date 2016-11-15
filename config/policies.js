@@ -49,7 +49,8 @@ module.exports.policies = {
     'isLogin': 'isLogin',
     'controlPanel': 'isLogin',
     'isBinded': true,
-    'subscribe': 'isPost'
+    'subscribe': ['isPost', 'isLogin'],
+    'unsubscribe': ['isPost', 'isLogin']
   },
   SpiderController:{
     '*': false,

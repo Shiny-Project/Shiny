@@ -17,6 +17,7 @@
   <div class="mdl-cell mdl-cell--1-col"></div>
   <div class="mdl-cell mdl-cell--10-col">
     <h1>后台</h1>
+    <a href="javascript:;" v-on:click="logout">登出</a>
   </div>
   <div class="mdl-cell mdl-cell--1-col"></div>
   <div class="mdl-cell mdl-cell--1-col"></div>
@@ -36,7 +37,7 @@
         <td class="mdl-data-table__cell--non-numeric">{{spider.name}}</td>
         <td class="mdl-data-table__cell--non-numeric">
           <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"
-                  v-on:click="removeSubscription($index)">
+                  v-on:click="unsubscribe($index)">
             <i class="material-icons">close</i>
           </button>
         </td>

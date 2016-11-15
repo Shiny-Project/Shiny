@@ -27,7 +27,7 @@ $(document).ready(()=>{
   function appendToList(listName, item){
     if (getList(listName) !== []){
       if (!isInList(listName, item)){
-        var list = getList(listName);
+        let list = getList(listName);
         list.push(item);
         localStorage.setItem(listName, JSON.stringify(list));
       }
@@ -41,8 +41,8 @@ $(document).ready(()=>{
    */
   function removeFromList(listName, item){
     if (getList(listName) !== []){
-      var list = getList(listName);
-      var index = list.indexOf(item);
+      let list = getList(listName);
+      let index = list.indexOf(item);
       if (index !== -1){
         list.splice(index, 1);
         localStorage.setItem(listName, JSON.stringify(list));
@@ -70,35 +70,61 @@ $(document).ready(()=>{
         level: '提示',
         spiderName: 'Mirai',
         hash: '',
-        title: '欢迎使用迷之平台',
-        content: '按照预案您已经连接到服务器，当有事件触发时将会以不同方式提示您。如果您是第一次使用，请允许本站弹出通知。<br> 下方的功能区的按钮是有可能可以按的。',
-        link: 'javascript:;'
-      }]
+        data:{
+          title: '欢迎使用迷之平台',
+          content: '按照预案您已经连接到服务器，当有事件触发时将会以不同方式提示您。如果您是第一次使用，请允许本站弹出通知。<br> 下方的功能区的按钮是有可能可以按的。',
+          link: 'javascript:;'
+        },
+      }],
+      isLogin: !!Cookies.get('uid')
     },
     ready: function () {
       // 连接Websocket
-      var socket = io('http://api.kotori.moe:3737');
-      var levelChart = {
+      let socket = io('http://api.kotori.moe:3737');
+      let levelChart = {
         1: '一般事件',
         2: '有趣的事件',
         3: '重要事件',
         4: '紧急事件',
         5: '世界毁灭'
       };
-      var showNotification;
+      let showNotification;
+
+      let subscriptionList = [];
+
+      if (this.isLogin){
+        $.ajax({
+          url: './User/info',
+          data: {
+            'id': Cookies.get('uid')
+          },
+          type: 'GET',
+          dataType: 'json',
+          success: response=>{
+            if (response.data.subscriptions){
+              for (let spider of response.data.subscriptions){
+                subscriptionList.push(spider.name);
+              }
+            }
+            console.log('获取到订阅列表');
+            console.log(subscriptionList);
+          }
+        })
+      }
+
       Notification.requestPermission((status) => {
         if (status === "granted"){
           /**
            * 显示通知
            * {string} title 通知标题, {string} content 通知内容, {string} link 通知链接
            */
-          showNotification = function (title, content, link, cover) {
-            var notice = new Notification(title, {
-              body: content,
-              icon: cover || 'http://ww4.sinaimg.cn/large/a7e7af92gw1f70efh3ly1j206y06yglz.jpg'
+          showNotification = function (event) {
+            let notice = new Notification(event.data.title, {
+              body: event.data.content,
+              icon: event.data.cover || 'http://ww4.sinaimg.cn/large/a7e7af92gw1f70efh3ly1j206y06yglz.jpg'
             });
             notice.onclick = () => {
-              window.open(link);
+              window.open(event.data.link);
             }
           }
         }
@@ -107,40 +133,43 @@ $(document).ready(()=>{
       socket.on('event', (data) => {
         // 尝试按JSON解析
         try{
-          var event = JSON.parse(data);
-          var item = {};
-          ['title', 'content', 'link', 'cover'].forEach(key =>{
-            item[key] = event && event.data && event.data[key] || undefined;
-          });
-          ["hash", "spiderName"].forEach(key => {
-            item[key] = event && event[key]
-          });
+          let event = JSON.parse(data);
+          event.data = JSON.parse(event.data);
 
-          if (isInList('block', item.spiderName)){
+          if (this.isLogin && subscriptionList.indexOf(event.spiderName) == -1)
+            // 不处理未订阅的内容
+            return;
+
+          if (isInList('block', event.spiderName)){
             return;
           }
 
-          if (isInList('star', item.spiderName)){
+          if (isInList('star', event.spiderName)){
             // 特别关注 提示音TODO
           }
 
-          item.level = levelChart[event && event.level] || '未知等级事件';
-          if (item.title && item.content && item.link){
+          let levelText = levelChart[event && event.level] || '未知等级事件';
+
+          if (event.data.title && event.data.content && event.data.link){
+            // 推送必备参数齐全
             if (event.level && event.level >= 3){
-              showNotification(item.title, item.content, item.link, item.cover);
-              item.title = '<span style="color:red">' + item.title + '<span/>';
+              // 对于大于3的事件无差别推送
+              showNotification(event);
+              event.data.title = '<span style="color:red">' + event.data.title + '<span/>';
             }
 
-            this.events.unshift(item);
+            this.events.unshift(event);
           }
           else{
             console.log('事件缺少必要参数');
-            console.log('收到的广播内容:' + data);
+            console.log('收到的广播内容:');
+            console.log(event);
           }
         }
         catch(e){
           console.log(e);
-          console.log('收到的广播内容:' + data);
+          console.log('收到的广播内容:');
+          console.log(event || data);
           console.log('无法解析事件');
         }
       });
@@ -150,7 +179,7 @@ $(document).ready(()=>{
         this.events.splice(index, 1)
       },
       block: function (index) {
-        var spiderName = this.events[index].spiderName;
+        let spiderName = this.events[index].spiderName;
         if (!isInList('star', spiderName)){
           appendToList('block', spiderName);
         }
@@ -160,7 +189,7 @@ $(document).ready(()=>{
         }
       },
       star: function (index) {
-        var spiderName = this.events[index].spiderName;
+        let spiderName = this.events[index].spiderName;
         if (!isInList('block', spiderName)){
           appendToList('star', spiderName);
         }
@@ -170,7 +199,10 @@ $(document).ready(()=>{
         }
       },
       login:function () {
-        window.open('./login');
+        location.href = './login';
+      },
+      cp:function () {
+        location.href = './kashikoikawaiielichika';
       }
     }
   })

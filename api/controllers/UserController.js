@@ -266,6 +266,26 @@ module.exports = {
         return response.error(500, 'database_error', '数据库通信错误');
       })
     })
+  },
+  unsubscribe: function (request, response) {
+    let uid = request.session.uid;
+    let subscriptionId = request.param('subscriptionId');
+
+    if (!subscriptionId){
+      return response.error(403, 'miss_parameters', '缺少必要参数');
+    }
+
+    User.findOne({
+      'id': uid
+    }).then(user=>{
+      user.subscriptions.remove(subscriptionId);
+      user.save().then(()=>{
+        return response.success();
+      }).catch(e=>{
+        return response.error(500, 'database_error', '数据库通信错误');
+      })
+    })
+
   }
 };
 
