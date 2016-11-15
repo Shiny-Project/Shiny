@@ -47,7 +47,7 @@ module.exports = {
           publisher: event.spiderName,
           level: event.level,
           hash: event.hash,
-          data: typeof event.data == 'object' ? JSON.stringify(event.data) : event.data
+          data: typeof event.data == 'object' ? JSON.stringify(event.data) : event.data // 字符类型入库
         }).then(function (result) {
           // 开始推送事件
           var io = require('socket.io-client');
@@ -58,7 +58,7 @@ module.exports = {
             socket.emit('event', JSON.stringify({
               level: event.level,
               spiderName: event.spiderName,
-              data: event.data,
+              data: typeof event.data == 'object' ? event.data : JSON.parse(event.data), // 以object类型推送
               hash: event.hash
             }));
           });

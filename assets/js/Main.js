@@ -133,8 +133,8 @@ $(document).ready(()=>{
       socket.on('event', (data) => {
         // 尝试按JSON解析
         try{
+          console.log(data);
           let event = JSON.parse(data);
-          event.data = JSON.parse(event.data);
 
           if (this.isLogin && subscriptionList.indexOf(event.spiderName) == -1)
             // 不处理未订阅的内容
@@ -169,7 +169,7 @@ $(document).ready(()=>{
         catch(e){
           console.log(e);
           console.log('收到的广播内容:');
-          console.log(event || data);
+          console.log(data);
           console.log('无法解析事件');
         }
       });
