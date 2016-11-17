@@ -8,6 +8,10 @@
  *
  */
 module.exports = function (req, res, next) {
+  if (req.param('token')){
+    // 如果采用token方式验证 则跳过其他流程
+    next();
+  }
   if (req.session.uid){
     next();
   }

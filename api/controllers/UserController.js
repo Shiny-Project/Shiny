@@ -124,6 +124,8 @@ module.exports = {
         return response.error(404, 'unexisted_user', '不存在的用户')
       }
       delete user.password;
+      delete user.fingerprint;
+      delete user.token;
       return response.success(user);
     })
   },
@@ -159,6 +161,8 @@ module.exports = {
           maxAge: 60 * 60 * 24 * 365
         });
 
+
+
         return response.success({
           'uid': user.id
         });
@@ -188,8 +192,15 @@ module.exports = {
             maxAge: 60 * 60 * 24 * 365
           });
 
-          return response.success({
-            'uid': user.id
+          user.token = new Buffer(require('node-uuid').v4()).toString('base64');
+
+          user.save().then(()=>{
+            return response.success({
+              'uid': user.id,
+              'token': user.token
+            });
+          }).catch(e=>{
+
           });
         }
         else {
@@ -251,14 +262,20 @@ module.exports = {
   subscribe:function (request, response) {
     let uid = request.session.uid;
     let subscriptionId = request.param('subscriptionId');
+    let token = request.param('token');
 
-    if (!subscriptionId){
+    if (!subscriptionId || (!token && !uid)){
       return response.error(403, 'miss_parameters', '缺少必要参数');
     }
 
-    User.findOne({
-      'id': uid
-    }).then(user=>{
+    let condition = {};
+
+    if (token)
+      condition.token = token;
+    else
+      condition.id = uid;
+
+    User.findOne(condition).then(user=>{
       user.subscriptions.add(subscriptionId);
       user.save().then(()=>{
         return response.success();
@@ -267,17 +284,28 @@ module.exports = {
       })
     })
   },
+  /**
+   * 取消订阅
+   * @param request
+   * @param response
+   */
   unsubscribe: function (request, response) {
     let uid = request.session.uid;
     let subscriptionId = request.param('subscriptionId');
 
-    if (!subscriptionId){
+    if (!subscriptionId || (!token && !uid)){
       return response.error(403, 'miss_parameters', '缺少必要参数');
     }
 
-    User.findOne({
-      'id': uid
-    }).then(user=>{
+    let condition = {};
+
+    if (token)
+      condition.token = token;
+    else
+      condition.id = uid;
+
+
+    User.findOne(condition).then(user=>{
       user.subscriptions.remove(subscriptionId);
       user.save().then(()=>{
         return response.success();

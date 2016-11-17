@@ -21,6 +21,10 @@ module.exports = {
       type: 'string',
       size: 255
     },
+    token:{
+      type: 'string',
+      size: 255
+    },
     fingerprint:{
       type: 'string',
       size: 255
