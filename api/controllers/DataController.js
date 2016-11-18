@@ -5,7 +5,7 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
-var crypto = require('crypto');
+let crypto = require('crypto');
 
 module.exports = {
   /**
@@ -16,7 +16,7 @@ module.exports = {
   add: function (request, response) {
     // 校验签名
     this.auth(request, response).then(()=>{
-      var event;
+      let event;
       if (request.param('event') && request.param('event').spiderName){
         event = request.param('event');
       }
@@ -50,8 +50,8 @@ module.exports = {
           data: typeof event.data == 'object' ? JSON.stringify(event.data) : event.data // 字符类型入库
         }).then(function (result) {
           // 开始推送事件
-          var io = require('socket.io-client');
-          var socket = io.connect('http://shiny.kotori.moe:3737', {
+          let io = require('socket.io-client');
+          let socket = io.connect('http://shiny.kotori.moe:3737', {
             reconnect: true
           });
           socket.on('connect', function () {
@@ -79,11 +79,9 @@ module.exports = {
    * @param response
    */
   recent: function (request, response) {
-    Data.query('SELECT * FROM `data` WHERE 1 ORDER BY `id` DESC LIMIT 10', function(err, data){
-      if (err){
-        return response.error(500, 'database_error', '数据库读写错误');
-      }
-      for (var item of data){
+    let page = request.param('page')||1;
+    Data.find({}).sort('id desc').paginate({page: page, limit: 10}).then(data=>{
+      for (let item of data){
         try{
           item.data = JSON.parse(item.data);
         }
@@ -92,7 +90,10 @@ module.exports = {
         }
       }
       return response.success(data);
-    })
+    }).catch(e=>{
+      console.log(e);
+      return response.error(500, 'database_error', '数据库读写错误');
+    });
   },
   /**
    * API 签名校验
@@ -102,9 +103,9 @@ module.exports = {
    */
   auth: function(request, response){
     return new Promise((resolve, reject) => {
-      var event = request.param('event');
-      var APIKey = request.param('api_key');
-      var sign = request.param('sign');
+      let event = request.param('event');
+      let APIKey = request.param('api_key');
+      let sign = request.param('sign');
 
       if (!APIKey){
         return response.error(403, 'need_api_identification', '需要提供API_KEY');
@@ -121,9 +122,9 @@ module.exports = {
           return response.error(403, 'unexisted_api_key', '不存在的APIKEY');
         }
 
-        var shasum = crypto.createHash('sha1');
+        let shasum = crypto.createHash('sha1');
         shasum.update(api.api_key + api.api_secret_key + event);
-        var server_side_sign = shasum.digest('hex');
+        let server_side_sign = shasum.digest('hex');
         sign = sign.toLowerCase && sign.toLowerCase() || sign;
 
         if (sign !== server_side_sign){
