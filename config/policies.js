@@ -38,7 +38,8 @@ module.exports.policies = {
 	  '*': false,
     'add': 'isPost',
     'recent': true,
-    'view': ['isLogin','isBinded']
+    'view': ['isLogin','isBinded'],
+    'info': ['isLogin','isBinded']
   },
   UserController:{
     '*': false,

@@ -5,21 +5,53 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <!-- dependencies -->
   <script src="/js/dependencies/jQuery.js"></script>
-  <script src="/js/dependencies/Socket.io.js"></script>
-  <script src="/js/dependencies/fingerprint.js"></script>
+  <script src="/js/dependencies/Vue.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="/styles/mdl.css">
   <script defer src="/js/dependencies/mdl.js"></script>
   <!-- dependencies -->
 
-  <script src="/js/login.js"></script>
+  <script src="/js/data/view.js"></script>
 
 </head>
 <body>
 <div class="mdl-grid" id="app">
   <div class="mdl-cell mdl-cell--1-col"></div>
   <div class="mdl-cell mdl-cell--10-col">
-    Data View
+    <div class="mdl-card mdl-shadow--2dp" style="width: 100%;">
+      <div class="mdl-card__title">
+        <h2 class="mdl-card__title-text">
+          <h3 class="level">{{ level }}</h3>
+          <a href="{{ url }}" target="_blank">{{{ title }}}</a>
+          <h4 class="mdl-card__subtitle-text">{{ spiderName }} # {{ hash }}</h4>
+        </h2>
+      </div>
+      <div class="mdl-card__supporting-text item-body">
+        {{{ content }}}
+      </div>
+      <div class="mdl-card__actions">
+        <h4>这个消息有多重要?</h4>
+        <span>从左往右为毫无意义到世界毁灭 当前值:</span><span id="slider_value">50%</span>
+        <br>
+        <div class="slider">
+          <input class="mdl-slider mdl-js-slider" id="importance" type="range" min="0" max="100" value="50" tabindex="0">
+        </div>
+        <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" id="login">提交</button>
+      </div>
+      <!--<div class="mdl-card__menu">-->
+        <!--<button class="mdl-button mdl-button&#45;&#45;icon mdl-js-button mdl-js-ripple-effect" v-on:click="removeEvent($index)">-->
+          <!--<i class="material-icons">close</i>-->
+        <!--</button>-->
+      <!--</div>-->
+      <!--<div class="mdl-card__actions mdl-card&#45;&#45;border">-->
+        <!--<a class="mdl-button mdl-button&#45;&#45;colored mdl-js-button mdl-js-ripple-effect" v-on:click="block($index)">-->
+          <!--屏蔽此来源-->
+        <!--</a>-->
+        <!--<a class="mdl-button mdl-button&#45;&#45;colored mdl-js-button mdl-js-ripple-effect" v-on:click="star($index)">-->
+          <!--特别关注此来源-->
+        <!--</a>-->
+      <!--</div>-->
+    </div>
   </div>
   <div class="mdl-cell mdl-cell--1-col"></div>
 </div>
@@ -35,6 +67,15 @@
 
   .important {
     color: red;
+  }
+
+  .level{
+    font-size: 5em;
+    margin-right: 5px;
+  }
+
+  .slider{
+    margin:1.5em;
   }
 </style>
 </html>

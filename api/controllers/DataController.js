@@ -143,5 +143,15 @@ module.exports = {
     if(!id) {
       return response.error(403, 'miss_parameters', '事件缺少必要参数');
     }
+
+    Data.findOne({
+      id:id
+    }).then(data=>{
+      if (!data){
+        return response.error(404, 'unexisted_item', '不存在的项目');
+      }
+      data.data = JSON.parse(data.data);
+      return response.success(data);
+    })
   }
 };
