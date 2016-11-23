@@ -16,7 +16,7 @@ $(document).ready(function(){
         success: response=>{
           let subscriptionList = [];
 
-          for (var item of response.data.subscriptions){
+          for (let item of response.data.subscriptions){
             subscriptionList.push(item.id);
           }
           self.subscriptions = response.data.subscriptions;
@@ -25,8 +25,8 @@ $(document).ready(function(){
             url: './Spider/list',
             dataType:'json',
             success:response=>{
-              for (var spider of response.data){
-                spider.isSubscribed = !!(subscriptionList.includes(spider.id));
+              for (let spider of response.data){
+                spider.isSubscribed = (subscriptionList.includes(spider.id));
               }
               self.spiderMarket = response.data;
             }
@@ -58,7 +58,7 @@ $(document).ready(function(){
         })
       },
       unsubscribe(index){
-        let subscriptionId = this.spiderMarket[index].id;
+        let subscriptionId = this.subscriptions[index].id;
 
         let self = this;
         $.ajax({
@@ -69,7 +69,11 @@ $(document).ready(function(){
           type: 'POST',
           dataType: 'json',
           success: response=>{
-            self.spiderMarket[index].isSubscribed = false;
+            for (let spider of self.spiderMarket){
+              if (spider.id == subscriptionId){
+                spider.isSubscribed = false;
+              }
+            }
             self.subscriptions.splice(index, 1);
           }
         })

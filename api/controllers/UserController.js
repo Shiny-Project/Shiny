@@ -292,6 +292,7 @@ module.exports = {
   unsubscribe: function (request, response) {
     let uid = request.session.uid;
     let subscriptionId = request.param('subscriptionId');
+    let token = request.param('token');
 
     if (!subscriptionId || (!token && !uid)){
       return response.error(403, 'miss_parameters', '缺少必要参数');

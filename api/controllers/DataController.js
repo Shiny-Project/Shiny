@@ -133,5 +133,15 @@ module.exports = {
         resolve();
       })
     })
+  },
+  view:function (request, response) {
+    return response.view('data/view');
+  },
+  info:function (request, response) {
+    let id = request.param('id');
+
+    if(!id) {
+      return response.error(403, 'miss_parameters', '事件缺少必要参数');
+    }
   }
 };
