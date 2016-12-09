@@ -42,7 +42,7 @@ module.exports = {
         if (result){
           return response.error(403, 'duplicated_item', '事件重复')
         }
-        console.log(typeof event.data);
+        // console.log(typeof event.data);
         Data.create({
           publisher: event.spiderName,
           level: event.level,
@@ -63,18 +63,23 @@ module.exports = {
             }));
           });
           // 对高优先度事件推送到微博
-          let accessKey = sails.config.common.weibo_access_key;
-          let request = require('request');
-          try{
-            request.post({url: 'https://api.weibo.com/2/statuses/update.json', form: {
-              access_token : accessKey,
-              status : encodeURIComponent(`■紧急速报(自动)■ : ${typeof event.data == 'object' ? event.data.title + '  :  ' + event.data.content :
-              JSON.parse(event.data).title + '  :  ' + JSON.parse(event.data.content)
-                }`)
-            }});
-          }
-          catch (e){
-            // Whatever..
+          if (event.level === 4 || event.level === 5){
+            let accessKey = sails.config.common.weibo_access_key;
+            console.log('向微博发送了自动推送 Access Token = ');
+            console.log(accessKey);
+            let request = require('request');
+            try{
+              request.post({url: 'https://api.weibo.com/2/statuses/update.json', form: {
+                access_token : accessKey,
+                status : `■■紧急速报(自动)■■ : ${typeof event.data == 'object' ? event.data.title + '  :  ' + event.data.content :
+                JSON.parse(event.data).title + '  :  ' + JSON.parse(event.data.content)
+                  }`
+              }});
+            }
+            catch (e){
+              console.log(e);
+              // Whatever..
+            }
           }
           return response.success();
         }).catch(function (e) {
