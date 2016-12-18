@@ -10,10 +10,7 @@ module.exports = {
       reconnect: true
     });
     socket.on('connect', function () {
-      socket.emit('event', JSON.stringify({
-        type: type,
-        body: body
-      }));
+      socket.emit('event', JSON.stringify(body));
     });
   },
   /**
