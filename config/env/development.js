@@ -45,4 +45,7 @@ module.exports = {
         database: 'mirai' //optional
     }
   },
+  common:{
+    weibo_access_key : '2.00pqtIREmuLweB333db27041HkSv2C'
+  }
 };
