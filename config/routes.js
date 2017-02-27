@@ -44,6 +44,9 @@ module.exports.routes = {
   },
   '/bind': {
     view: 'bind'
+  },
+  '/status': {
+    view: 'status'
   }
 
 
