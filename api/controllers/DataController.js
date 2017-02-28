@@ -155,5 +155,29 @@ module.exports = {
       data.data = JSON.parse(data.data);
       return response.success(data);
     })
+  },
+  rate: function (request, response) {
+    let eventId = request.param('eventid');
+    let rate = request.param('rate');
+
+    if (!eventId || !rate){
+      return response.error(403, 'miss_parameters', '事件缺少必要参数');
+    }
+
+    rate = parseInt(rate);
+
+    if (!(1 <= rate && rate <= 10)){
+      return response.error(403, 'invalid_parameter', '参数不合法');
+    }
+
+    Rate.create({
+      eventid: eventId,
+      rate: rate
+    }).then(res => {
+      return response.success();
+    }).catch(e => {
+      console.log(e);
+      return response.error(500, 'database_error', '数据库读写错误');
+    })
   }
 };
