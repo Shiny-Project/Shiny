@@ -172,7 +172,7 @@ module.exports = {
 
     Rate.create({
       eventid: eventId,
-      rate: rate
+      score: score
     }).then(res => {
       return response.success();
     }).catch(e => {

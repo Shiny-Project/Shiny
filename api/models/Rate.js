@@ -16,7 +16,7 @@ module.exports = {
     eventid:{
       type: 'integer'
     },
-    rate:{
+    score:{
       type: 'integer'
     }
   }
