@@ -157,16 +157,16 @@ module.exports = {
     })
   },
   rate: function (request, response) {
-    let eventId = request.param('eventid');
-    let rate = request.param('rate');
+    let eventId = request.param('eventId');
+    let score = request.param('score');
 
-    if (!eventId || !rate){
+    if (!eventId || !score){
       return response.error(403, 'miss_parameters', '事件缺少必要参数');
     }
 
-    rate = parseInt(rate);
+    score = parseInt(score);
 
-    if (!(1 <= rate && rate <= 10)){
+    if (!(1 <= score && score <= 10)){
       return response.error(403, 'invalid_parameter', '参数不合法');
     }
 
