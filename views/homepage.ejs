@@ -75,6 +75,10 @@
     <footer class="mdl-mini-footer mdl-color--white">
       <ul class="mdl-list">
         <li class="mdl-list__item"><a class="mdl-color-text--grey-600" href="./status">服务状态</a></li>
+        <li class="mdl-list__item"><a class="mdl-color-text--grey-600" href="javascript:alert('暂未公开')">获取 Chrome 扩展</a></li>
+        <!--<li class="mdl-list__item">-->
+          <!--<span class="mdl-color-text&#45;&#45;grey-600 alyric"></span>-->
+        <!--</li>-->
       </ul>
     </footer>
   </div>
@@ -94,4 +98,35 @@
     color: red;
   }
 </style>
+<script>
+//  let container = $('.alyric');
+//  container.append($('<span>'));
+//  let updateLyric = function(lyric, callback){
+//    container.find('span').fadeOut('fast',function(){
+//      $(this).remove();
+//      container.append(
+//        $('<span>').html(
+//          '<a href="https://lyric.moesound.org/detail/' + lyric.data[0].id + '" target="_blank">' + lyric.data[0].origin + '<br>' + lyric.data[0].translated + '</a>'
+//        ).css('display','none')
+//      );
+//      container.find('span').fadeIn('fast', callback);
+//    })
+//  }
+//  let getLyric = function(){
+//    $.ajax({
+//      'type' : 'GET',
+//      'url' : 'https://lyric.moesound.org/api/random',
+//      'dataType' : 'json',
+//      'success' : function(data){
+//        updateLyric(data, function(){
+//          setTimeout(function(){
+//            getLyric();
+//          }, 5000);
+//        });
+//      }
+//    })
+//  }
+//
+//  getLyric();
+</script>
 </html>
