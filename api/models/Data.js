@@ -23,6 +23,10 @@ module.exports = {
     },
     hash: {
       type: 'string'
+    },
+    keywords:{
+      collection: 'Keyword',
+      via: 'eventid'
     }
   }
 };

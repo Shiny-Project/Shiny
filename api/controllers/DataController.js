@@ -179,5 +179,8 @@ module.exports = {
       console.log(e);
       return response.error(500, 'database_error', '数据库读写错误');
     })
+  },
+  test: function (request, response) {
+    return response.success(request.query);
   }
 };
