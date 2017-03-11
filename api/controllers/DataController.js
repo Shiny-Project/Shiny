@@ -15,7 +15,6 @@ module.exports = {
    */
   add: function (request, response) {
     // 校验签名
-    this.auth(request, response).then(()=>{
       let event;
       if (request.param('event') && request.param('event').spiderName){
         event = request.param('event');
@@ -71,9 +70,6 @@ module.exports = {
       }).catch(function (e) {
         return response.error(500, 'database_error', '数据库读写错误')
       })
-    }).catch(()=>{
-      return response.error(403, 'invalid_sign', '非法的签名');
-    })
   },
   /**
    * 获取最新事件
@@ -96,45 +92,6 @@ module.exports = {
       console.log(e);
       return response.error(500, 'database_error', '数据库读写错误');
     });
-  },
-  /**
-   * API 签名校验
-   * @param request
-   * @param response
-   * @returns {Promise}
-   */
-  auth: function(request, response){
-    return new Promise((resolve, reject) => {
-      let event = request.param('event');
-      let APIKey = request.param('api_key');
-      let sign = request.param('sign');
-
-      if (!APIKey){
-        return response.error(403, 'need_api_identification', '需要提供API_KEY');
-      }
-
-      if (!sign){
-        return response.error(403, 'need_sign', '需要提供签名');
-      }
-
-      API.findOne({
-        'api_key': APIKey
-      }).then(api => {
-        if (!api){
-          return response.error(403, 'unexisted_api_key', '不存在的APIKEY');
-        }
-
-        let shasum = crypto.createHash('sha1');
-        shasum.update(api.api_key + api.api_secret_key + event);
-        let server_side_sign = shasum.digest('hex');
-        sign = sign.toLowerCase && sign.toLowerCase() || sign;
-
-        if (sign !== server_side_sign){
-          reject();
-        }
-        resolve();
-      })
-    })
   },
   view:function (request, response) {
     return response.view('data/view');

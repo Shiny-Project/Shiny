@@ -7,8 +7,8 @@
 module.exports = function (request, response, next) {
   let apiKey = request.param('api_key');
   let sign = request.param('sign');
-
-  if (!apiKey ){
+  let crypto = require('crypto');
+  if (!apiKey){
     return response.error(403, 'need_api_identification', '需要提供API_KEY');
   }
 
@@ -24,7 +24,7 @@ module.exports = function (request, response, next) {
       return response.error(403, 'unexisted_api_key', '不存在的APIKEY');
     }
 
-    let query = request.query;
+    let query = request.allParams();
 
     // 除去无需签名的字段
     delete query.api_key;
@@ -34,6 +34,7 @@ module.exports = function (request, response, next) {
     let payload = apiKey + api.api_secret_key;
 
     for (let key of paramsKeys){
+      // 将各个参数依次拼接
       payload += request.param(key);
     }
 
@@ -45,9 +46,7 @@ module.exports = function (request, response, next) {
     if (sign !== server_side_sign){
       return response.error(403, 'invalid_sign', '非法的签名');
     }
+
     next();
   });
-
-
-
 };

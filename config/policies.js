@@ -36,7 +36,7 @@ module.exports.policies = {
   ***************************************************************************/
 	DataController:{
 	  '*': false,
-    'add': 'isPost',
+    'add': ['isPost', 'authSign'],
     'recent': true,
     'view': ['isLogin','isBinded'],
     'info': ['isLogin','isBinded'],
