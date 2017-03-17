@@ -25,8 +25,12 @@ module.exports = {
       type: 'string'
     },
     keywords:{
-      collection: 'Keyword',
-      via: 'eventid'
+      collection: 'KeywordScore',
+      via: 'event'
+    },
+    analysed:{
+      type: 'integer',
+      defaultsTo: 0
     }
   }
 };

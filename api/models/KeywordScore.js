@@ -1,11 +1,12 @@
 /**
- * Keyword.js
+ * KeywordScore.js
  *
- * @description :: Manage keywords of events.
+ * @description :: Event - Keyword - Score
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
 module.exports = {
+
   attributes: {
     id: {
       type: 'integer',
@@ -14,6 +15,12 @@ module.exports = {
     },
     keyword: {
       type: 'string'
+    },
+    score:{
+      type: 'float'
+    },
+    event: {
+      model: 'Data'
     }
   }
 };
