@@ -72,7 +72,7 @@ $(document).ready(()=>{
         hash: '',
         data:{
           title: '欢迎使用迷之平台',
-          content: '按照预案您已经连接到服务器，当有事件触发时将会以不同方式提示您。如果您是第一次使用，请允许本站弹出通知。<br> 下方的功能区的按钮是有可能可以按的。',
+          content: '按照预案您已经连接到服务器，当有事件触发时将会以不同方式提示您。如果您是第一次使用，请允许本站弹出通知。<br> 下方的功能区的按钮是有可能可以按的。<b>网页版本已经停止维护，我们恳请您下载下方的 Chrome 扩展。</b>',
           link: 'javascript:;'
         },
       }],
@@ -136,7 +136,7 @@ $(document).ready(()=>{
           console.log(data);
           let event = JSON.parse(data);
 
-          if (this.isLogin && subscriptionList.indexOf(event.spiderName) == -1)
+          if (this.isLogin && subscriptionList.indexOf(event.spiderName) === -1)
             // 不处理未订阅的内容
             return;
 
