@@ -41,12 +41,12 @@ module.exports = {
         if (result){
           return response.error(403, 'duplicated_item', '事件重复')
         }
-        let eventData = typeof event.data == 'object' ? event.data : JSON.parse(event.data);
+        let eventData = typeof event.data === 'object' ? event.data : JSON.parse(event.data);
         Data.create({
           publisher: event.spiderName,
           level: event.level,
           hash: event.hash,
-          data: typeof event.data == 'object' ? JSON.stringify(event.data) : event.data // 字符类型入库
+          data: typeof event.data === 'object' ? JSON.stringify(event.data) : event.data // 字符类型入库
         }).then(function (result) {
           // 开始推送事件
           let messageBody = {
@@ -59,7 +59,7 @@ module.exports = {
           PushService.sendSocket('normal', messageBody);
           // 对高优先度事件推送到微博
           if (event.level === 4 || event.level === 5){
-            PushService.sendWeibo(`■■紧急速报(自动)■■ : ${typeof event.data == 'object' ? event.data.title + '  :  ' + event.data.content :
+            PushService.sendWeibo(`■■紧急速报(自动)■■ : ${typeof event.data === 'object' ? event.data.title + '  :  ' + event.data.content :
               JSON.parse(event.data).title + '  :  ' + JSON.parse(event.data.content)
               }`);
           }

@@ -30,7 +30,9 @@ module.exports = {
       host: 'localhost',
       user: 'root', //optional
       password: '', //optional
-      database: 'mirai' //optional
+      database: 'mirai', //optional
+      charset: 'utf8mb4',
+      collation: 'utf8mb4_general_ci'
     }
   },
 
