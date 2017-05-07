@@ -11,15 +11,17 @@ module.exports = {
     });
     socket.on('connect', function () {
       socket.emit('event', JSON.stringify(body));
+      socket.close();
     });
-    socket.close();
+
     let socket2 = io.connect('http://shiny.kotori.moe:3737', {
       reconnect: true
     });
     socket2.on('connect', function () {
       socket.emit('event', JSON.stringify(body));
+      socket2.close();
     });
-    socket2.close();
+
   },
   /**
    * 发送微博
