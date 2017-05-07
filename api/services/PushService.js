@@ -6,12 +6,20 @@ module.exports = {
    */
   sendSocket: function (type, body) {
     let io = require('socket.io-client');
-    let socket = io.connect('http://shiny.kotori.moe:3737', {
+    let socket = io.connect('http://websocket.shiny.kotori.moe:3737', {
       reconnect: true
     });
     socket.on('connect', function () {
       socket.emit('event', JSON.stringify(body));
     });
+    socket.close();
+    let socket2 = io.connect('http://shiny.kotori.moe:3737', {
+      reconnect: true
+    });
+    socket2.on('connect', function () {
+      socket.emit('event', JSON.stringify(body));
+    });
+    socket2.close();
   },
   /**
    * 发送微博
