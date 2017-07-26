@@ -35,6 +35,10 @@ module.exports = {
       collation: 'utf8mb4_general_ci'
     }
   },
+  common: {
+    'telegramBotAPIKey': '420437037:AAHCIhBSuTF9NGp5stx3n9lN4icPEOY6u2U',
+    'telegramChannel': 'ShinyPush'
+  }
 
   /***************************************************************************
    * Set the port in the production environment to 80                        *

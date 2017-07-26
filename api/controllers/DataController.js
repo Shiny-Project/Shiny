@@ -144,6 +144,7 @@ module.exports = {
     })
   },
   test: function (request, response) {
+    PushService.sendTeleGram('<h2>这是一条测试信息</h2>');
     return response.success(request.query);
   }
 };
