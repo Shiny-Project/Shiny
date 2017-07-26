@@ -61,8 +61,14 @@ module.exports = {
           if (event.level === 4 || event.level === 5){
             PushService.sendWeibo(`■■紧急速报(自动)■■ : ${typeof event.data === 'object' ? event.data.title + '  :  ' + event.data.content :
               JSON.parse(event.data).title + '  :  ' + JSON.parse(event.data.content)
-              }`);
+              }`, result.id);
           }
+
+          PushService.sendTeleGram(`<h2>${event.data.title}</h2>
+<p>${event.data.content}</p>
+<hr>
+<a href="${event.data.link}"></a>`);
+
           return response.success();
         }).catch(function (e) {
           return response.error(500, 'database_error', '数据库读写错误')
