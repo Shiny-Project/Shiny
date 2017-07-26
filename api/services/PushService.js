@@ -47,7 +47,7 @@ module.exports = {
   sendTeleGram: function (text) {
     let request = require('request');
     let botAPIKey = sails.config.common.telegramBotAPIKey;
-    let channel = sails.config.common.telegramChannal;
+    let channel = sails.config.common.telegramChannel;
     try{
       request.post({
         url: `https://api.telegram.org/bot${botAPIKey}/sendMessage`,
