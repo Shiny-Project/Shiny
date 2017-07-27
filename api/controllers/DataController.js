@@ -64,9 +64,8 @@ module.exports = {
               }`, result.id);
           }
 
-          PushService.sendTeleGram(`<h2>${event.data.title}</h2>
-<p>${event.data.content}</p>
-<hr>
+          PushService.sendTeleGram(`Level.${event.level} - <stronog>${event.data.title}</stronog>
+${event.data.content}
 <a href="${event.data.link}"></a>`);
 
           return response.success();
