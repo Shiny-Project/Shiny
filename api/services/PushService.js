@@ -56,6 +56,8 @@ module.exports = {
           text: text,
           parse_mode: "HTML"
         }
+      }, function(error, response, body){
+        console.log(body);
       });
     }
     catch(e){
