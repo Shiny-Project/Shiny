@@ -64,9 +64,9 @@ module.exports = {
               }`, result.id);
           }
 
-          PushService.sendTeleGram(`Level.${event.level} - <stronog>${event.data.title}</stronog>
+          PushService.sendTeleGram(`Level.${event.level} - ${event.data.title}
 ${event.data.content}
-<a href="${event.data.link}"></a>`);
+${event.data.link}`);
 
           return response.success();
         }).catch(function (e) {

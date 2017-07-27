@@ -53,8 +53,7 @@ module.exports = {
         url: `https://api.telegram.org/bot${botAPIKey}/sendMessage`,
         form: {
           chat_id: `@${channel}`,
-          text: text,
-          parse_mode: "HTML"
+          text: text
         }
       }, function(error, response, body){
         console.log(body);
