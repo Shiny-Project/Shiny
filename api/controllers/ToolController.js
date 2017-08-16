@@ -24,7 +24,7 @@ module.exports = {
                     parsedCookies.push(`${t[5]}=${t[6]}`);
                 }
                 return response.success({
-                    "title", title,
+                    "title": title,
                     "url": url,
                     "cookies": parsedCookies.join("; ")
                 })
