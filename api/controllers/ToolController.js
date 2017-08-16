@@ -3,6 +3,9 @@ const fs = require('fs');
 module.exports = {
     parseYouTube: function(request, response){
         let videoId = request.param("videoId");
+        if (!videoId){
+            return response.error(400, "missing_parameter", "缺少参数");
+        }
         if (!/([0-9A-Za-z\-_]+)/.test(videoId)){
             // prevent code execution 
             return response.error(400, 'invalid_parameter', '参数非法');
@@ -25,6 +28,7 @@ module.exports = {
                 })
             }
             catch(e){
+                console.log(e);
                 return response.error(500, "unknown_error", "未知错误");
             }
         })
