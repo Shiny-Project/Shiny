@@ -10,10 +10,11 @@ module.exports = {
             // prevent code execution 
             return response.error(400, 'invalid_parameter', '参数非法');
         }
-        exec(`youtube-dl https://www.youtube.com/watch?v=${videoId} --get-url --cookies /root/ytbtemp.txt`, (err, stdout, stderr) => {
-            let url;
+        exec(`youtube-dl https://www.youtube.com/watch?v=${videoId} -f 22 --get-url --get-title --cookies /root/ytbtemp.txt`, (err, stdout, stderr) => {
+            let url, title;
             let parsedCookies = [];
             if (stdout.split("\n").length === 3){
+                title = stdout.split("\n")[0];
                 url = stdout.split("\n")[1];
             }
             try{
@@ -23,6 +24,7 @@ module.exports = {
                     parsedCookies.push(`${t[5]}=${t[6]}`);
                 }
                 return response.success({
+                    "title", title,
                     "url": url,
                     "cookies": parsedCookies.join("; ")
                 })
