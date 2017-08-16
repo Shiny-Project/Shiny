@@ -59,5 +59,9 @@ module.exports.policies = {
   SpiderController:{
     '*': false,
     'list': true
+  },
+  ToolController: {
+    '*': false,
+    'parseYouTube': true
   }
 };

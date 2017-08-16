@@ -5,6 +5,7 @@
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
+    "bcryptjs": "latest",
     "cheerio": "^0.20.0",
     "ejs": "2.3.4",
     "grunt": "0.4.5",
@@ -20,6 +21,7 @@
     "grunt-sails-linker": "~0.10.1",
     "grunt-sync": "0.2.4",
     "include-all": "~0.1.6",
+    "node-uuid": "latest",
     "rc": "1.0.1",
     "request": "^2.74.0",
     "sails": "~0.12.3",
@@ -27,8 +29,7 @@
     "sails-hook-autoreload": "^0.13.1",
     "sails-mysql": "^0.11.5",
     "socket.io-client": "^1.4.8",
-    "bcryptjs": "latest",
-    "node-uuid": "latest"
+    "youtube-dl": "^1.11.1"
   },
   "scripts": {
     "debug": "node debug app.js",
