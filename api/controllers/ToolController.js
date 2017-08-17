@@ -6,11 +6,11 @@ module.exports = {
         if (!videoId){
             return response.error(400, "missing_parameter", "缺少参数");
         }
-        if (!/([0-9A-Za-z\-_]+)/.test(videoId)){
+        if (!/^[0-9A-Za-z\-_]$/.test(videoId) || videoId.length >= 13){
             // prevent code execution 
             return response.error(400, 'invalid_parameter', '参数非法');
         }
-        exec(`youtube-dl https://www.youtube.com/watch?v=${videoId} -f 22 --get-url --get-title --cookies /root/ytbtemp.txt`, (err, stdout, stderr) => {
+        exec(`youtube-dl https://www.youtube.com/watch?v=${videoId} -f best --get-url --get-title --cookies /root/ytbtemp.txt`, (err, stdout, stderr) => {
             let url, title;
             let parsedCookies = [];
             if (stdout.split("\n").length === 3){
