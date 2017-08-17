@@ -6,7 +6,7 @@ module.exports = {
         if (!videoId){
             return response.error(400, "missing_parameter", "缺少参数");
         }
-        if (!/^[0-9A-Za-z\-_]$/.test(videoId) || videoId.length >= 13){
+        if ((videoId.match(/[0-9A-Za-z\-_]+/ig)[0] !== videoId) || videoId.length >= 13){
             // prevent code execution 
             return response.error(400, 'invalid_parameter', '参数非法');
         }
