@@ -110,7 +110,7 @@ ${event.data.link}`);
 
     Data.findOne({
       id:id
-    }).then(data=>{
+    }).populate('keywords').then(data=>{
       if (!data){
         return response.error(404, 'unexisted_item', '不存在的项目');
       }
