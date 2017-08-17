@@ -38,8 +38,8 @@ module.exports.policies = {
 	  '*': false,
     'add': ['isPost', 'authSign'],
     'recent': true,
-    'view': ['isLogin','isBinded'],
-    'info': ['isLogin','isBinded'],
+    'view': true,
+    'info': true,
     'rate': 'isPost',
     'test': true
   },
@@ -62,6 +62,6 @@ module.exports.policies = {
   },
   ToolController: {
     '*': false,
-    'parseYouTube': true
+    'parseYouTube': 'isPost'
   }
 };
