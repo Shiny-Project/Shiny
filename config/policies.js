@@ -58,7 +58,8 @@ module.exports.policies = {
   },
   SpiderController:{
     '*': false,
-    'list': true
+    'list': true,
+    'jobs': 'authSign'
   },
   ToolController: {
     '*': false,
