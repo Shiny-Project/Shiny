@@ -10,7 +10,7 @@ module.exports = {
             // prevent code execution
             return response.error(400, 'invalid_parameter', '参数非法');
         }
-        exec(`youtube-dl https://www.youtube.com/watch?v=${videoId} -f best --get-url --get-title --cookies /root/ytbtemp.txt`, (err, stdout, stderr) => {
+        exec(`youtube-dl https://www.youtube.com/watch?v=${videoId} -f best --get-url --get-title --cookies /var/www/Shiny/ytbtemp.txt`, (err, stdout, stderr) => {
             let url, title;
             let parsedCookies = [];
             if (stdout.split("\n").length === 3){
