@@ -64,5 +64,11 @@ module.exports.policies = {
   ToolController: {
     '*': false,
     'parseYouTube': 'isPost'
+  },
+  ServerSpider: {
+	  '*': false,
+    'add': ['isPost', 'isAdmin'],
+    'list': true,
+    'delete': ['isPost', 'isAdmin']
   }
 };
