@@ -65,10 +65,13 @@ module.exports.policies = {
     '*': false,
     'parseYouTube': 'isPost'
   },
-  ServerSpider: {
+  ServerController: {
 	  '*': false,
     'add': ['isPost', 'isAdmin'],
     'list': true,
     'delete': ['isPost', 'isAdmin']
+  },
+  AdminController: {
+	  '*': 'isAdmin'
   }
 };

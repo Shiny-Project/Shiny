@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- dependencies -->
+  <script src="/js/dependencies/jQuery.js"></script>
+  <script src="/js/dependencies/Vue2.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="/styles/mdl.css">
+  <script defer src="/js/dependencies/mdl.js"></script>
+  <script defer src="/js/admin/index.js"></script>
+  <script defer src="/js/admin/server.js"></script>
+</head>
+<body>
+<div class="mdl-grid" id="app">
+  <div class="mdl-cell mdl-cell--1-col"></div>
+  <div class="mdl-cell mdl-cell--5-col">
+    <h3>Shiny 服务器节点管理</h3>
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+      <thead>
+      <tr>
+        <th class="mdl-data-table__cell--non-numeric">#</th>
+        <th class="mdl-data-table__cell--non-numeric">Server Name</th>
+        <th class="mdl-data-table__cell--non-numeric">Server Type</th>
+        <th class="mdl-data-table__cell--non-numeric">Server Host</th>
+        <th class="mdl-data-table__cell--non-numeric">删除</th>
+      </tr>
+      </thead>
+      <tbody v-for="server in serverList">
+      <tr>
+        <td class="mdl-data-table__cell--non-numeric">{{server.id}}</td>
+        <td class="mdl-data-table__cell--non-numeric">{{server.name}}</td>
+        <td class="mdl-data-table__cell--non-numeric">{{server.type}}</td>
+        <td class="mdl-data-table__cell--non-numeric">{{server.host}}</td>
+        <td class="mdl-data-table__cell--non-numeric">
+          <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"
+                  @click="remove(server.name)">
+            <i class="material-icons">close</i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="mdl-cell mdl-cell--5-col">
+    <h3>添加</h3>
+    <form action="#">
+      <div class="mdl-textfield mdl-js-textfield">
+        <input class="mdl-textfield__input" type="text" id="form-name" v-model="form.name">
+        <label class="mdl-textfield__label" for="form-name">服务器名</label>
+      </div>
+      <br>
+      <div class="mdl-textfield mdl-js-textfield">
+        <input class="mdl-textfield__input" type="text" id="form-type" v-model="form.type">
+        <label class="mdl-textfield__label" for="form-type">服务器类型</label>
+      </div>
+      <br>
+      <div class="mdl-textfield mdl-js-textfield">
+        <input class="mdl-textfield__input" type="text" id="form-host" v-model="form.host">
+        <label class="mdl-textfield__label" for="form-host">服务器Host</label>
+      </div>
+      <div>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" @click.prevent="add">
+          加！
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="mdl-cell mdl-cell--1-col"></div>
+</div>
+</body>
+</html>

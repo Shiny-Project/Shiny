@@ -13,6 +13,9 @@ module.exports = {
       autoIncrement: true,
       primaryKey: true
     },
+    type: {
+      type: "string"
+    },
     name: {
       type: 'string',
     },

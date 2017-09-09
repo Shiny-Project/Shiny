@@ -57,6 +57,11 @@ $(document).ready(()=> {
           location.href = './kashikoikawaiielichika';
         }
       })
+    });
+
+    $("form").submit(e => {
+      e.preventDefault();
+      $("#login").click();
     })
   });
 });

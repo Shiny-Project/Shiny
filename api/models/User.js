@@ -25,6 +25,9 @@ module.exports = {
       type: 'string',
       size: 255
     },
+    admin: {
+      type: 'boolean'
+    },
     fingerprint:{
       type: 'string',
       size: 255

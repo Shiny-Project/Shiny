@@ -47,6 +47,13 @@ module.exports.routes = {
   },
   '/status': {
     view: 'status'
+  },
+
+  // ADMIN
+
+  '/admin': {
+    controller: "Admin",
+    action: "index"
   }
 
 

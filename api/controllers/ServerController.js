@@ -15,15 +15,18 @@ module.exports = {
 	add: async (request, response) => {
 	  let serverName = request.param('serverName');
 	  let serverHost = request.param('serverHost');
-	  if (!serverHost || !serverName){
+	  let serverType = request.param('serverType');
+	  if (!serverHost || !serverName || !serverType){
       return response.error(403, 'miss_parameters', '事件缺少必要参数');
     }
 
     try{
-	    await Server.create({
+	    let newRecord = await Server.create({
         "name": serverName,
-        "host": serverHost
+        "host": serverHost,
+        "type": serverType
       });
+	    return response.success(newRecord);
     }
     catch (e){
 	    return response.error(500, "database_error", "数据库读写错误");
@@ -59,6 +62,7 @@ module.exports = {
 	    await Server.destroy({
         "name": serverName
       });
+	    return response.success();
     }
     catch (e){
       return response.error(500, "database_error", "数据库读写错误");
