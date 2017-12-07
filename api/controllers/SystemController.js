@@ -37,14 +37,14 @@ module.exports = {
         status.spiders.status = 'Probably down';
       }
       let io = require('socket.io-client');
-      let socket = io.connect('http://shiny.kotori.moe:3737', {
+      let socket = io.connect('http://websocket.shiny.kotori.moe:3737', {
         reconnect: false
       });
       socket.on('connect', function () {
         status.websocket.status = 'Working';
+        socket.close();
         return response.success(status);
       });
-
     });
   }
 };
