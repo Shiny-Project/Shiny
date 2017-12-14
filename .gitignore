@@ -117,3 +117,5 @@ nbproject
 .idea
 .node_history
 /www
+/config/env/production.js
+/config/env/development.js
