@@ -46,6 +46,6 @@ module.exports = {
         return response.success(status);
       });
     });
-  }
+  },
 };
 

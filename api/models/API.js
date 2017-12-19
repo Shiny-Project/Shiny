@@ -11,6 +11,9 @@ module.exports = {
     },
     api_secret_key:{
       type: 'string'
+    },
+    tag: {
+      type: 'string'
     }
   }
 };

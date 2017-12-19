@@ -16,25 +16,9 @@ module.exports = {
    * Set the default database connection for models in the development       *
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
-  autoreload:{
-    active: true,
-    usePolling: false,
-    dirs: [
-      "api/models",
-      "api/controllers",
-      "api/services",
-      "config/locales",
-      "views",
-      "assets"
-    ],
-    ignored: [
-      // Ignore all files with .ts extension
-      "**.ts"
-    ]
-  },
   models: {
     connection: 'sqlServer',
-    migrate: 'alter'
+    migrate: 'safe'
   },
   connections: {
     sqlServer: {
