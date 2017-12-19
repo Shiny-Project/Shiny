@@ -61,7 +61,7 @@ module.exports = {
           hash: event.hash
         };
 
-        // PushService.sendSocket('normal', messageBody);
+        PushService.sendSocket('normal', messageBody);
         // 对高优先度事件推送到微博
         if (event.level === 4 || event.level === 5) {
           PushService.sendWeibo(`■■紧急速报(自动)■■ : ${typeof event.data === 'object' ? event.data.title + '  :  ' + event.data.content :
