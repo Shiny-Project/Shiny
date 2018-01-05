@@ -18,7 +18,7 @@ module.exports = {
     let fingerprint = request.param('fingerprint');
 
     if (!email || !password || !fingerprint) {
-      return response.error(403, 'miss_parameters', '缺少必要参数');
+      return response.error(400, 'missing_parameters', '缺少必要参数');
     }
 
     User.findOne({
