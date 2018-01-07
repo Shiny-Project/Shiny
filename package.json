@@ -6,6 +6,7 @@
   "keywords": [],
   "dependencies": {
     "bcryptjs": "latest",
+    "bluebird": "^3.5.1",
     "cheerio": "^0.20.0",
     "ejs": "2.3.4",
     "grunt": "0.4.5",

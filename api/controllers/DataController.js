@@ -65,7 +65,7 @@ module.exports = {
         // 对高优先度事件推送到微博
         if (event.level === 4 || event.level === 5) {
           PushService.sendWeibo(`■■重大事件速报■■ : ${(typeof event.data === 'object' ? event.data.title + '  :  ' + event.data.content :
-            JSON.parse(event.data).title + '  :  ' + JSON.parse(event.data.content)
+              JSON.parse(event.data).title + '  :  ' + JSON.parse(event.data.content)
           ).slice(70)}`, result.id);
         }
 
@@ -148,8 +148,33 @@ ${event.data.link}`);
     }).then(res => {
       return response.success();
     }).catch(e => {
-      console.log(e);
       return response.error(500, 'database_error', '数据库读写错误');
     })
+  },
+  /**
+   * 获得近期统计
+   * @param request
+   * @param response
+   * @returns {Promise<void>}
+   */
+  statistics: async (request, response) => {
+    const Promise = require("bluebird");
+    const DataQueryAsync = Promise.promisify(Data.query);
+    Promise.all([
+      DataQueryAsync("SELECT `publisher`, count(*) as count FROM `data` WHERE `createdAt` >= ? GROUP BY `publisher` ORDER BY `count` DESC",
+        [CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000)]),
+      DataQueryAsync("SELECT `publisher`, count(*) as count FROM `data` WHERE `createdAt` >= ? GROUP BY `publisher` ORDER BY `count` DESC",
+        [CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000 * 3)]),
+      DataQueryAsync("SELECT `publisher`, count(*) as count FROM `data` WHERE `createdAt` >= ? GROUP BY `publisher` ORDER BY `count` DESC",
+        [CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000 * 21)])
+    ]).then(data => {
+      return response.success({
+        '1day': data[0],
+        '3days': data[1],
+        '21days': data[2],
+      });
+    }).catch(e => {
+      return response.error(500, 'database_error', '数据库读写错误');
+    });
   }
 };

@@ -41,7 +41,8 @@ module.exports.policies = {
     'view': true,
     'info': true,
     'rate': 'isPost',
-    'test': true
+    'test': true,
+    'statistics': true
   },
   UserController:{
     '*': false,

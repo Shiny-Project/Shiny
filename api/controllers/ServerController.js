@@ -44,6 +44,7 @@ module.exports = {
 	    return response.success(result);
     }
     catch (e){
+	    console.log(e);
       return response.error(500, "database_error", "数据库读写错误");
     }
   },
