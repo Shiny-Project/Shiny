@@ -199,7 +199,7 @@ $(document).ready(()=>{
         }
       },
       login:function () {
-        location.href = './login';
+        location.href = 'https://console.shiny.kotori.moe/';
       },
       cp:function () {
         location.href = './kashikoikawaiielichika';
