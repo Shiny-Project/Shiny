@@ -29,7 +29,8 @@
     "sails-disk": "~0.10.9",
     "sails-mysql": "^0.11.5",
     "socket.io-client": "^1.4.8",
-    "youtube-dl": "^1.11.1"
+    "youtube-dl": "^1.11.1",
+    "lodash": "latest"
   },
   "scripts": {
     "debug": "node debug app.js",

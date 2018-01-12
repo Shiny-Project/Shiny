@@ -159,6 +159,7 @@ ${event.data.link}`);
    */
   statistics: async (request, response) => {
     const Promise = require("bluebird");
+    const _ = require("lodash");
     const DataQueryAsync = Promise.promisify(Data.query);
     Promise.all([
       DataQueryAsync("SELECT `publisher`, count(*) as count FROM `data` WHERE `createdAt` >= ? GROUP BY `publisher` ORDER BY `count` DESC",
@@ -166,13 +167,28 @@ ${event.data.link}`);
       DataQueryAsync("SELECT `publisher`, count(*) as count FROM `data` WHERE `createdAt` >= ? GROUP BY `publisher` ORDER BY `count` DESC",
         [CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000 * 3)]),
       DataQueryAsync("SELECT `publisher`, count(*) as count FROM `data` WHERE `createdAt` >= ? GROUP BY `publisher` ORDER BY `count` DESC",
-        [CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000 * 21)])
+        [CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000 * 21)]),
+      DataQueryAsync("SELECT `id`, `level`, `publisher`, `createdAt` FROM `data` WHERE `createdAt` >= ?",
+        [CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000 * 30)])
     ]).then(data => {
-      return response.success({
+      let result = {};
+      let recentEvents = data[3];
+
+      result['spiderRanking'] = {
         '1day': data[0],
         '3days': data[1],
         '21days': data[2],
+      };
+
+      let levelRanking = _.countBy(recentEvents, i => `Level ${i.level}`);
+      result['levelRanking'] = Array.from(Object.keys(levelRanking), key => {
+        return {
+          level: key,
+          count: levelRanking[key]
+        }
       });
+
+      return response.success(result);
     }).catch(e => {
       return response.error(500, 'database_error', '数据库读写错误');
     });
