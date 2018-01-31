@@ -44,6 +44,11 @@ module.exports.policies = {
     'test': true,
     'statistics': true
   },
+  JobController: {
+    '*': false,
+    'query': ['authSign'],
+    'report': ['isPost', 'authSign'] 
+  },
   UserController:{
     '*': false,
     'create': 'isPost',
@@ -80,5 +85,9 @@ module.exports.policies = {
     'createAPIKeyPairs': ['isAdmin', 'isPost'],
     'list': ['isAdmin'],
     'delete': ['isAdmin']
+  },
+  LogController: {
+	  '*': false,
+    'subscribe': true
   }
 };

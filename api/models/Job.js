@@ -12,11 +12,20 @@ module.exports = {
       autoIncrement: true,
       primaryKey: true
     },
-    name: {
+    type: {
       type: 'string'
     },
-    info :{
+    spider: {
+      type: 'string'
+    },
+    path: {
+      type: 'string'
+    },
+    info: {
       type: 'text'
+    },
+    status: {
+      type: 'string'
     }
   }
 };

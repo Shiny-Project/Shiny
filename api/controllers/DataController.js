@@ -190,5 +190,15 @@ ${event.data.link}`);
     }).catch(e => {
       return response.error(500, 'database_error', '数据库读写错误');
     });
+  },
+  test: (request, response) => {
+    let socket = request.socket;
+    let io = sails.io;
+
+    // emit to all sockets (aka publish)
+    // including yourself
+    console.log(request.socket);
+    io.sockets.emit('test', {thisIs: 'theMessage'});
+    return response.success();
   }
 };
