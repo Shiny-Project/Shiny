@@ -17,7 +17,7 @@ module.exports = {
 	  let serverHost = request.param('serverHost');
 	  let serverType = request.param('serverType');
 	  if (!serverHost || !serverName || !serverType){
-      return response.error(403, 'miss_parameters', '事件缺少必要参数');
+      return response.error(400, 'missing_parameters', '事件缺少必要参数');
     }
 
     try{
@@ -57,7 +57,7 @@ module.exports = {
   delete: async (request, response) => {
 	  let serverName = request.param("serverName");
 	  if (!serverName){
-      return response.error(403, 'miss_parameters', '事件缺少必要参数');
+      return response.error(400, 'missing_parameters', '事件缺少必要参数');
     }
     try{
 	    await Server.destroy({

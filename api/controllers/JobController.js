@@ -6,6 +6,9 @@
  */
 
 module.exports = {
+    /**
+     * 请求当前任务列表
+     */
 	query: async (request, response) => {
         let result = await Spider.find();
         let needFresh = [];
@@ -24,8 +27,9 @@ module.exports = {
                     status: 'processing'
                 }
             });
-            let hasJobProcessingFlag = false;
+            let hasJobProcessingFlag = false; 
             for (let createdJob of createdJobs) {
+                console.log(new Date(), new Date(createdJob.createdAt));
                 if ((new Date() - new Date(createdJob.createdAt)) / 1000 > 300) {
                     // 有已经处理了五分钟的任务 认定为超时
                     await Job.update({
@@ -33,6 +37,8 @@ module.exports = {
                     }, {
                         status: 'timeout'
                     });
+                }
+                else {
                     // 五分钟之内下发过该任务 认定为仍在处理中
                     hasJobProcessingFlag = true;
                 }
@@ -57,6 +63,27 @@ module.exports = {
             }
         }
         return response.success(jobs);
+    },
+    /**
+     * 回报任务处理状态
+     */
+    report: async (request, response) => {
+        let jobId = request.param('jobId');
+        let status = request.param('status');
+        if (!jobId || !status) {
+            return response.error(400, 'missing_parameters', '事件缺少必要参数');
+        }
+        try{
+            let result = await Job.update({
+                id: jobId
+            }, {
+                status: status
+            });
+            return response.success(result);
+        }
+        catch(e) {
+            return response.error(500, "database_error", "数据库读写错误");
+        }
     }
 };
 
