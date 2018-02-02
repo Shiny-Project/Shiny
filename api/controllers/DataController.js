@@ -167,10 +167,13 @@ ${event.data.link}`);
       DataQueryAsync("SELECT `publisher`, count(*) as count FROM `data` WHERE `createdAt` >= ? GROUP BY `publisher` ORDER BY `count` DESC",
         [CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000 * 21)]),
       DataQueryAsync("SELECT `id`, `level`, `publisher`, `createdAt` FROM `data` WHERE `createdAt` >= ?",
+        [CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000 * 30)]),
+      DataQueryAsync("SELECT `status`, count(*) as count FROM `job` WHERE `createdAt` >= ? GROUP BY `status`",
         [CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000 * 30)])
     ]).then(data => {
       let result = {};
       let recentEvents = data[3];
+      let jobStatus = data[4];
 
       result['spiderRanking'] = {
         '1day': data[0],
@@ -185,6 +188,8 @@ ${event.data.link}`);
           count: levelRanking[key]
         }
       });
+
+      result['jobStatus'] = jobStatus;
 
       return response.success(result);
     }).catch(e => {
