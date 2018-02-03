@@ -30,7 +30,7 @@ module.exports = function (request, response, next) {
     delete query.api_key;
     delete query.sign;
 
-    let paramsKeys = Object.keys(query);
+    let paramsKeys = Object.keys(query).sort();
     let payload = apiKey + api.api_secret_key;
 
     for (let key of paramsKeys){
