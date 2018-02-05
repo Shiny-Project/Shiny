@@ -52,6 +52,7 @@ module.exports = {
             newJob.type = "data_refresh";
             newJob.spider = spider.name;
             newJob.path = spider.path;
+            newJob.status = "processing";
             try {
                 // 把新的任务记录到数据库
                 let result = await Job.create(newJob);
@@ -59,8 +60,8 @@ module.exports = {
                 jobs.push(newJob);
                 // 推送新任务通知
                 sails.io.sockets.emit("job", {
-                  type: "created",
-                  job: newJob
+                  type: "create",
+                  job: result
                 });
             }
             catch(e) {
