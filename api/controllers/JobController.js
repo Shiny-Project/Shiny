@@ -27,7 +27,7 @@ module.exports = {
                     status: 'processing'
                 }
             });
-            let hasJobProcessingFlag = false; 
+            let hasJobProcessingFlag = false;
             for (let createdJob of createdJobs) {
                 console.log(new Date(), new Date(createdJob.createdAt));
                 if ((new Date() - new Date(createdJob.createdAt)) / 1000 > 300) {
@@ -57,6 +57,11 @@ module.exports = {
                 let result = await Job.create(newJob);
                 newJob.id = result.id;
                 jobs.push(newJob);
+                // 推送新任务通知
+                sails.io.sockets.emit("job", {
+                  type: "created",
+                  job: newJob
+                });
             }
             catch(e) {
                 return response.error(500, "database_error", "数据库读写错误");
@@ -78,6 +83,10 @@ module.exports = {
                 id: jobId
             }, {
                 status: status
+            });
+            sails.io.sockets.emit('job', {
+              type: 'update',
+              job: result[0]
             });
             return response.success(result);
         }
