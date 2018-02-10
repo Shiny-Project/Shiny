@@ -47,7 +47,7 @@ module.exports.policies = {
   JobController: {
     '*': false,
     'query': ['authSign'],
-    'report': ['isPost', 'authSign'] 
+    'report': ['isPost', 'authSign']
   },
   UserController:{
     '*': false,
@@ -73,18 +73,18 @@ module.exports.policies = {
   },
   ServerController: {
 	  '*': false,
-    'add': ['isPost', 'isAdmin'],
+    'add': ['isPost', 'isLogin', 'isAdmin'],
     'list': true,
-    'delete': ['isPost', 'isAdmin']
+    'delete': ['isPost', 'isLogin', 'isAdmin']
   },
   AdminController: {
-	  '*': 'isAdmin'
+	  '*': ['isLogin', 'isAdmin']
   },
   ApplicationController: {
 	  '*': false,
-    'createAPIKeyPairs': ['isAdmin', 'isPost'],
-    'list': ['isAdmin'],
-    'delete': ['isAdmin']
+    'createAPIKeyPairs': ['isPost', 'isLogin', 'isAdmin'],
+    'list': ['isLogin', 'isAdmin'],
+    'delete': ['isLogin', 'isAdmin']
   },
   LogController: {
 	  '*': false,

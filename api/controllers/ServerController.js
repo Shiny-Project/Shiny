@@ -44,7 +44,6 @@ module.exports = {
 	    return response.success(result);
     }
     catch (e){
-	    console.log(e);
       return response.error(500, "database_error", "数据库读写错误");
     }
   },
@@ -55,13 +54,13 @@ module.exports = {
    * @returns {Promise.<void>}
    */
   delete: async (request, response) => {
-	  let serverName = request.param("serverName");
-	  if (!serverName){
+	  let serverId = request.param("serverId");
+	  if (!serverId){
       return response.error(400, 'missing_parameters', '事件缺少必要参数');
     }
     try{
 	    await Server.destroy({
-        "name": serverName
+        "id": serverId
       });
 	    return response.success();
     }
