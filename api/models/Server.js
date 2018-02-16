@@ -28,6 +28,10 @@ module.exports = {
     host: {
       type: 'string'
     },
+    key_pair: {
+      model: 'API',
+      unique: true
+    }
   }
 };
 

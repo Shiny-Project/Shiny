@@ -19,7 +19,7 @@ module.exports = {
         api_secret_key: crypto.randomBytes(32).toString("hex"),
         tag: request.param("tag")
       });
-      return response.success(result);
+      return response.success(await API.find().populate('tag'));
     }
     catch (e) {
       return response.error(500, "database_error", "数据库读写错误");
@@ -33,7 +33,10 @@ module.exports = {
    */
   list: async (request, response) => {
     try {
-      response.success(await API.find());
+      let result = {};
+      result.keyPairs = await API.find().populate('tag');
+      result.serverList = await Server.find();
+      response.success(result);
     }
     catch (e) {
       return response.error(500, "database_error", "数据库读写错误");
@@ -46,7 +49,7 @@ module.exports = {
    * @returns {Promise<void>}
    */
   delete: async (request, response) => {
-    let id = request.param("id");
+    let id = request.param("applicationId");
     if (!id){
       return response.error(400, "missing_parameters", "缺少必要参数");
     }

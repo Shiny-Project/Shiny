@@ -13,7 +13,8 @@ module.exports = {
       type: 'string'
     },
     tag: {
-      type: 'string'
+      collection: 'Server',
+      via: 'key_pair',
     }
   }
 };
