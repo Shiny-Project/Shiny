@@ -26,6 +26,9 @@ module.exports = {
     },
     status: {
       type: 'string'
+    },
+    done_by: {
+      type: 'string'
     }
   }
 };

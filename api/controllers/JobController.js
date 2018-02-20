@@ -83,11 +83,29 @@ module.exports = {
       return response.error(400, 'missing_parameters', '事件缺少必要参数');
     }
     try {
-      let result = await Job.update({
-        id: jobId
-      }, {
-        status: status
-      });
+      let result;
+      if (status === 'success') {
+        let doneBy;
+        if (request.session.application.tag.length > 0) {
+          doneBy = request.session.application.tag[0].name;
+        } else {
+          doneBy = 'Unknown';
+        }
+        result = await Job.update({
+          id: jobId,
+        }, {
+          status: status,
+          done_by: doneBy
+        });
+        console.log(result);
+      } else {
+        result = await Job.update({
+          id: jobId,
+        }, {
+          status: status
+        });
+      }
+
       sails.io.sockets.emit('job', {
         type: 'update',
         job: result[0]

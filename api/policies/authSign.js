@@ -18,7 +18,7 @@ module.exports = function (request, response, next) {
 
   API.findOne({
     'api_key': apiKey
-  }).then(api => {
+  }).populate('tag').then(api => {
 
     if (!api){
       return response.error(403, 'unexisted_api_key', '不存在的APIKEY');
@@ -46,7 +46,7 @@ module.exports = function (request, response, next) {
     if (sign !== server_side_sign){
       return response.error(403, 'invalid_sign', '非法的签名');
     }
-
+    request.session.application = api;
     next();
   });
 };
