@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <link rel="stylesheet" href="../base.css">
+  <script src="../base.js"></script>
+</head>
+<body>
+<header>
+  <span class="title">CMA 全国级预警速报</span>
+</header>
+<div class="container">
+  <div class="alert_icon">
+    <img id="alert-icon" src="https://upload.wikimedia.org/wikipedia/commons/7/79/Orange_rain_storm_alert_-_China.svg">
+  </div>
+  <div class="alert_description">
+    <p id="description-title">
+      中央气象台25日06时发布台风蓝色预警
+    </p>
+    <p id="description-detail">
+      12小时内可能出现能见度小于500米的浓雾，或者已经出现能见度小于500米、大于等于200米的浓雾且可能持续。
+    </p>
+  </div>
+</div>
+<footer>本图片由 Shiny 自动生成，信息来源为第三方网站，Shiny 不为此消息的可靠性负责。</footer>
+<style>
+  .container{
+    display: flex;
+    justify-items: center;
+  }
+  .alert_icon, .alert_description{
+    width: 49.5vw;
+    height: 90vh;
+    display: flex;
+    align-items:center;
+    justify-content:center;
+    margin: 0;
+    padding: 0;
+  }
+  .alert_description{
+    display: block;
+    margin-top: 28vh;
+    justify-content: center;
+    padding-left: 2rem;
+    font-size: 4vh;
+  }
+  #description-title{
+    font-weight: bold;
+  }
+  #description-detail{
+    padding-right: 7vw;
+  }
+  .alert_icon img{
+    width: 500px;
+  }
+</style>
+<script>
+  (() => {
+    const data = utils.getParameter();
+    const alertData = {
+      "台风橙色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/7/75/Orange_typhoon_alert_-_China.svg",
+        description: "12小时内可能或者已经受热带气旋影响，沿海或者陆地平均风力达10级以上，或者阵风12级以上并可能持续。"
+      },
+      "台风红色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/f/fc/Red_typhoon_alert_-_China.svg",
+        description: "6小时内可能或者已经受热带气旋影响，沿海或者陆地平均风力达12级以上，或者阵风达14级以上并可能持续。"
+      },
+      "暴雨橙色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/7/79/Orange_rain_storm_alert_-_China.svg",
+        description: "3小时内降雨量将达50毫米以上，或者已达50毫米以上且降雨可能持续。"
+      },
+      "暴雨红色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/8/84/Red_rain_storm_alert_-_China.svg",
+        description: "3小时内降雨量将达100毫米以上，或者已达100毫米以上且降雨可能持续。"
+      },
+      "暴雪橙色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/3/3a/Orange_snow_storm_alert_-_China.svg",
+        description: "6小时内降雪量将达10毫米以上，或者已达10毫米以上且降雪持续，可能或者已经对交通或者农牧业有较大影响。"
+      },
+      "暴雪红色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/9/9c/Red_snow_storm_alert_-_China.svg",
+        description: "6小时内降雪量将达15毫米以上，或者已达15毫米以上且降雪持续，可能或者已经对交通或者农牧业有较大影响。"
+      },
+      "寒潮橙色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/d/dc/Orange_cold_wave_alert_-_China.svg",
+        description: "24小时内最低气温将要下降12℃以上，最低气温小于等于0℃，陆地平均风力可达6级以上；或者已经下降12℃以上，最低气温小于等于0℃，平均风力达6级以上，并可能持续。"
+      },
+      "寒潮红色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/a/a5/Red_cold_wave_alert_-_China.svg",
+        description: "24小时内最低气温将要下降16℃以上，最低气温小于等于0℃，陆地平均风力可达6级以上；或者已经下降16℃以上，最低气温小于等于0℃，平均风力达6级以上，并可能持续。"
+      },
+      "大风橙色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/7/72/Orange_gale_alert_-_China.svg",
+        description: "6小时内可能受大风影响,平均风力可达10级以上，或者阵风11级以上；或者已经受大风影响,平均风力为10～11级，或者阵风11～12级并可能持续。"
+      },
+      "大风红色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/9/93/Red_gale_alert_-_China.svg",
+        description: "6小时内可能受大风影响，平均风力可达12级以上，或者阵风13级以上；或者已经受大风影响，平均风力为12级以上，或者阵风13级以上并可能持续。"
+      },
+      "沙尘暴橙色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/c/c8/Orange_sand_storm_alert_-_China.svg",
+        description: "6小时内可能出现强沙尘暴天气（能见度小于500米），或者已经出现强沙尘暴天气并可能持续。",
+      },
+      "沙尘暴红色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/e/e6/Red_sand_storm_alert_-_China.svg",
+        description: "6小时内可能出现特强沙尘暴天气（能见度小于50米），或者已经出现特强沙尘暴天气并可能持续。"
+      },
+      "高温橙色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Orange_heat_wave_alert_-_China.svg",
+        description: "24小时内最高气温将升至37℃以上。"
+      },
+      "高温红色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/f/f2/Red_heat_wave_alert_-_China.svg",
+        description: "24小时内最高气温将升至40℃以上。"
+      },
+      "干旱橙色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/5/5c/Orange_drought_alert_-_China.svg",
+        description: "预计未来一周综合气象干旱指数达到重旱（气象干旱为25～50年一遇），或者某一县（区）有40%以上的农作物受旱。"
+      },
+      "干旱红色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/b/b9/Red_drought_alert_-_China.svg",
+        description: "预计未来一周综合气象干旱指数达到特旱（气象干旱为50年以上一遇），或者某一县（区）有60%以上的农作物受旱。"
+      },
+      "雷电橙色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/5/55/Orange_lightening_alert_-_China.svg",
+        description: "2小时内发生雷电活动的可能性很大，或者已经受雷电活动影响，且可能持续，出现雷电灾害事故的可能性比较大。"
+      },
+      "雷电红色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/e/e9/Red_lightening_alert_-_China.svg",
+        description: "2小时内发生雷电活动的可能性非常大，或者已经有强烈的雷电活动发生，且可能持续，出现雷电灾害事故的可能性非常大。"
+      },
+      "冰雹橙色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/8/8a/Orange_hail_alert_-_China.svg",
+        description: "6小时内可能出现冰雹伴随雷电天气，并可能造成雹灾。"
+      },
+      "冰雹红色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/7/79/Red_hail_alert_-_China.svg",
+        description: "2小时内出现冰雹伴随雷电天气的可能性极大，并可能造成重雹灾。"
+      },
+      "霜冻橙色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/d/de/Orange_frost_alert_-_China.svg",
+        description: "24小时内地面最低温度将要下降到零下5℃以下，对农业将产生严重影响，或者已经降到零下5℃以下，对农业已经产生严重影响，并将持续。"
+      },
+      "大雾橙色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Orange_heavy_fog_alert_-_China.svg",
+        description: "6小时内可能出现能见度小于200米的浓雾，或者已经出现能见度小于200米、大于等于50米的浓雾且可能持续。"
+      },
+      "大雾红色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/9/95/Red_heavy_fog_alert_-_China.svg",
+        description: "2小时内可能出现能见度低于50米的强浓雾，或者已经出现能见度低于50米的强浓雾且可能持续。"
+      },
+      "霾橙色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/e/ef/Orange_haze_alert_-_China.svg",
+        description: "6小时内可能出现能见度小于2000米的霾，或者已经出现能见度小于2000米的霾且可能持续。"
+      },
+      "道路结冰橙色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/1/13/Orange_road_icing_alert_-_China.svg",
+        description: "当路表温度低于0℃，出现降水，6小时内可能出现对交通有较大影响的道路结冰。"
+      },
+      "道路结冰红色": {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Red_road_icing_alert_-_China.svg",
+        description: "当路表温度低于0℃，出现降水，2小时内可能出现或者已经出现对交通有很大影响的道路结冰。"
+      }
+    };
+    const alert = data.content;
+    const alertType = alert.match(/发布(.+)预警/)[1];
+    document.getElementById('description-title').innerText = data.content;
+    console.log(data);
+    document.getElementById('description-detail').innerText = alertData[alertType].description;
+    document.getElementById('alert-icon').src = alertData[alertType].icon;
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+body{
+  overflow: hidden;
+  margin: 0;
+  background-color: #ececec;
+  font-family: "Noto Serif CJK SC", serif;
+}
+header{
+  min-height: 10vh;
+  background-color: #cccccc;
+  box-shadow: #55595c 2px 2px;
+}
+header .title {
+  margin-left: 1rem;
+  font-size: 5vh;
+  line-height: 10vh;
+}
+footer{
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  text-align: right;
+  min-width: 100%;
+  min-height: 20px;
+}

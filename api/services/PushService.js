@@ -27,21 +27,39 @@ module.exports = {
    * 发送微博
    * @param text
    * @param id
+   * @param pic
    */
-  sendWeibo: function (text, id = 0) {
-    let accessKey = sails.config.common.weibo_access_key;
-    let request = require('request');
-    console.log(`向微博发送了自动推送 Access Token = ${accessKey}`);
-    console.log();
-    try{
-      request.post({url: 'https://api.weibo.com/2/statuses/share.json', form: {
-        access_token : accessKey,
-        status : text + 'https://shiny.kotori.moe/Data/view#' + id
-      }});
-    }
-    catch (e){
-      console.log(e);
-      // Whatever..
+  sendWeibo: function (text, id = 0, pic = undefined) {
+    const accessKey = sails.config.common.weibo_access_key;
+    const request = require('request');
+    const fs = require('fs');
+    if (!pic) {
+      try {
+        request.post({
+          url: 'https://api.weibo.com/2/statuses/share.json', form: {
+            access_token: accessKey,
+            status: text + 'https://shiny.kotori.moe/Data/view#' + id
+          }
+        });
+      }
+      catch (e) {
+        console.log(e);
+        // Whatever..
+      }
+    } else {
+      try {
+        request.post({
+          url: 'https://api.weibo.com/2/statuses/share.json', formData: {
+            access_token: accessKey,
+            status: text + 'https://shiny.kotori.moe/Data/view#' + id,
+            pic: fs.createReadStream(pic)
+          }
+        });
+      }
+      catch (e) {
+        console.log(e);
+        // Whatever..
+      }
     }
   },
   sendTeleGram: function (text) {
@@ -61,6 +79,34 @@ module.exports = {
     }
     catch(e){
       console.log(e);
+    }
+  },
+  /**
+   * 推送到社交平台
+   * @param event
+   * @param id
+   */
+  pushSocial: async function(event, id = 0) {
+    // Try to parse event
+    let parseResults = [{
+      text: undefined,
+      pic: undefined
+    }];
+    switch (event.spiderName){
+      case 'CMAAlertSpider': {
+        const parser = require('./EventParser/CMAAlert');
+        parseResults = await parser.parse(event);
+        break;
+      }
+      default: {
+        let text = '';
+        text += `${event.data.title} : ${event.data.content}`.slice(0, 80);
+        this.sendWeibo(text, id);
+        return;
+      }
+    }
+    for (const result of parseResults){
+      this.sendWeibo(result.text, id, result.pic);
     }
   }
 };

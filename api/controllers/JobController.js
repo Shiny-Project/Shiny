@@ -97,7 +97,6 @@ module.exports = {
           status: status,
           done_by: doneBy
         });
-        console.log(result);
       } else {
         result = await Job.update({
           id: jobId,
