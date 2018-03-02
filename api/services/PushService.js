@@ -38,7 +38,7 @@ module.exports = {
         request.post({
           url: 'https://api.weibo.com/2/statuses/share.json', form: {
             access_token: accessKey,
-            status: text + 'https://shiny.kotori.moe/Data/view#' + id
+            status: text + ' https://shiny.kotori.moe/Data/view#' + id
           }
         }, (error, response) => {
 
@@ -57,7 +57,8 @@ module.exports = {
             pic: fs.createReadStream(pic)
           }
         }, (error, response) => {
-          fs.unlink(pic);
+          console.log(error, response);
+          fs.unlinkSync(pic);
         });
       }
       catch (e) {
@@ -109,6 +110,7 @@ module.exports = {
         return;
       }
     }
+    console.log(parseResults);
     for (const result of parseResults){
       this.sendWeibo(result.text, id, result.pic);
     }
