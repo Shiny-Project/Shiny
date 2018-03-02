@@ -40,6 +40,8 @@ module.exports = {
             access_token: accessKey,
             status: text + 'https://shiny.kotori.moe/Data/view#' + id
           }
+        }, (error, response) => {
+
         });
       }
       catch (e) {
@@ -54,6 +56,8 @@ module.exports = {
             status: text + 'https://shiny.kotori.moe/Data/view#' + id,
             pic: fs.createReadStream(pic)
           }
+        }, (error, response) => {
+          fs.unlink(pic);
         });
       }
       catch (e) {
