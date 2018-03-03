@@ -8,7 +8,7 @@
     "bcryptjs": "latest",
     "bluebird": "^3.5.1",
     "cheerio": "^0.20.0",
-    "ejs": "2.3.4",
+    "ejs": "2.5.5",
     "grunt": "0.4.5",
     "grunt-contrib-clean": "0.6.0",
     "grunt-contrib-coffee": "0.13.0",
