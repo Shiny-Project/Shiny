@@ -5,3 +5,7 @@ const utils = {
     );
   }
 };
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementsByTagName('footer')[0].innerHTML += `图片生成于 ${new Date().toISOString()}`;
+});
+
