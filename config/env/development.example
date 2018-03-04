@@ -30,6 +30,9 @@ module.exports = {
     }
   },
   common:{
-    weibo_access_key : '2.00pqtIREmuLweB333db27041HkSv2C'
+    weibo_access_key : '2.00pqtIREmuLweB333db27041HkSv2C',
+    __apiKeys: {
+      "GOOGLE_API_KEY": ""
+    }
   }
 };

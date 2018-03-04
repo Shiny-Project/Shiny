@@ -15,7 +15,7 @@
   </div>
   <div class="earthquake_description">
     <p id="description-title">
-      M 7.5 - 81km SW of Porgera, Papua New Guinea
+      {earthquake}
     </p>
     <p id="description-detail">
       {alertDescription}
@@ -282,7 +282,15 @@
       'SE': '东南',
       'S': '南',
       'SW': '西南',
-      'W': '西'
+      'W': '西',
+      'NNE': '东北偏北',
+      'ENE': '东北偏东',
+      'ESE': '东南偏东',
+      'SSE': '东南偏南',
+      'SSW': '西南偏南',
+      'WSW': '西南偏西',
+      'WNW': '西北偏西',
+      'NNW': '西北偏北'
     }[direction] || direction;
   };
   const event = utils.getParameter();
@@ -295,6 +303,7 @@
   const direction = place.match(/km (.+) of/)[1];
   const distance = place.match(/(\d+)km/)[1];
   const magnitude = event.content.match(/M ([\d.]+)/)[1];
+  const apiKey = event.__apiKeys.GOOGLE_API_KEY;
   document.getElementById('description-title').innerText = `${translate(region)}
   ${city} ${parseDirection(direction)}方 ${distance} 千米发生地震`;
   document.getElementById('description-detail').innerText = `里氏震级: M${magnitude}
@@ -302,6 +311,6 @@
   震源深度: ${depth / 1000}千米
   (后续可能发生修订 请以最新情报为准)
   `;
-  document.getElementById('map').src = `https://maps.google.cn/maps/api/staticmap?key=AIzaSyDmQhZp0shSMadvHg3LQVlsH7rG6cqw2vU&center=${coordinate[0]},${coordinate[1]}&size=500x500&zoom=6&markers=red|${coordinate[0]},${coordinate[1]}`
+  document.getElementById('map').src = `https://maps.google.cn/maps/api/staticmap?key=${apiKey}&center=${coordinate[0]},${coordinate[1]}&size=500x500&zoom=6&markers=red|${coordinate[0]},${coordinate[1]}`
 </script>
 </html>

@@ -36,8 +36,12 @@ module.exports = {
     }
   },
   common: {
-    'telegramBotAPIKey': '420437037:AAHCIhBSuTF9NGp5stx3n9lN4icPEOY6u2U',
-    'telegramChannel': 'ShinyPush'
+    'telegramBotAPIKey': 'TELEGRAM KEY',
+    'telegramChannel': 'ShinyPush',
+    'weibo_access_key' : 'YOUR WEIBO ACCESS KEY',
+    __apiKeys: {
+       "GOOGLE_API_KEY": "YOUR GOOGLE API KEY"
+    }
   }
 
   /***************************************************************************

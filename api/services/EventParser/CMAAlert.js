@@ -3,7 +3,10 @@ module.exports = {
     const puppeteer = require('puppeteer');
     const encodedData = Buffer.from(
       encodeURIComponent(
-        JSON.stringify(event.data)
+        JSON.stringify({
+          ...event,
+          __apiKeys: sails.config.common.__apiKeys
+        }.data)
       )
     ).toString('base64');
 

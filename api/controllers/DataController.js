@@ -198,13 +198,6 @@ ${event.data.link}`);
     });
   },
   test: (request, response) => {
-    let socket = request.socket;
-    let io = sails.io;
-
-    // emit to all sockets (aka publish)
-    // including yourself
-    console.log(request.socket);
-    io.sockets.emit('test', {thisIs: 'theMessage'});
     return response.success();
   }
 };
