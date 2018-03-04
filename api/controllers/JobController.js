@@ -84,7 +84,9 @@ module.exports = {
     }
     try {
       let result;
+
       if (status === 'success') {
+        // 任务完成
         let doneBy;
         if (request.session.application.tag.length > 0) {
           doneBy = request.session.application.tag[0].name;
@@ -96,6 +98,19 @@ module.exports = {
         }, {
           status: status,
           done_by: doneBy
+        });
+        // 更新调用时间
+        const job = await Job.findOne({
+          id: jobId
+        });
+        const spider = await Spider.findOne({
+          name: job.spider
+        });
+        await Spider.update({
+          name: job.spider
+        }, {
+          trigger_time: CommonUtils.generateDateTimeByOffset(0),
+          trigger_count: parseInt(spider.trigger_count) + 1
         });
       } else {
         result = await Job.update({
