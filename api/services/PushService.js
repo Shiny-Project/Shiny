@@ -103,6 +103,11 @@ module.exports = {
         parseResults = await parser.parse(event);
         break;
       }
+      case 'USGSEarthquake': {
+        const parser = require('./EventParser/USGSEarthquake');
+        parseResults = await parser.parse(event);
+        break;
+      }
       default: {
         let text = '';
         text += `${event.data.title} : ${event.data.content}`.slice(0, 80);
@@ -110,7 +115,6 @@ module.exports = {
         return;
       }
     }
-    console.log(parseResults);
     for (const result of parseResults){
       this.sendWeibo(result.text, id, result.pic);
     }

@@ -8,6 +8,11 @@ module.exports = {
     var shasum = crypto.createHash('sha1');
     return shasum.update(uuid).digest('hex');
   },
+  /**
+   * 根据偏移返回yyyy-mm-dd hh:mm:ss时间
+   * @param offset
+   * @returns {string}
+   */
   generateDateTimeByOffset: (offset) => {
     const nowTime = new Date();
     const targetTime = new Date(nowTime.valueOf() + offset);
@@ -22,5 +27,44 @@ module.exports = {
     }:${
       targetTime.getSeconds() >= 10 ? targetTime.getSeconds() : '0' + targetTime.getSeconds()
     }`;
+  },
+  /**
+   * 随机文件名
+   * @param extension
+   * @returns {string}
+   */
+  generateRandomFileName: (extension = 'png') =>{
+    return `${Math.random().toString(36).slice(3)}.${extension}`;
+  },
+  /**
+   * 事件编码为base64
+   * @param event
+   * @returns {string}
+   */
+  encodeBase64: (event) => {
+    return Buffer.from(
+      encodeURIComponent(
+        JSON.stringify({
+          ...event.data,
+          __apiKeys: sails.config.common.__apiKeys // 插入 可能用到的 API Key
+        })
+      )
+    ).toString('base64');
+  },
+  screenshot: async (url) => {
+    const path = './' + CommonUtils.generateRandomFileName('png');
+    const puppeteer = require('puppeteer');
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    page.setViewport({
+      width: 1920,
+      height: 1080
+    });
+    await page.goto(url);
+    await page.screenshot({
+      path: path
+    });
+    await browser.close();
+    return path;
   }
 };
