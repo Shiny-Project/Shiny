@@ -65,7 +65,7 @@ module.exports.policies = {
   SpiderController:{
     '*': false,
     'list': true,
-    'jobs': 'authSign'
+    'updateFrequency': ['isPost', 'isLogin', 'isAdmin']
   },
   ToolController: {
     '*': false,

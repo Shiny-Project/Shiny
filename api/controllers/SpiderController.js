@@ -12,26 +12,34 @@ module.exports = {
    * @param response
    */
 	list:function (request, response) {
-    SpiderInfo.find().then(list=>{
+    Spider.find().then(list=>{
       return response.success(list);
     })
   },
-  jobs: async function (request, response) {
-    let result = await Spider.find();
-    let needFresh = [];
-    for (let spider of result){
-      let spiderInfo = JSON.parse(spider.info);
-      if ((new Date() - new Date(spider.trigger_time))/1000 > spiderInfo.expires){
-        needFresh.push(spider);
-      }
+  /**
+   * 更新Spider刷新频率
+   * @param request
+   * @param response
+   * @returns {Promise<void>}
+   */
+  updateFrequency: async function(request, response) {
+    const spiderId = request.param('id');
+    const frequency = request.param('frequency');
+    if (!spiderId || ! frequency) {
+      return response.error(400, 'missing_parameters', '缺少必要参数');
     }
-    // 更新上述时间
-    result = await Spider.update({
-      name: Array.from(needFresh, i => i.name)
-    }, {
-      trigger_time: new Date().toISOString()
-    });
-    return response.success(needFresh);
-  }
+    try {
+      await Spider.update({
+        id: spiderId
+      }, {
+        info: JSON.stringify({
+          expires: parseInt(frequency)
+        })
+      });
+      return response.success();
+    } catch (e) {
+      return response.error(500, "database_error", "数据库读写错误");
+    }
+  },
 };
 
