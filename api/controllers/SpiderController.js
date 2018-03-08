@@ -7,7 +7,7 @@
 
 module.exports = {
   /**
-   * 获取列表
+   * 获取 Spider 列表
    * @param request
    * @param response
    */
@@ -41,5 +41,25 @@ module.exports = {
       return response.error(500, "database_error", "数据库读写错误");
     }
   },
+  /**
+   * 删除 Spider
+   * @param request
+   * @param response
+   * @returns {Promise<void>}
+   */
+  delete: async function(request, response){
+    const spiderId = request.param('id');
+    if (!spiderId) {
+      return response.error(400, 'missing_parameters', '缺少必要参数');
+    }
+    try {
+      await Spider.destroy({
+        "id": spiderId
+      });
+      return response.success();
+    } catch (e) {
+      return response.error(500, "database_error", "数据库读写错误");
+    }
+  }
 };
 
