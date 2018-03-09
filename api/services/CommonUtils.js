@@ -54,7 +54,9 @@ module.exports = {
   screenshot: async (url) => {
     const path = './' + CommonUtils.generateRandomFileName('png');
     const puppeteer = require('puppeteer');
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      args: ['--no-sandbox']
+    });
     const page = await browser.newPage();
     page.setViewport({
       width: 1920,
