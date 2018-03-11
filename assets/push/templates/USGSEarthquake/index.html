@@ -306,7 +306,7 @@
   const apiKey = event.__apiKeys.GOOGLE_API_KEY;
   document.getElementById('description-title').innerText = `${translate(region)}
   ${city} ${parseDirection(direction)}方 ${distance} 千米发生地震`;
-  document.getElementById('description-detail').innerText = `里氏震级: M${magnitude}
+  document.getElementById('description-detail').innerText = `震级: M${magnitude}
   ${parseFloat(coordinate[0]) > 0 ? '北纬' : '南纬'}${Math.abs(coordinate[0])}° ${parseFloat(coordinate[1]) > 0 ? '东经' : '西经'}${Math.abs(coordinate[1])}°
   震源深度: ${depth / 1000}千米
   (后续可能发生修订 请以最新情报为准)
