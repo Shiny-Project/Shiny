@@ -13,6 +13,9 @@ module.exports = {
    */
 	list:function (request, response) {
     Spider.find().then(list=>{
+      const result = list.forEach(spider => {
+        spider.info = JSON.parse(spider.info);
+      });
       return response.success(list);
     })
   },
@@ -23,9 +26,9 @@ module.exports = {
    * @returns {Promise<void>}
    */
   updateFrequency: async function(request, response) {
-    const spiderId = request.param('id');
+    const spiderId = request.param('spiderId');
     const frequency = request.param('frequency');
-    if (!spiderId || ! frequency) {
+    if (!spiderId || !frequency) {
       return response.error(400, 'missing_parameters', '缺少必要参数');
     }
     try {
