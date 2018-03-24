@@ -57,8 +57,6 @@ module.exports = {
       return result.map((v, i) => `(${i + 1}/${result.length}) ${v}`);
     };
 
-    const sleep = time => new Promise(resolve => setTimeout(resolve, time));
-
     const accessKey = sails.config.common.weibo_access_key;
     const request = require('request-promise');
     const fs = require('fs');
@@ -76,7 +74,7 @@ module.exports = {
           console.log(e);
           // Whatever..
         }
-        await sleep(3000);
+        await CommonUtils.sleep(1000);
       }
     } else {
       for (const i of splitByLength(text)) {
@@ -92,7 +90,7 @@ module.exports = {
         catch (e) {
           console.log(e);
         }
-        await sleep(3000);
+        await CommonUtils.sleep(1000);
       }
       fs.unlinkSync(pic);
     }

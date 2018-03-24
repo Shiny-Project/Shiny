@@ -15,69 +15,70 @@ module.exports = {
    */
   add: function (request, response) {
     // 校验签名
-    let event;
-    if (request.param('event') && request.param('event').spiderName) {
-      event = request.param('event');
+    let events;
+    try {
+      events = JSON.parse(request.param('event'));
     }
-    else {
-      try {
-        event = JSON.parse(request.param('event'));
+    catch (e) {
+      console.log(request.param('event'));
+      return response.error(400, 'invalid_parameters', '参数不合法:JSON解析失败');
+    }
+
+    if (!Array.isArray(events)) {
+      events = [events];
+    }
+
+    for (const event of events) {
+      if (!(event.spiderName && event.level && event.hash && event.data)) {
+        return response.error(400, 'missing_parameters', '事件缺少必要参数');
       }
-      catch (e) {
-        console.log(request.param('event'));
-        return response.error(400, 'invalid_parameters', '参数不合法:JSON解析失败');
+
+      if (typeof event.data === "string") {
+        return response.error(400, 'invalid_parameter', '请勿序列化 data 字段');
       }
-    }
 
-    if (!(event.spiderName && event.level && event.hash && event.data)) {
-      return response.error(400, 'missing_parameters', '事件缺少必要参数');
-    }
+      event.hash = event.hash.toString(); // 将hash统一转换为字符串
 
-    if (typeof event.data === "string") {
-      return response.error(400, 'invalid_parameter', '请勿序列化 data 字段');
-    }
-
-    event.hash = event.hash.toString(); // 将hash统一转换为字符串
-
-    // 查询重复事件
-    Data.findOne({
-      hash: event.hash
-    }).then(function (result) {
-      if (result) {
-        return response.error(403, 'duplicated_item', '事件重复')
-      }
-      let eventData = typeof event.data === 'object' ? event.data : JSON.parse(event.data);
-      Data.create({
-        publisher: event.spiderName,
-        level: event.level,
-        hash: event.hash,
-        data: typeof event.data === 'object' ? JSON.stringify(event.data) : event.data // 字符类型入库
+      // 查询重复事件
+      Data.findOne({
+        hash: event.hash
       }).then(function (result) {
-        // 开始推送事件
-        let messageBody = {
-          level: event.level,
-          spiderName: event.spiderName,
-          data: eventData, // 以object类型推送
-          hash: event.hash
-        };
-
-        PushService.sendSocket('normal', messageBody);
-        // 对高优先度事件推送到微博
-        if (event.level === 4 || event.level === 5) {
-          PushService.pushSocial(event);
+        if (result) {
+          return response.error(403, 'duplicated_item', '事件重复')
         }
+        let eventData = typeof event.data === 'object' ? event.data : JSON.parse(event.data);
+        Data.create({
+          publisher: event.spiderName,
+          level: event.level,
+          hash: event.hash,
+          data: typeof event.data === 'object' ? JSON.stringify(event.data) : event.data // 字符类型入库
+        }).then(function (result) {
+          // 开始推送事件
+          let messageBody = {
+            level: event.level,
+            spiderName: event.spiderName,
+            data: eventData, // 以object类型推送
+            hash: event.hash
+          };
 
-        PushService.sendTeleGram(`Level.${event.level} - ${event.data.title}
+          PushService.sendSocket('normal', messageBody);
+          // 对高优先度事件推送到微博
+          if (event.level === 4 || event.level === 5) {
+            PushService.pushSocial(event);
+          }
+
+          PushService.sendTeleGram(`Level.${event.level} - ${event.data.title}
 ${event.data.content}
 ${event.data.link}`);
 
-        return response.success();
+          return response.success();
+        }).catch(function (e) {
+          return response.error(500, 'database_error', '数据库读写错误')
+        })
       }).catch(function (e) {
         return response.error(500, 'database_error', '数据库读写错误')
       })
-    }).catch(function (e) {
-      return response.error(500, 'database_error', '数据库读写错误')
-    })
+    }
   },
   /**
    * 获取最新事件
@@ -197,6 +198,9 @@ ${event.data.link}`);
     });
   },
   test: (request, response) => {
+    PushService.sendWeibo(`長引く低金利などで経営環境が厳しさを増す中、みずほフィナンシャルグループが、来年春の採用数をこの春と比べ、ほぼ半減させる方向で最終的な調整を進めていることがわかりました。金融大手では三井住友や三菱ＵＦＪも採用を減らす方向です。
+
+関係者によりますと、みずほは傘下の銀行と信託銀行を合わせた来年春の採用数を、この春の１３６０人余りと比べ、ほぼ半減の７００人程度にまで減らす方向で最終的な調整を進めています。`);
     return response.success();
   }
 };

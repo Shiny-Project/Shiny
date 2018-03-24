@@ -68,5 +68,7 @@ module.exports = {
     });
     await browser.close();
     return path;
-  }
+  },
+  // Sleep
+  sleep: time => new Promise(resolve => setTimeout(resolve, time)),
 };
