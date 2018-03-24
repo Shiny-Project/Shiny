@@ -56,8 +56,11 @@ module.exports = {
       }
       return result.map((v, i) => `(${i + 1}/${result.length}) ${v}`);
     };
+
+    const sleep = time => new Promise(resolve => setTimeout(resolve, time));
+
     const accessKey = sails.config.common.weibo_access_key;
-    const request = require('request');
+    const request = require('request-promise');
     const fs = require('fs');
     if (!pic) {
       for (const i of splitByLength(text)) {
@@ -73,6 +76,7 @@ module.exports = {
           console.log(e);
           // Whatever..
         }
+        await sleep(3000);
       }
     } else {
       for (const i of splitByLength(text)) {
@@ -88,6 +92,7 @@ module.exports = {
         catch (e) {
           console.log(e);
         }
+        await sleep(3000);
       }
       fs.unlinkSync(pic);
     }
@@ -141,7 +146,9 @@ module.exports = {
       }
     }
     for (const result of parseResults) {
-      this.sendWeibo(result.text, id, result.pic);
+      this.sendWeibo(result.text, id, result.pic).then(() => {
+        //
+      });
     }
   }
 };
