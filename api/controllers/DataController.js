@@ -5,8 +5,6 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
-let crypto = require('crypto');
-
 module.exports = {
   /**
    * 添加数据项
@@ -87,7 +85,7 @@ ${event.data.link}`);
    */
   recent: function (request, response) {
     let page = request.param('page') || 1;
-    Data.find({}).sort('id desc').paginate({page: page, limit: 10}).populate('keywords').then(data => {
+    Data.find({}).sort('id desc').paginate({page: page, limit: 10}).then(data => {
       for (let item of data) {
         try {
           item.data = JSON.parse(item.data);

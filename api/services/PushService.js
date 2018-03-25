@@ -13,15 +13,6 @@ module.exports = {
       socket.emit('event', JSON.stringify(body));
       socket.close();
     });
-
-    let socket2 = io.connect('http://shiny.kotori.moe:3737', {
-      reconnect: true
-    });
-    socket2.on('connect', function () {
-      socket.emit('event', JSON.stringify(body));
-      socket2.close();
-    });
-
   },
   /**
    * 发送微博
@@ -107,7 +98,9 @@ module.exports = {
           text: text
         }
       }, function (error, response, body) {
-        console.log(body);
+        if (error) {
+          console.log(response);
+        }
       });
     }
     catch (e) {
@@ -137,9 +130,7 @@ module.exports = {
         break;
       }
       default: {
-        let text = '';
-        text += `${event.data.title} : ${event.data.content}`.slice(0, 80);
-        this.sendWeibo(text, id);
+        this.sendWeibo(`${event.data.title} : ${event.data.content}`, id);
         return;
       }
     }
