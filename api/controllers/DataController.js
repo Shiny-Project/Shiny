@@ -56,22 +56,24 @@ module.exports = {
 
         createdEvents.push(result);
 
-        // 推送部分
-        const messageBody = {
-          level: event.level,
-          spiderName: event.spiderName,
-          data: eventData, // 以object类型推送
-          hash: event.hash
-        };
-        PushService.sendSocket('normal', messageBody);
-        // 对高优先度事件推送到微博
-        if (event.level === 4 || event.level === 5) {
-          PushService.pushSocial(event);
-        }
-        // 推送到 Telegram
-        PushService.sendTeleGram(`Level.${event.level} - ${event.data.title}
+        if (event.level > 0) {
+          // 推送部分
+          const messageBody = {
+            level: event.level,
+            spiderName: event.spiderName,
+            data: eventData, // 以object类型推送
+            hash: event.hash
+          };
+          PushService.sendSocket('normal', messageBody);
+          // 对高优先度事件推送到微博
+          if (event.level === 4 || event.level === 5) {
+            PushService.pushSocial(event);
+          }
+          // 推送到 Telegram
+          PushService.sendTeleGram(`Level.${event.level} - ${event.data.title}
 ${event.data.content}
 ${event.data.link}`);
+        }
       }
     } catch (e) {
       return response.error(500, 'database_error', '数据库读写错误');
