@@ -45,7 +45,12 @@ module.exports = {
       if (tempStr.length > 0) {
         result.push(`${tempStr} https://shiny.kotori.moe/`);
       }
-      return result.map((v, i) => `(${i + 1}/${result.length}) ${v}`);
+      if (result.length > 1) {
+        // 多条时显示发送序号
+        return result.map((v, i) => `(${i + 1}/${result.length}) ${v}`);
+      } else {
+        return result;
+      }
     };
 
     const accessKey = sails.config.common.weibo_access_key;
