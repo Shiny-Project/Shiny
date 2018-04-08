@@ -22,53 +22,14 @@
 <div class="mdl-grid" id="app">
   <div class="mdl-cell mdl-cell--1-col"></div>
   <div class="mdl-cell mdl-cell--10-col">
-    <div v-for="event in events" transition="fade">
-      <div class="mdl-card mdl-shadow--2dp" style="width: 100%;">
-        <div class="mdl-card__title">
-          <h2 class="mdl-card__title-text">
-            <a href="{{ event.data.link }}" target="_blank">{{{ event.data.title }}}</a>
-            <h4 class="mdl-card__subtitle-text">{{ event.spiderName }} # {{ event.hash }} : {{ event.level }}</h4>
-          </h2>
-        </div>
-        <div class="mdl-card__supporting-text">
-          {{{ event.data.content }}}
-        </div>
-        <div class="mdl-card__menu">
-          <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" v-on:click="removeEvent($index)">
-            <i class="material-icons">close</i>
-          </button>
-        </div>
-        <div class="mdl-card__actions mdl-card--border">
-          <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" v-on:click="block($index)">
-            屏蔽此来源
-          </a>
-          <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" v-on:click="star($index)">
-            特别关注此来源
-          </a>
-        </div>
-      </div>
-    </div>
-    <hr>
     <div class="mdl-card mdl-shadow--2dp" style="width: 100%;">
       <div class="mdl-card__title">
         <h2 class="mdl-card__title-text">
-          <span style="color:red;">结束服务的公告</span>
+          <span style="color:red;">已经终止服务的公告</span>
         </h2>
       </div>
       <div class="mdl-card__supporting-text">
-        Shiny Web 版将于最近停止服务，请切换到其他客户端。Shiny 没有停止开发的计划，本次终止 Web 版本支持的原因主要是由于重构的需要。
-      </div>
-      <div class="mdl-card__actions mdl-card--border">
-        <template v-if="!isLogin">
-          <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" v-on:click="login">
-            登录
-          </a>
-        </template>
-        <template v-else>
-          <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" v-on:click="cp">
-            后台
-          </a>
-        </template>
+        Shiny Web 已停止服务，相关功能请使用 Chrome Extension 完成。
       </div>
     </div>
     <hr>
@@ -99,34 +60,5 @@
   }
 </style>
 <script>
-//  let container = $('.alyric');
-//  container.append($('<span>'));
-//  let updateLyric = function(lyric, callback){
-//    container.find('span').fadeOut('fast',function(){
-//      $(this).remove();
-//      container.append(
-//        $('<span>').html(
-//          '<a href="https://lyric.moesound.org/detail/' + lyric.data[0].id + '" target="_blank">' + lyric.data[0].origin + '<br>' + lyric.data[0].translated + '</a>'
-//        ).css('display','none')
-//      );
-//      container.find('span').fadeIn('fast', callback);
-//    })
-//  }
-//  let getLyric = function(){
-//    $.ajax({
-//      'type' : 'GET',
-//      'url' : 'https://lyric.moesound.org/api/random',
-//      'dataType' : 'json',
-//      'success' : function(data){
-//        updateLyric(data, function(){
-//          setTimeout(function(){
-//            getLyric();
-//          }, 5000);
-//        });
-//      }
-//    })
-//  }
-//
-//  getLyric();
 </script>
 </html>

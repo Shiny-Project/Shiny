@@ -66,7 +66,8 @@ module.exports.policies = {
     '*': false,
     'list': true,
     'updateFrequency': ['isPost', 'isLogin', 'isAdmin'],
-    'delete': ['isPost', 'isLogin', 'isAdmin']
+    'delete': ['isPost', 'isLogin', 'isAdmin'],
+    'update': ['isPost', 'isLogin', 'isAdmin']
   },
   ToolController: {
     '*': false,

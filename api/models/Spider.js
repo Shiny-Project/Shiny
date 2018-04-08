@@ -18,6 +18,9 @@ module.exports = {
     path: {
       type: 'string'
     },
+    description: {
+      type: 'text'
+    },
     info: {
       type: 'text'
     },

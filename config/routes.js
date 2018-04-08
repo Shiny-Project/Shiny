@@ -34,28 +34,7 @@ module.exports.routes = {
 
   '/': {
     view: 'homepage'
-  },
-  '/login': {
-    view: 'login'
-  },
-  '/kashikoikawaiielichika': 'UserController.controlPanel',
-  '/register': {
-    view: 'register'
-  },
-  '/bind': {
-    view: 'bind'
-  },
-  '/status': {
-    view: 'status'
-  },
-
-  // ADMIN
-
-  '/admin': {
-    controller: "Admin",
-    action: "index"
   }
-
 
   /***************************************************************************
    *                                                                          *

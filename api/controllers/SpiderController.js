@@ -19,6 +19,26 @@ module.exports = {
       return response.success(list);
     })
   },
+  update: async function (request, response) {
+    const spiderId = request.param('spiderId');
+    const name = request.param('name');
+    const path = request.param('path');
+    if (!spiderId || !name || !path) {
+      return response.error(400, 'missing_parameters', '缺少必要参数');
+    }
+    try {
+      const result = await Spider.update({
+        id: spiderId
+      }, {
+        name,
+        path
+      });
+      result[0].info = JSON.parse(result[0].info);
+      return response.success(result[0]);
+    } catch (e) {
+      return response.error(500, "database_error", "数据库读写错误");
+    }
+  },
   /**
    * 更新Spider刷新频率
    * @param request
