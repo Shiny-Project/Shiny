@@ -59,11 +59,21 @@ module.exports = {
     if (!pic) {
       for (const i of splitByLength(text)) {
         try {
-          await request.post({
+          const result = await request.post({
             url: 'https://api.weibo.com/2/statuses/share.json', form: {
               access_token: accessKey,
               status: i
             }
+          });
+          Job.create({
+            type: 'weibo_push',
+            info: JSON.stringify({
+              text: i,
+              response: result
+            }),
+            status: 'success'
+          }).then(() => {
+            // do nothing
           });
         }
         catch (e) {

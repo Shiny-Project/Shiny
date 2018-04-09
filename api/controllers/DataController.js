@@ -87,7 +87,14 @@ ${event.data.link}`);
    */
   recent: function (request, response) {
     let page = request.param('page') || 1;
-    Data.find({}).sort('id desc').paginate({page: page, limit: 10}).then(data => {
+    let publishers = request.param('publishers');
+    let condition = {};
+
+    if (publishers) {
+      condition['publisher'] =publishers.split(',')
+    }
+
+    Data.find(condition).sort('id desc').paginate({page: page, limit: 20}).then(data => {
       for (let item of data) {
         try {
           item.data = JSON.parse(item.data);
@@ -197,7 +204,7 @@ ${event.data.link}`);
       return response.error(500, 'database_error', '数据库读写错误');
     });
   },
-  test: (request, response) => {
+  test: async (request, response) => {
     return response.success();
   }
 };

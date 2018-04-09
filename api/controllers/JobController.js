@@ -10,7 +10,11 @@ module.exports = {
    * 请求当前任务列表
    */
   query: async (request, response) => {
-    let result = await Spider.find();
+    let result = await Spider.find({
+      'path': {
+        '!': null
+      }
+    });
     let needFresh = [];
     let jobs = [];
     for (let spider of result) {
