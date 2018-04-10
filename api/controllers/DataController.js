@@ -85,29 +85,29 @@ ${event.data.link}`);
    * @param request
    * @param response
    */
-  recent: function (request, response) {
+  recent: async function (request, response) {
     let page = request.param('page') || 1;
     let publishers = request.param('publishers');
     let condition = {};
 
     if (publishers) {
-      condition['publisher'] =publishers.split(',')
+      condition['publisher'] = publishers.split(',')
     }
 
-    Data.find(condition).sort('id desc').paginate({page: page, limit: 20}).then(data => {
-      for (let item of data) {
-        try {
-          item.data = JSON.parse(item.data);
-        }
-        catch (err) {
-          return response.error(500, 'parse_data_error', 'yabai!yabai!');
-        }
-      }
-      return response.success(data);
-    }).catch(e => {
-      console.log(e);
+    try {
+      const total = await Data.count(condition);
+      const events = await Data.find(condition).sort('id desc').paginate({page: page, limit: 20});
+      events.forEach(event => {
+        event.data = JSON.parse(event.data);
+      });
+
+      return response.success({
+        total,
+        events
+      })
+    } catch (e) {
       return response.error(500, 'database_error', '数据库读写错误');
-    });
+    }
   },
   view: function (request, response) {
     return response.view('data/view');

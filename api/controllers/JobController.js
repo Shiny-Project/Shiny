@@ -133,6 +133,36 @@ module.exports = {
     catch (e) {
       return response.error(500, "database_error", "数据库读写错误");
     }
+  },
+  /**
+   * 最近任务
+   * @param request
+   * @param response
+   * @returns {Promise<*>}
+   */
+  recent: async (request, response) => {
+    let page = request.param('page') || 1;
+    let types = request.param('types');
+    let condition = {};
+
+    if (types) {
+      condition['types'] = types.split(',')
+    }
+
+    try {
+      const total = await Job.count(condition);
+      const jobs = await Job.find(condition).sort('id desc').paginate({page: page, limit: 20});
+      jobs.forEach(job => {
+        job.info = JSON.parse(job.info || '{}');
+      });
+
+      return response.success({
+        total,
+        jobs
+      })
+    } catch (e) {
+      return response.error(500, "database_error", "数据库读写错误");
+    }
   }
 };
 

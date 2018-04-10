@@ -47,7 +47,8 @@ module.exports.policies = {
   JobController: {
     '*': false,
     'query': ['authSign'],
-    'report': ['isPost', 'authSign']
+    'report': ['isPost', 'authSign'],
+    'recent': ['isLogin', 'isAdmin']
   },
   UserController:{
     '*': false,
