@@ -146,7 +146,7 @@ module.exports = {
     let condition = {};
 
     if (types) {
-      condition['types'] = types.split(',')
+      condition['type'] = types.split(',')
     }
 
     try {

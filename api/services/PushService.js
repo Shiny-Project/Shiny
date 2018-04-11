@@ -66,8 +66,9 @@ module.exports = {
             }
           });
           Job.create({
-            type: 'weibo_push',
+            type: 'push',
             info: JSON.stringify({
+              channel: 'weibo',
               text: i,
               response: result
             }),
