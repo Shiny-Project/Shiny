@@ -32,6 +32,9 @@ module.exports = {
       type: 'string',
       size: 255
     },
+    subscription: {
+      type: 'text'
+    }
   }
 };
 

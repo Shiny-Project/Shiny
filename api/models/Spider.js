@@ -15,6 +15,9 @@ module.exports = {
     name: {
       type: 'string'
     },
+    channel: {
+      type: 'string'
+    },
     path: {
       type: 'string'
     },

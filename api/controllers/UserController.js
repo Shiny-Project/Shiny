@@ -30,7 +30,7 @@ module.exports = {
           'email': email
         }
       ]
-    }).then(user=> {
+    }).then(user => {
       if (user) {
         if (user.email) {
           // 已经注册完了
@@ -41,15 +41,15 @@ module.exports = {
         User.update({
           'id': user.id
         }, {
-          email: email,
-          password: EncryptionService.doEncryption(password)
-        }).then(newUser => {
-          return response.success({
-            'id': newUser.id
-          });
-        }).catch(err=> {
-          return response.error(500, 'database_error', '数据库通信错误');
-        })
+            email: email,
+            password: EncryptionService.doEncryption(password)
+          }).then(newUser => {
+            return response.success({
+              'id': newUser.id
+            });
+          }).catch(err => {
+            return response.error(500, 'database_error', '数据库通信错误');
+          })
       }
       else {
         // 新用户
@@ -57,11 +57,11 @@ module.exports = {
           'email': email,
           'password': EncryptionService.doEncryption(password),
           'fingerprint': fingerprint
-        }).then(newUser=> {
+        }).then(newUser => {
           return response.success({
             'id': newUser.id
           })
-        }).catch(err=> {
+        }).catch(err => {
           return response.error(500, 'database_error', '数据库通信错误');
         })
       }
@@ -76,19 +76,19 @@ module.exports = {
   createByFingerprint: function (request, response) {
     let fingerprint = request.param('fingerprint');
     if (!fingerprint) {
-      return response.error(403, 'miss_parameters', '缺少必要参数');
+      return response.error(400, 'miss_parameters', '缺少必要参数');
     }
 
     User.findOne({
       'fingerprint': fingerprint
-    }).then(user=> {
+    }).then(user => {
       if (user) {
         return response.error(403, 'existed_device', '设备已经被注册');
       }
 
       User.create({
         'fingerprint': fingerprint
-      }).then(user=> {
+      }).then(user => {
         return response.success({
           'uid': user.id
         });
@@ -106,12 +106,12 @@ module.exports = {
     let fingerprint = request.param('fingerprint');
 
     if (!id && !fingerprint) {
-      return response.error(403, 'miss_parameters', '缺少必要参数');
+      return response.error(400, 'miss_parameters', '缺少必要参数');
     }
 
 
     User.findOne({
-      'or':[
+      'or': [
         {
           'id': id || ''
         },
@@ -141,18 +141,18 @@ module.exports = {
     let fingerprint = request.param('fingerprint');
 
     if (!((email && password) || fingerprint)) {
-      return response.error(403, 'miss_parameters', '缺少必要参数');
+      return response.error(400, 'miss_parameters', '缺少必要参数');
     }
 
-    if (fingerprint){
+    if (fingerprint) {
       User.findOne({
         'fingerprint': fingerprint
-      }).then(user=>{
-        if (!user){
+      }).then(user => {
+        if (!user) {
           return response.error(403, 'unexisted_device', '未注册的设备');
         }
 
-        if (user.email){
+        if (user.email) {
           return response.error(403, 'binded_user', '已经绑定的用户只能使用密码登录');
         }
         request.session.uid = user.id;
@@ -168,7 +168,7 @@ module.exports = {
         });
       })
     }
-    else{
+    else {
       User.findOne({
         'email': email
       }).then(user => {
@@ -194,12 +194,12 @@ module.exports = {
 
           user.token = new Buffer(require('node-uuid').v4()).toString('base64');
 
-          user.save().then(()=>{
+          user.save().then(() => {
             return response.success({
               'uid': user.id,
               'token': user.token
             });
-          }).catch(e=>{
+          }).catch(e => {
 
           });
         }
@@ -214,7 +214,7 @@ module.exports = {
    * @param request
    * @param response
    */
-  logout:function (request, response) {
+  logout: function (request, response) {
     request.session.uid = undefined;
     response.clearCookie('uid');
     response.clearCookie('token');
@@ -233,17 +233,17 @@ module.exports = {
    * @param response
    * @returns {*}
    */
-  isBinded:function (request, response) {
+  isBinded: function (request, response) {
     let fingerprint = request.param('fingerprint');
 
-    if (!fingerprint){
-      return response.error(403, 'miss_parameters', '缺少必要参数');
+    if (!fingerprint) {
+      return response.error(400, 'miss_parameters', '缺少必要参数');
     }
 
     User.findOne({
       'fingerprint': fingerprint
-    }).then(user=>{
-      if (user && user.email){
+    }).then(user => {
+      if (user && user.email) {
         return response.success({
           'isBinded': true
         });
@@ -254,67 +254,105 @@ module.exports = {
     })
   },
   /**
+   * 获得订阅列表
+   */
+  subscription: async function (request, response) {
+    const token = request.param('token');
+    if (!token) {
+      return response.error(400, 'miss_parameters', '缺少必要参数');
+    }
+    try {
+      const user = await User.findOne({
+        token
+      });
+      if (!user) {
+        return response.error(404, 'user_not_found', '用户不存在');
+      }
+      if (user.subscription) {
+        return response.success(JSON.parse(user.subscription));
+      } else {
+        return response.success([]);
+      }
+    } catch (e) {
+      return response.error(500, 'database_error', '数据库通信错误');
+    }
+  },
+  /**
    * 订阅
    * @param request
    * @param response
    * @returns {*}
    */
-  subscribe:function (request, response) {
-    let uid = request.session.uid;
-    let subscriptionId = request.param('subscriptionId');
-    let token = request.param('token');
-
-    if (!subscriptionId || (!token && !uid)){
-      return response.error(403, 'miss_parameters', '缺少必要参数');
+  subscribe: async function (request, response) {
+    const token = request.param('token');
+    const spiderName = request.param('spiderName');
+    if (!token || !spiderName) {
+      return response.error(400, 'miss_parameters', '缺少必要参数');
     }
-
-    let condition = {};
-
-    if (token)
-      condition.token = token;
-    else
-      condition.id = uid;
-
-    User.findOne(condition).then(user=>{
-      user.subscriptions.add(subscriptionId);
-      user.save().then(()=>{
-        return response.success();
-      }).catch(e=>{
-        return response.error(500, 'database_error', '数据库通信错误');
-      })
-    })
+    try {
+      const user = await User.findOne({
+        token
+      });
+      if (!user) {
+        return response.error(404, 'user_not_found', '用户不存在');
+      }
+      const subscription = [];
+      if (user.subscription) {
+        subscription.push(...JSON.parse(user.subscription));
+      }
+      if (subscription.includes(spiderName)) {
+        return response.error(403, 'duplicated_spider', '该 Spider 已经订阅');
+      }
+      subscription.push(spiderName);
+      await User.update({
+        token
+      }, {
+        subscription: JSON.stringify(subscription)
+      });
+      return response.success(subscription);
+    } catch (e) {
+      return response.error(500, 'database_error', '数据库通信错误');
+    }
   },
   /**
    * 取消订阅
    * @param request
    * @param response
    */
-  unsubscribe: function (request, response) {
-    let uid = request.session.uid;
-    let subscriptionId = request.param('subscriptionId');
-    let token = request.param('token');
-
-    if (!subscriptionId || (!token && !uid)){
-      return response.error(403, 'miss_parameters', '缺少必要参数');
+  unsubscribe: async function (request, response) {
+    const token = request.param('token');
+    const spiderName = request.param('spiderName');
+    if (!token || !spiderName) {
+      return response.error(400, 'miss_parameters', '缺少必要参数');
     }
-
-    let condition = {};
-
-    if (token)
-      condition.token = token;
-    else
-      condition.id = uid;
-
-
-    User.findOne(condition).then(user=>{
-      user.subscriptions.remove(subscriptionId);
-      user.save().then(()=>{
-        return response.success();
-      }).catch(e=>{
-        return response.error(500, 'database_error', '数据库通信错误');
-      })
-    })
-
+    try {
+      const user = await User.findOne({
+        token
+      });
+      if (!user) {
+        return response.error(404, 'user_not_found', '用户不存在');
+      }
+      let subscription = [];
+      if (user.subscription) {
+        subscription.push(...JSON.parse(user.subscription));
+      }
+      if (!subscription.includes(spiderName)) {
+        return response.error(403, 'duplicated_spider', '该 Spider 未被订阅');
+      }
+      const index = subscription.findIndex(i => i === spiderName);
+      subscription = [
+        ...subscription.slice(0, index),
+        ...subscription.slice(index + 1)
+      ];
+      await User.update({
+        token
+      }, {
+        subscription: JSON.stringify(subscription)
+      });
+      return response.success(subscription);
+    } catch (e) {
+      return response.error(500, 'database_error', '数据库通信错误');
+    }
   }
 };
 
