@@ -49,6 +49,7 @@ module.exports = {
         const eventData = event.data;
         const result = await Data.create({
           publisher: event.spiderName,
+          channel: event.channel,
           level: event.level,
           hash: event.hash,
           data: typeof event.data === 'object' ? JSON.stringify(event.data) : event.data // 字符类型入库
@@ -61,6 +62,7 @@ module.exports = {
           const messageBody = {
             level: event.level,
             spiderName: event.spiderName,
+            channel: event.channel,
             data: eventData, // 以object类型推送
             hash: event.hash
           };
