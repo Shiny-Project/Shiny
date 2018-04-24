@@ -21,6 +21,9 @@ module.exports = {
     publisher: {
       type: 'string'
     },
+    channel: {
+      type: 'string'
+    },
     hash: {
       type: 'string'
     },
