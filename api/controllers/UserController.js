@@ -121,7 +121,7 @@ module.exports = {
       ]
     }).populate('subscriptions').then(user => {
       if (!user) {
-        return response.error(404, 'unexisted_user', '不存在的用户')
+        return response.error(404, 'user_not_found', '不存在的用户')
       }
       delete user.password;
       delete user.fingerprint;
@@ -149,7 +149,7 @@ module.exports = {
         'fingerprint': fingerprint
       }).then(user => {
         if (!user) {
-          return response.error(403, 'unexisted_device', '未注册的设备');
+          return response.error(403, 'device_not_found', '未注册的设备');
         }
 
         if (user.email) {
@@ -173,21 +173,21 @@ module.exports = {
         'email': email
       }).then(user => {
         if (!user) {
-          return response.error(404, 'unexisted_user', '不存在的用户');
+          return response.error(404, 'user_not_found', '不存在的用户');
         }
 
         if (EncryptionService.compare(password, user.password)) {
           // 登录成功
-          let remenber_token = CommonUtils.generateToken();
+          let remember_token = CommonUtils.generateToken();
           request.session.uid = user.id;
 
           response.cookie('uid', user.id, {
             maxAge: 60 * 60 * 24 * 365
           });
-          response.cookie('remenber_token', remenber_token, {
+          response.cookie('remember_token', remember_token, {
             maxAge: 60 * 60 * 24 * 365
           });
-          response.cookie('token', EncryptionService.doEncryption(user.id + user.password + remenber_token), {
+          response.cookie('token', EncryptionService.doEncryption(user.id + user.password + remember_token), {
             // uuid+密码拼接 保证 改密码后失效 并每次登陆唯一
             maxAge: 60 * 60 * 24 * 365
           });
@@ -218,7 +218,7 @@ module.exports = {
     request.session.uid = undefined;
     response.clearCookie('uid');
     response.clearCookie('token');
-    response.clearCookie('remenber_token');
+    response.clearCookie('remember_token');
     return response.success();
   },
   isLogin: function (request, response) {
