@@ -53,13 +53,9 @@ module.exports.policies = {
   UserController:{
     '*': false,
     'create': 'isPost',
-    'createByFingerprint': 'isPost',
     'info': true,
     'login': 'isPost',
     'logout': true,
-    'isLogin': 'isLogin',
-    'controlPanel': 'isLogin',
-    'isBinded': true,
     'subscription': true,
     'subscribe': ['isPost'],
     'unsubscribe': ['isPost']
