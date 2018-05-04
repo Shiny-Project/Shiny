@@ -115,10 +115,15 @@ module.exports = {
 
           });
         }
+        response.success({
+          token: user.token
+        })
       }
       else {
         return response.error(403, 'wrong_password', '密码错误');
       }
+    }).catch(e => {
+      return response.error(500, 'database_error', '数据库通信错误');
     })
   },
   /**
