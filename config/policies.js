@@ -67,10 +67,6 @@ module.exports.policies = {
     'delete': ['isPost', 'isLogin', 'isAdmin'],
     'update': ['isPost', 'isLogin', 'isAdmin']
   },
-  ToolController: {
-    '*': false,
-    'parseYouTube': 'isPost'
-  },
   ServerController: {
 	  '*': false,
     'add': ['isPost', 'isLogin', 'isAdmin'],
