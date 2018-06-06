@@ -116,6 +116,7 @@ module.exports = {
           });
         }
         response.success({
+          uid: user.id,
           token: user.token
         })
       }
