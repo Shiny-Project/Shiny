@@ -151,7 +151,7 @@ module.exports = {
 
     try {
       const total = await Job.count(condition);
-      const jobs = await Job.find(condition).sort('id desc').paginate({page: page, limit: 20});
+      const jobs = await Job.find(condition).sort('id desc').paginate(page - 1, 20);
       jobs.forEach(job => {
         job.info = JSON.parse(job.info || '{}');
       });
