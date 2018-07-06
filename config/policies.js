@@ -73,9 +73,6 @@ module.exports.policies = {
     'list': true,
     'delete': ['isPost', 'isLogin', 'isAdmin']
   },
-  AdminController: {
-	  '*': ['isLogin', 'isAdmin']
-  },
   ApplicationController: {
 	  '*': false,
     'createAPIKeyPairs': ['isPost', 'isLogin', 'isAdmin'],
