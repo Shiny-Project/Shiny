@@ -5,24 +5,25 @@
  */
 
 module.exports = {
-
+  primaryKey: 'id',
   attributes: {
     id: {
-      type: 'integer',
+      type: 'number',
       autoIncrement: true,
-      primaryKey: true
     },
     data: {
-      type: 'text'
+      type: 'string',
+      columnType: 'text'
     },
     level: {
-      type: 'integer'
+      type: 'number'
     },
     publisher: {
       type: 'string'
     },
     channel: {
-      type: 'string'
+      type: 'string',
+      allowNull: true
     },
     hash: {
       type: 'string'
@@ -32,7 +33,7 @@ module.exports = {
       via: 'event'
     },
     analysed:{
-      type: 'integer',
+      type: 'number',
       defaultsTo: 0
     }
   }

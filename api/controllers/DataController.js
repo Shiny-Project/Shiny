@@ -98,7 +98,7 @@ ${event.data.link}`);
 
     try {
       const total = await Data.count(condition);
-      const events = await Data.find(condition).sort('id desc').paginate({page: page, limit: 20});
+      const events = await Data.find(condition).sort('id desc').paginate(page - 1, 20);
       events.forEach(event => {
         event.data = JSON.parse(event.data);
       });

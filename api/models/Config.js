@@ -6,14 +6,15 @@
  */
 
 module.exports = {
-
+  primaryKey: 'key',
   attributes: {
     key: {
       type: 'string',
-      primaryKey: true
+      required: true
     },
     value: {
-      type: 'text'
+      type: 'string',
+      columnType: 'text'
     }
   },
 };

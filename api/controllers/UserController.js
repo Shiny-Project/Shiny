@@ -105,14 +105,17 @@ module.exports = {
         });
 
         if (!user.token) {
+          const newToken = new Buffer(require('node-uuid').v4()).toString('base64');
           user.token = new Buffer(require('node-uuid').v4()).toString('base64');
-          user.save().then(() => {
+          User.update({
+            email
+          }, {
+            token: newToken
+          }).then(() => {
             return response.success({
               'uid': user.id,
-              'token': user.token
+              'token': newToken
             });
-          }).catch(e => {
-
           });
         }
         response.success({

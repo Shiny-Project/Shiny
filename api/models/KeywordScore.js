@@ -6,18 +6,18 @@
  */
 
 module.exports = {
-
+  primaryKey: 'id',
   attributes: {
     id: {
-      type: 'integer',
+      type: 'number',
       autoIncrement: true,
-      primaryKey: true
     },
     keyword: {
       type: 'string'
     },
     score:{
-      type: 'float'
+      type: 'number',
+      columnType: 'float'
     },
     event: {
       model: 'Data'

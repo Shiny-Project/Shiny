@@ -6,12 +6,11 @@
  */
 
 module.exports = {
-
+  primaryKey: 'id',
   attributes: {
     id: {
-      type: 'integer',
+      type: 'number',
       autoIncrement: true,
-      primaryKey: true
     },
     /*
     * 服务器类型

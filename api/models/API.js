@@ -1,10 +1,9 @@
 module.exports = {
-
+  primaryKey: 'id',
   attributes: {
     id: {
-      type: 'integer',
+      type: 'number',
       autoIncrement: true,
-      primaryKey: true
     },
     api_key:{
       type: 'string'

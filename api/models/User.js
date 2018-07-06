@@ -6,34 +6,30 @@
  */
 
 module.exports = {
-
+  primaryKey: 'id',
   attributes: {
     id: {
       autoIncrement: true,
-      primaryKey: true,
-      type: 'integer'
+      type: 'number'
     },
     email: {
       type: 'string',
-      size: 255
     },
     password: {
       type: 'string',
-      size: 255
     },
     token:{
       type: 'string',
-      size: 255
     },
     admin: {
       type: 'boolean'
     },
     fingerprint:{
       type: 'string',
-      size: 255
     },
     subscription: {
-      type: 'text'
+      type: 'string',
+      columnType: 'text'
     }
   }
 };

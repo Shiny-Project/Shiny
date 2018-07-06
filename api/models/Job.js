@@ -6,11 +6,11 @@
  */
 
 module.exports = {
+  primaryKey: 'id',
   attributes: {
     id: {
-      type: 'integer',
+      type: 'number',
       autoIncrement: true,
-      primaryKey: true
     },
     type: {
       type: 'string'
@@ -22,7 +22,8 @@ module.exports = {
       type: 'string'
     },
     info: {
-      type: 'text'
+      type: 'string',
+      columnType: 'text'
     },
     status: {
       type: 'string'
