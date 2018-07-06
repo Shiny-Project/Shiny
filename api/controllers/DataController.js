@@ -168,7 +168,7 @@ ${event.data.link}`);
   statistics: async (request, response) => {
     const Promise = require("bluebird");
     const _ = require("lodash");
-    const DataQueryAsync = Promise.promisify(Data.query);
+    const DataQueryAsync = Promise.promisify(Data.getDatastore().sendNativeQuery);
     Promise.all([
       DataQueryAsync("SELECT `publisher`, count(*) as count FROM `data` WHERE `createdAt` >= ? GROUP BY `publisher` ORDER BY `count` DESC",
         [CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000)]),
