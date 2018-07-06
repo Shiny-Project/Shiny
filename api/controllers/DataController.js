@@ -170,25 +170,25 @@ ${event.data.link}`);
     const _ = require("lodash");
     const DataQueryAsync = Promise.promisify(Data.getDatastore().sendNativeQuery);
     Promise.all([
-      DataQueryAsync("SELECT `publisher`, count(*) as count FROM `data` WHERE `createdAt` >= ? GROUP BY `publisher` ORDER BY `count` DESC",
+      DataQueryAsync("SELECT `publisher`, count(*) as count FROM `data` WHERE `createdAt` >= $1 GROUP BY `publisher` ORDER BY `count` DESC",
         [CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000)]),
-      DataQueryAsync("SELECT `publisher`, count(*) as count FROM `data` WHERE `createdAt` >= ? GROUP BY `publisher` ORDER BY `count` DESC",
+      DataQueryAsync("SELECT `publisher`, count(*) as count FROM `data` WHERE `createdAt` >= $1 GROUP BY `publisher` ORDER BY `count` DESC",
         [CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000 * 3)]),
-      DataQueryAsync("SELECT `publisher`, count(*) as count FROM `data` WHERE `createdAt` >= ? GROUP BY `publisher` ORDER BY `count` DESC",
+      DataQueryAsync("SELECT `publisher`, count(*) as count FROM `data` WHERE `createdAt` >= $1 GROUP BY `publisher` ORDER BY `count` DESC",
         [CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000 * 21)]),
-      DataQueryAsync("SELECT `id`, `level`, `publisher`, `createdAt` FROM `data` WHERE `createdAt` >= ?",
+      DataQueryAsync("SELECT `id`, `level`, `publisher`, `createdAt` FROM `data` WHERE `createdAt` >= $1",
         [CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000 * 30)]),
-      DataQueryAsync("SELECT `status`, count(*) as count FROM `job` WHERE `createdAt` >= ? GROUP BY `status`",
+      DataQueryAsync("SELECT `status`, count(*) as count FROM `job` WHERE `createdAt` >= $1 GROUP BY `status`",
         [CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000 * 30)])
     ]).then(data => {
       let result = {};
-      let recentEvents = data[3];
-      let jobStatus = data[4];
+      let recentEvents = data[3]['rows'];
+      let jobStatus = data[4]['rows'];
 
       result['spiderRanking'] = {
-        '1day': data[0],
-        '3days': data[1],
-        '21days': data[2],
+        '1day': data[0]['rows'],
+        '3days': data[1]['rows'],
+        '21days': data[2]['rows'],
       };
 
       let levelRanking = _.countBy(recentEvents, i => `Level ${i.level}`);
