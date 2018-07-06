@@ -30,7 +30,7 @@ module.exports = {
       type: 'number'
     },
     trigger_time: {
-      type: 'string',
+      type: 'ref',
       columnType: 'datetime'
     }
   }
