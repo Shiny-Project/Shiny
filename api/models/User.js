@@ -29,7 +29,8 @@ module.exports = {
     },
     subscription: {
       type: 'string',
-      columnType: 'text'
+      columnType: 'text',
+      allowNull: true
     }
   }
 };

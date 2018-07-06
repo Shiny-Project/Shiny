@@ -23,7 +23,8 @@ module.exports = {
     },
     info: {
       type: 'string',
-      columnType: 'text'
+      columnType: 'text',
+      allowNull: true
     },
     status: {
       type: 'string'
