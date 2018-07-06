@@ -12,7 +12,7 @@ module.exports = {
   query: async (request, response) => {
     let result = await Spider.find({
       'path': {
-        '!': null
+        '!=': null
       }
     });
     let needFresh = [];
