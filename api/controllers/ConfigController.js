@@ -59,5 +59,32 @@ module.exports = {
     } catch (e) {
       return response.error(500, 'database_error', '数据库读写错误');
     }
+  },
+  /**
+   * 列出全部设置项
+   * @param request
+   * @param response
+   * @returns {Promise<*>}
+   */
+  list: async (request, response) => {
+    try {
+      return response.success(await Config.find())
+    } catch (e) {
+      return response.error(500, 'database_error', '数据库读写错误');
+    }
+  },
+  delete: async (request, response) => {
+    const key = request.param('key');
+    if (!key) {
+      return response.error(400, 'missing_parameters', '缺少必要参数');
+    }
+    try {
+      await Config.destroy({
+        key
+      });
+      return response.success();
+    } catch (e) {
+      return response.error(500, 'database_error', '数据库读写错误');
+    }
   }
 };

@@ -86,6 +86,8 @@ module.exports.policies = {
   ConfigController: {
 	  '*': false,
     'get': ['isLogin', 'isAdmin'],
-    'set': ['isLogin', 'isAdmin']
+    'set': ['isLogin', 'isAdmin'],
+    'list': ['isLogin', 'isAdmin'],
+    'delete': ['isLogin', 'isAdmin']
   }
 };
