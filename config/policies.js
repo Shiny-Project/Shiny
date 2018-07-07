@@ -41,7 +41,7 @@ module.exports.policies = {
     'view': true,
     'info': true,
     'rate': 'isPost',
-    'test': true,
+    'test': ['isLatestVersion'],
     'statistics': true
   },
   JobController: {
@@ -82,5 +82,10 @@ module.exports.policies = {
   LogController: {
 	  '*': false,
     'subscribe': true
+  },
+  ConfigController: {
+	  '*': false,
+    'get': ['isLogin', 'isAdmin'],
+    'set': ['isLogin', 'isAdmin']
   }
 };

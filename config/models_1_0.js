@@ -43,7 +43,6 @@ module.exports.models = {
     // not a valid model option.  Instead, you define it yourself and tell Sails which
     // attribute to use as the primary key by setting the `primaryKey` setting on the model.
     // That setting defaults to `id`.
-    id: { type: 'number', autoIncrement: true, }
   },
 
   /******************************************************************************
