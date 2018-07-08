@@ -36,7 +36,7 @@ module.exports = {
    * @param response
    * @returns {Promise<*>}
    */
-  set: async (request, response) => {
+  edit: async (request, response) => {
     const key = request.param('key');
     const value = request.param('value');
     if (!key || !value) {
