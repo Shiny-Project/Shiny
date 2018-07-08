@@ -86,5 +86,33 @@ module.exports = {
     } catch (e) {
       return response.error(500, 'database_error', '数据库读写错误');
     }
+  },
+  /**
+   * 创建设置项
+   * @param request
+   * @param response
+   * @returns {Promise<*>}
+   */
+  create: async (request, response) => {
+    const key = request.param('key');
+    const value = request.param('value');
+    if (!key || !value) {
+      return response.error(400, 'missing_parameters', '缺少必要参数');
+    }
+    try {
+      const configItem = await Config.findOne({
+        key
+      });
+      if (configItem) {
+        return response.error(400, 'duplicated_config', '设置项已经存在');
+      }
+      const createdConfig = await Config.create({
+        key,
+        value
+      });
+      return response.success(createdConfig);
+    } catch (e) {
+      return response.error(500, 'database_error', '数据库读写错误');
+    }
   }
 };
