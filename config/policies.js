@@ -57,8 +57,8 @@ module.exports.policies = {
     'login': 'isPost',
     'logout': true,
     'subscription': true,
-    'subscribe': ['isPost'],
-    'unsubscribe': ['isPost']
+    'subscribe': ['isPost', 'isLogin'],
+    'unsubscribe': ['isPost', 'isLogin']
   },
   SpiderController:{
     '*': false,
@@ -66,6 +66,13 @@ module.exports.policies = {
     'updateFrequency': ['isPost', 'isLogin', 'isAdmin'],
     'delete': ['isPost', 'isLogin', 'isAdmin'],
     'update': ['isPost', 'isLogin', 'isAdmin']
+  },
+  SpiderIdentityController: {
+	  '*': false,
+    'list': ['isLogin', 'isAdmin'],
+    'create': ['isPost', 'isLogin', 'isAdmin'],
+    'edit': ['isPost', 'isLogin', 'isAdmin'],
+    'delete': ['isPost', 'isLogin', 'isAdmin']
   },
   ServerController: {
 	  '*': false,
@@ -77,7 +84,7 @@ module.exports.policies = {
 	  '*': false,
     'createAPIKeyPairs': ['isPost', 'isLogin', 'isAdmin'],
     'list': ['isLogin', 'isAdmin'],
-    'delete': ['isLogin', 'isAdmin']
+    'delete': ['isPost', 'isLogin', 'isAdmin']
   },
   LogController: {
 	  '*': false,
