@@ -135,7 +135,7 @@ module.exports = {
       pic: undefined
     }];
     switch (event.spiderName) {
-      case 'CMAAlertSpider': {
+      case 'CMAAlert': {
         const parser = require('./EventParser/CMAAlert');
         parseResults = await parser.parse(event);
         break;
