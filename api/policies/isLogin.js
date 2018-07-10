@@ -13,6 +13,7 @@ module.exports = function (req, res, next) {
     next();
     return;
   }
+  //console.log(req.session);
   if (req.session.uid) {
     next();
   }
@@ -24,7 +25,6 @@ module.exports = function (req, res, next) {
         if (!user) {
           return res.error(403, 'need_login', '本方法需要登录');
         }
-
         if (EncryptionService.compare(user.id + user.password + req.cookies.remenber_token, req.cookies.token)) {
           // 登录状态有效
           req.session.uid = user.id;

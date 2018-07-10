@@ -45,7 +45,7 @@ module.exports = {
       return response.error(400, 'bad_json', '无法解析的JSON');
     }
     try {
-      const result = SpiderIdentity.update({
+      const result = await SpiderIdentity.update({
         id: identityId
       }).set({
         name,
@@ -79,13 +79,14 @@ module.exports = {
       return response.error(400, 'bad_json', '无法解析的JSON');
     }
     try {
-      const response = await SpiderIdentity.create({
+      const result = await SpiderIdentity.create({
         name,
         identity
       });
-      response.identity = parsedIdentity;
-      return response.success(response);
+      result.identity = parsedIdentity;
+      return response.success(result);
     } catch (e) {
+      console.log(e);
       return response.error(500, "database_error", "数据库读写错误");
     }
   },

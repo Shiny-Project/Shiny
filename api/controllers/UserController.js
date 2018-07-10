@@ -92,7 +92,6 @@ module.exports = {
         // 登录成功
         let remember_token = CommonUtils.generateToken();
         request.session.uid = user.id;
-
         response.cookie('uid', user.id, {
           maxAge: 60 * 60 * 24 * 365
         });
