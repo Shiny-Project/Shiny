@@ -16,7 +16,8 @@ module.exports = {
       type: 'string'
     },
     path: {
-      type: 'string'
+      type: 'string',
+      allowNull: true
     },
     description: {
       type: 'string',
