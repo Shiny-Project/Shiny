@@ -20,6 +20,15 @@ module.exports = {
     for (let spider of result) {
       let spiderInfo = JSON.parse(spider.info);
       if ((new Date() - new Date(spider.trigger_time)) / 1000 > spiderInfo.expires) {
+        if (spiderInfo.identity) {
+          const identities = await SpiderIdentity.find({
+            name: spiderInfo.identity
+          });
+          if (identities.length === 0) {
+            return response.error(500, 'missing_spider_identity', '缺少爬虫凭据定义');
+          }
+          spider.identity = JSON.parse(identities[Math.floor(Math.random() * identities.length)].identity);
+        }
         needFresh.push(spider);
       }
     }
@@ -60,6 +69,13 @@ module.exports = {
       newJob.spider = spider.name;
       newJob.path = spider.path;
       newJob.status = "processing";
+      if (spider.identity) {
+        newJob.info = JSON.stringify({
+          identity: spider.identity
+        });
+      } else {
+        newJob.info = '{}';
+      }
       try {
         // 把新的任务记录到数据库
         let result = await Job.create(newJob);
@@ -74,6 +90,9 @@ module.exports = {
       catch (e) {
         return response.error(500, "database_error", "数据库读写错误");
       }
+    }
+    for (const job of jobs) {
+      job.info = JSON.parse(job.info);
     }
     return response.success(jobs);
   },
