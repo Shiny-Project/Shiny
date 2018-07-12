@@ -10,16 +10,25 @@ module.exports = {
    * 请求当前任务列表
    */
   query: async (request, response) => {
-    let result = await Spider.find({
+    const spiderList = await Spider.find({
       'path': {
         '!=': null
       }
     });
-    let needFresh = [];
-    let jobs = [];
-    for (let spider of result) {
+    const server = request.session.application.tag[0];
+    const serverGroup = (server.group && JSON.parse(server.group)) || ['default'];
+    const needFresh = [];
+    const jobs = [];
+    for (let spider of spiderList) {
+      // 跳过组标记不同的爬虫
+      const spiderGroup = spider.group || 'default';
+      if (!serverGroup.includes(spiderGroup)) {
+        continue;
+      }
       let spiderInfo = JSON.parse(spider.info);
       if ((new Date() - new Date(spider.trigger_time)) / 1000 > spiderInfo.expires) {
+        // 爬虫超过刷新间隔
+        // 检测是否需要下发凭证
         if (spiderInfo.identity) {
           const identities = await SpiderIdentity.find({
             name: spiderInfo.identity
@@ -27,6 +36,7 @@ module.exports = {
           if (identities.length === 0) {
             return response.error(500, 'missing_spider_identity', '缺少爬虫凭据定义');
           }
+          // 随机从可用凭据里取一个
           spider.identity = JSON.parse(identities[Math.floor(Math.random() * identities.length)].identity);
         }
         needFresh.push(spider);
@@ -34,14 +44,14 @@ module.exports = {
     }
     for (let spider of needFresh) {
       // 查询是否已经有任务
-      let createdJobs = await Job.find({
+      const createdJobs = await Job.find({
         where: {
           spider: spider.name,
           status: 'processing'
         }
       });
       let hasJobProcessingFlag = false;
-      for (let createdJob of createdJobs) {
+      for (const createdJob of createdJobs) {
         if ((new Date() - new Date(createdJob.createdAt)) / 1000 > 300) {
           // 有已经处理了五分钟的任务 认定为超时
           let result = await Job.update({
@@ -64,7 +74,7 @@ module.exports = {
         continue;
       }
       // 建立新的任务
-      let newJob = {};
+      const newJob = {};
       newJob.type = "data_refresh";
       newJob.spider = spider.name;
       newJob.path = spider.path;
@@ -78,7 +88,7 @@ module.exports = {
       }
       try {
         // 把新的任务记录到数据库
-        let result = await Job.create(newJob);
+        const result = await Job.create(newJob);
         newJob.id = result.id;
         jobs.push(newJob);
         // 推送新任务通知

@@ -23,6 +23,10 @@ module.exports = {
       type: 'string',
       columnType: 'text'
     },
+    group: {
+      type: 'string',
+      allowNull: true
+    },
     info: {
       type: 'string',
       columnType: 'text'

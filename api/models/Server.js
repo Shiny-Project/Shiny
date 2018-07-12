@@ -27,6 +27,14 @@ module.exports = {
     host: {
       type: 'string'
     },
+    group: {
+      type: 'string',
+      allowNull: true
+    },
+    info: {
+      type: 'string',
+      columnType: 'text'
+    },
     key_pair: {
       model: 'API',
       unique: true

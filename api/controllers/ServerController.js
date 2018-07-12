@@ -13,18 +13,30 @@ module.exports = {
    * @returns {Promise.<void>}
    */
 	add: async (request, response) => {
-	  let serverName = request.param('serverName');
-	  let serverHost = request.param('serverHost');
-	  let serverType = request.param('serverType');
-	  if (!serverHost || !serverName || !serverType){
-      return response.error(400, 'missing_parameters', '事件缺少必要参数');
+	  const serverName = request.param('serverName');
+	  const serverHost = request.param('serverHost');
+	  const serverType = request.param('serverType');
+	  const serverGroup = request.param('serverGroup');
+	  if (!serverHost || !serverName || !serverType || !serverGroup){
+      return response.error(400, 'missing_parameters', '缺少必要参数');
+    }
+    let parsedServerGroup;
+    try {
+	    parsedServerGroup = JSON.parse(serverGroup);
+    } catch (e) {
+	    return response.error(400, 'bad_server_group', 'Server Group 必须是合法的 JSON');
+    }
+    if (!Array.isArray(parsedServerGroup)) {
+      return response.error(400, 'bad_server_group', 'Server Group 必须是数组');
     }
 
     try{
 	    let newRecord = await Server.create({
         "name": serverName,
         "host": serverHost,
-        "type": serverType
+        "type": serverType,
+        "serverGroup": JSON.stringify(parsedServerGroup),
+        "info": '{}'
       });
 	    return response.success(newRecord);
     }
@@ -40,7 +52,10 @@ module.exports = {
    */
   list: async (request, response) => {
 	  try{
-	    let result = await Server.find().populate('key_pair');
+	    const result = await Server.find().populate('key_pair');
+	    for (const server of result) {
+	      server.info = JSON.parse(server.info);
+      }
 	    return response.success(result);
     }
     catch (e){
