@@ -23,8 +23,9 @@ module.exports = {
     const spiderId = request.param('spiderId');
     const name = request.param('name');
     const path = request.param('path');
+    const group = request.param('group');
     const description = request.param('description');
-    if (!spiderId || !name || !path || !description) {
+    if (!spiderId || !name || !path || !description || !group) {
       return response.error(400, 'missing_parameters', '缺少必要参数');
     }
     try {
@@ -33,7 +34,8 @@ module.exports = {
       }, {
         name,
         path,
-        description
+        description,
+        group
       });
       result[0].info = JSON.parse(result[0].info);
       return response.success(result[0]);
