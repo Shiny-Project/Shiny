@@ -12,6 +12,7 @@ header{
 header .title {
   margin-left: 1rem;
   font-size: 5vh;
+  font-weight: bold;
   line-height: 10vh;
 }
 footer{

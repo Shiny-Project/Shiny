@@ -145,8 +145,15 @@ module.exports = {
         parseResults = await parser.parse(event);
         break;
       }
+      case 'Flood': {
+        const parser = require('./EventParser/Flood');
+        parseResults = await parser.parse(event);
+        break;
+      }
       default: {
-        this.sendWeibo(`${event.data.title} : ${event.data.content}`, id);
+        if (event.level === 4 || event.level === 5) {
+          this.sendWeibo(`${event.data.title} : ${event.data.content}`, id);
+        }
         return;
       }
     }
