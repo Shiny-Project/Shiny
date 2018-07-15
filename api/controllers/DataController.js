@@ -66,7 +66,7 @@ module.exports = {
             data: eventData, // 以object类型推送
             hash: event.hash
           };
-          // PushService.sendSocket('normal', messageBody);
+          PushService.sendSocket('normal', messageBody);
           // 推送到微博
           PushService.pushSocial(event);
           // 推送到 Telegram
