@@ -28,6 +28,12 @@ module.exports = {
       let spiderInfo = JSON.parse(spider.info);
       if ((new Date() - new Date(spider.trigger_time)) / 1000 > spiderInfo.expires) {
         // 爬虫超过刷新间隔
+        // 检查冷却
+        const cooldown = spiderInfo.cooldown || 0; // 默认无冷却
+        if (!((new Date() - new Date(spider.last_try)) / 1000 > cooldown)) {
+          // 未冷却完毕
+          continue;
+        }
         // 检测是否需要下发凭证
         if (spiderInfo.identity) {
           const identities = await SpiderIdentity.find({
@@ -96,6 +102,12 @@ module.exports = {
           type: "create",
           job: result
         });
+        // 记录最后尝试时间
+        await Spider.update({
+          id: spider.id
+        }).set({
+          last_try: CommonUtils.generateDateTimeByOffset(0)
+        }).fetch();
       }
       catch (e) {
         return response.error(500, "database_error", "数据库读写错误");

@@ -31,6 +31,10 @@ module.exports = {
       type: 'string',
       columnType: 'text'
     },
+    last_try: {
+      type: 'ref',
+      columnType: 'datetime'
+    },
     trigger_count: {
       type: 'number'
     },
