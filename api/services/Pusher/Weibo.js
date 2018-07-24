@@ -159,7 +159,7 @@ module.exports = {
           })
         });
       }
-
+      // 删除图片
       fs.unlinkSync(pic);
     }
   },

@@ -8,7 +8,7 @@ module.exports = {
     const pusher = require('./Pusher/Websocket');
     pusher.sendSocket(type, body);
   },
-  sendTelegram: function (text) {
+  sendTeleGram: function (text) {
     const pusher = require('./Pusher/Telegram');
     pusher.sendTeleGram(text);
   },
