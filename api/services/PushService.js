@@ -41,7 +41,10 @@ module.exports = {
       }
       default: {
         if (event.level === 4 || event.level === 5) {
-          this.sendWeibo(`${event.data.title} : ${event.data.content}`, id);
+          const WeiboPusher = require('./Pusher/Weibo');
+          WeiboPusher.sendWeibo(`${event.data.title} : ${event.data.content}`, id).then(() => {
+            //
+          });
         }
         return;
       }
