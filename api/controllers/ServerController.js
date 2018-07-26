@@ -31,16 +31,18 @@ module.exports = {
     }
 
     try{
-	    let newRecord = await Server.create({
+	    const newRecord = await Server.create({
         "name": serverName,
         "host": serverHost,
         "type": serverType,
-        "serverGroup": JSON.stringify(parsedServerGroup),
+        "group": JSON.stringify(parsedServerGroup),
+        "key_pair": null,
         "info": '{}'
       });
 	    return response.success(newRecord);
     }
     catch (e){
+      console.log(e);
 	    return response.error(500, "database_error", "数据库读写错误");
     }
   },
@@ -55,6 +57,7 @@ module.exports = {
 	    const result = await Server.find().populate('key_pair');
 	    for (const server of result) {
 	      server.info = JSON.parse(server.info);
+	      server.group = JSON.parse(server.group);
       }
 	    return response.success(result);
     }

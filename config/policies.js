@@ -80,6 +80,13 @@ module.exports.policies = {
     'list': true,
     'delete': ['isPost', 'isLogin', 'isAdmin']
   },
+  PushAccountController: {
+	  '*': false,
+    'create': ['isPost', 'isLogin', 'isAdmin'],
+    'list': ['isLogin', 'isAdmin'],
+    'delete': ['isPost', 'isLogin', 'isAdmin'],
+    'edit': ['isPost', 'isLogin', 'isAdmin']
+  },
   ApplicationController: {
 	  '*': false,
     'createAPIKeyPairs': ['isPost', 'isLogin', 'isAdmin'],
