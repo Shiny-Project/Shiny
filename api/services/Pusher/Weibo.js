@@ -14,7 +14,7 @@ module.exports = {
     };
 
     // 分隔超长微博
-    const splitByLength = (str, length = 100) => {
+    const splitByLength = (str, length = 120) => {
       const result = [];
       let counter = 0;
       let tempStr = "";
