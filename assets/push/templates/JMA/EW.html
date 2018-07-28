@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <link rel="stylesheet" href="../base.css">
+  <script src="../base.js"></script>
+</head>
+<body>
+<header>
+  <span class="title">特别警报</span>
+</header>
+<div class="container">
+  <div class="alert_description">
+    <span id="description-title">
+      大雨特别警报解除
+    </span>
+    <p id="description-areas">
+      {alertAreas}
+    </p>
+    <p id="description-detail">
+      特别警报现正发表，意味着数十年一遇的气象灾害可能或正在发生。请注意人身安全，注意收听当地政府的各类通知。请保持冷静，跟随当地政府发布的避难信息行动。
+      请保持高度警惕，特别警报往往意味着可能导致重大伤亡的气象灾害。
+    </p>
+  </div>
+</div>
+<footer></footer>
+<style>
+  .title {
+    color: white;
+    background-color: #9900CC;
+    padding: 0 15px;
+    text-align: center;
+  }
+  .container{
+    display: flex;
+    justify-items: center;
+  }
+  .alert_description{
+    margin-left: 10vw;
+    width: 49.5vw;
+    height: 90vh;
+    display: flex;
+    align-items:center;
+    justify-content:center;
+    padding: 0;
+  }
+  .alert_description{
+    display: block;
+    margin-top: 20vh;
+    justify-content: center;
+    padding-left: 2rem;
+  }
+  #description-title{
+    font-size: 44px;
+    font-weight: bold;
+    color: white;
+    background-color: #9900CC;
+    padding: 0 15px;
+
+  }
+  #description-areas {
+    font-size: 28px;
+  }
+  #description-detail{
+    font-size: 24px;
+    padding-right: 7vw;
+  }
+  .alert_icon img{
+    width: 500px;
+  }
+</style>
+<script>
+  (() => {
+    const data = utils.getParameter();
+    document.getElementById('description-title').innerText = data.alertType.join('、') + '特别警报';
+    if (data.isRelease) {
+      document.getElementById('description-title').innerText += '解除'
+    }
+    document.getElementById('description-areas').innerText = data.areas.join('、');
+    if (data.isRelease) {
+      document.getElementById('description-detail').innerText = '特别警报现已对上述地区解除';
+    }
+  })()
+</script>

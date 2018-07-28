@@ -39,6 +39,11 @@ module.exports = {
         parseResults = await parser.parse(event);
         break;
       }
+      case 'ew': {
+        const parser = require('./EventParser/EW');
+        parseResults = await parser.parse(event, this.sendWeibo);
+        break;
+      }
       default: {
         if (event.level === 4 || event.level === 5) {
           const WeiboPusher = require('./Pusher/Weibo');
