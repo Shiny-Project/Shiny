@@ -41,7 +41,8 @@ module.exports = {
       }
       case 'ew': {
         const parser = require('./EventParser/EW');
-        parseResults = await parser.parse(event, this.sendWeibo);
+        const pusher = require('./Pusher/Weibo');
+        parseResults = await parser.parse(event, pusher.sendWeibo);
         break;
       }
       default: {
