@@ -18,14 +18,14 @@ module.exports = function (req, res, next) {
     next();
   }
   else {
-    if (req.cookies.remenber_token && req.cookies.token && req.cookies.uid) {
+    if (req.cookies.remember_token && req.cookies.token && req.cookies.uid) {
       User.findOne({
         'id': req.cookies.uid
       }).then(user => {
         if (!user) {
           return res.error(403, 'need_login', '本方法需要登录');
         }
-        if (EncryptionService.compare(user.id + user.password + req.cookies.remenber_token, req.cookies.token)) {
+        if (EncryptionService.compare(user.id + user.password + req.cookies.remember_token, req.cookies.token)) {
           // 登录状态有效
           req.session.uid = user.id;
 
@@ -33,7 +33,7 @@ module.exports = function (req, res, next) {
           res.cookie('uid', user.id, {
             maxAge: 60 * 60 * 24 * 365
           });
-          res.cookie('remenber_token', req.cookies.remenber_token, {
+          res.cookie('remember_token', req.cookies.remember_token, {
             maxAge: 60 * 60 * 24 * 365
           });
           res.cookie('token', req.cookies.token, {
