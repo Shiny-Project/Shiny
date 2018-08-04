@@ -10,7 +10,7 @@ module.exports = {
     const name = request.param('name');
     const credential = request.param('credential');
     if (!platform || !name || !credential) {
-      return response.error(400, 'missing_parameters', '事件缺少必要参数');
+      return response.error(400, 'missing_parameters', '缺少必要参数');
     }
     try {
       JSON.parse(credential);
@@ -58,7 +58,7 @@ module.exports = {
     const credential = request.param('credential');
     const accountId = request.param('accountId');
     if (!platform || !name || !credential || !accountId) {
-      return response.error(400, 'missing_parameters', '事件缺少必要参数');
+      return response.error(400, 'missing_parameters', '缺少必要参数');
     }
     try {
       JSON.parse(credential);
@@ -92,7 +92,7 @@ module.exports = {
   delete: async (request, response) => {
     const accountId = request.param('accountId');
     if (!accountId) {
-      return response.error(400, 'missing_parameters', '事件缺少必要参数');
+      return response.error(400, 'missing_parameters', '缺少必要参数');
     }
     try {
       await PushAccount.destroy({
