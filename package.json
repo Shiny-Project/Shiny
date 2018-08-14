@@ -7,6 +7,7 @@
   "dependencies": {
     "@sailshq/upgrade": "^1.0.9",
     "async": "2.1.4",
+    "axios": "^0.18.0",
     "bcryptjs": "latest",
     "bluebird": "^3.5.1",
     "cheerio": "^0.20.0",
