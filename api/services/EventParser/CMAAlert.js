@@ -5,7 +5,8 @@ module.exports = {
 
     return [{
       text: `【CMA全国级气象预警速报】\r\n${event.data.content}\r\n${event.data.link}`,
-      pic: path
+      pic: path,
+      deleteImage: true
     }];
   }
 };

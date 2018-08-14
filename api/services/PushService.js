@@ -45,6 +45,18 @@ module.exports = {
         parseResults = await parser.parse(event, pusher.sendWeibo);
         break;
       }
+      case 'shindo_early_report': {
+        const parser = require('./EventParser/ShindoEarlyReport');
+        const pusher = require('./Pusher/Weibo');
+        parseResults = await parser.parse(event, pusher.sendWeibo);
+        break;
+      }
+      case 'shindo_report': {
+        const parser = require('./EventParser/ShindoReport');
+        const pusher = require('./Pusher/Weibo');
+        parseResults = await parser.parse(event, pusher.sendWeibo);
+        break;
+      }
       default: {
         if (event.level === 4 || event.level === 5) {
           const WeiboPusher = require('./Pusher/Weibo');
@@ -57,7 +69,7 @@ module.exports = {
     }
     const WeiboPusher = require('./Pusher/Weibo');
     for (const result of parseResults) {
-      WeiboPusher.sendWeibo(result.text, id, result.pic).then(() => {
+      WeiboPusher.sendWeibo(result.text, id, result.pic, result.deleteImage).then(() => {
         //
       });
     }

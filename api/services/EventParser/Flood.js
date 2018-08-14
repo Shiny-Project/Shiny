@@ -4,7 +4,8 @@ module.exports = {
     const path = await CommonUtils.screenshot("http://localhost:1337/push/templates/Flood/index.html#" + encodedData);
     return [{
       text: `【洪水预警】\r\n${event.data.floodAlertTitle}\r\n${event.data.link}`,
-      pic: path
+      pic: path,
+      deleteImage: true
     }];
   }
 };

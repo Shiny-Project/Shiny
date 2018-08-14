@@ -18,7 +18,8 @@ module.exports = {
     }
     return [{
       text,
-      pic: path
+      pic: path,
+      deleteImage: true
     }];
   }
 };

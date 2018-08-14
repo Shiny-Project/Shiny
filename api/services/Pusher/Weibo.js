@@ -4,8 +4,9 @@ module.exports = {
    * @param text
    * @param id
    * @param pic
+   * @param deleteImage
    */
-  sendWeibo: async function (text, id = 0, pic = undefined) {
+  sendWeibo: async function (text, id = 0, pic = undefined, deleteImage = true) {
     // 微博字数
     const getLength = (str) => {
       const unicodeCharacters = str.match(/[^\x00-\x80]/g) || [];
@@ -62,7 +63,8 @@ module.exports = {
         while (retries > 0) {
           try {
             const result = await request.post({
-              url: 'https://api.weibo.com/2/statuses/share.json', form: {
+              url: 'https://api.weibo.com/2/statuses/share.json',
+              form: {
                 access_token: accessKey,
                 status: i
               }
@@ -160,7 +162,9 @@ module.exports = {
         });
       }
       // 删除图片
-      fs.unlinkSync(pic);
+      if (deleteImage) {
+        fs.unlinkSync(pic);
+      }
     }
   },
 };
