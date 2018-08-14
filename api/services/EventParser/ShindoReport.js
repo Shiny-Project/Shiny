@@ -3,8 +3,8 @@ module.exports = {
     const axios = require('axios');
 
     const response = await axios.post('http://localhost:3000/Map/shindo_report', {
-      shindo: event.data.shindo,
-      epicenter: event.data.epicenter
+      shindo: JSON.stringify(event.data.shindo),
+      epicenter: JSON.stringify(event.data.epicenter)
     });
 
     return [{

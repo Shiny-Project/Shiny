@@ -3,7 +3,7 @@ module.exports = {
     const axios = require('axios');
 
     const response = await axios.post('http://localhost:3000/Map/shindo_early_report', {
-      shindo: event.data.shindo
+      shindo: JSON.stringify(event.data.shindo)
     });
 
     return [{
