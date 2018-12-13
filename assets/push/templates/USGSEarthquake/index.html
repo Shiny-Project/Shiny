@@ -18,7 +18,7 @@
       {earthquake}
     </p>
     <p id="description-detail">
-      {alertDescription}
+      无详细信息
     </p>
   </div>
 </div>
@@ -295,6 +295,7 @@
   };
   const event = utils.getParameter();
   const content = event.content;
+  document.getElementById('description-title').innerText = content;
   const coordinate = event.location.split(' ');
   const depth = event.depth;
   const region = content.split(',')[1].slice(1);
