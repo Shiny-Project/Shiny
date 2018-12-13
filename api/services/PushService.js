@@ -1,3 +1,5 @@
+import {sleep} from "./CommonUtils";
+
 module.exports = {
   /**
    * 向中控发送websocket包
@@ -57,6 +59,21 @@ module.exports = {
         parseResults = await parser.parse(event, pusher.sendWeibo);
         break;
       }
+      case 'eew': {
+        if (event.hash.endsWith('warning')) {
+          const parser = require('./EventParser/EEW');
+          parseResults = await parser.parse(event);
+        } else {
+          if (event.level === 4 || event.level === 5) {
+            const WeiboPusher = require('./Pusher/Weibo');
+            WeiboPusher.sendWeibo(`${event.data.title} : ${event.data.content}`, id).then(() => {
+              //
+            });
+          }
+          return;
+        }
+        break;
+      }
       default: {
         if (event.level === 4 || event.level === 5) {
           const WeiboPusher = require('./Pusher/Weibo');
@@ -69,9 +86,8 @@ module.exports = {
     }
     const WeiboPusher = require('./Pusher/Weibo');
     for (const result of parseResults) {
-      WeiboPusher.sendWeibo(result.text, id, result.pic, result.deleteImage).then(() => {
-        //
-      });
+      await WeiboPusher.sendWeibo(result.text, id, result.pic, result.deleteImage);
+      await sleep(2000);
     }
   }
 };
