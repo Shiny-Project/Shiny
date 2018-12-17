@@ -1,4 +1,4 @@
-import {sleep} from "./CommonUtils";
+const CommonUtils = require('./CommonUtils');
 
 module.exports = {
   /**
@@ -87,7 +87,7 @@ module.exports = {
     const WeiboPusher = require('./Pusher/Weibo');
     for (const result of parseResults) {
       await WeiboPusher.sendWeibo(result.text, id, result.pic, result.deleteImage);
-      await sleep(2000);
+      await CommonUtils.sleep(2000);
     }
   }
 };
