@@ -46,7 +46,7 @@ module.exports = {
     let retries = 3;
     let errorFlag, errorText, response;
 
-    text += ' https://shiny.kotori.moe/';
+    text += ' https://minyami.net/';
 
     if (!pic) {
       // 不带图
