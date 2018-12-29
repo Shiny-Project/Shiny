@@ -46,6 +46,8 @@ module.exports = {
     let retries = 3;
     let errorFlag, errorText, response;
 
+    text += ' https://shiny.kotori.moe/';
+
     if (!pic) {
       // 不带图
       // 分隔超长微博
