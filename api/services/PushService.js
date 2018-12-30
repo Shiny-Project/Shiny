@@ -49,14 +49,12 @@ module.exports = {
       }
       case 'shindo_early_report': {
         const parser = require('./EventParser/ShindoEarlyReport');
-        const pusher = require('./Pusher/Weibo');
-        parseResults = await parser.parse(event, pusher.sendWeibo);
+        parseResults = await parser.parse(event);
         break;
       }
       case 'shindo_report': {
         const parser = require('./EventParser/ShindoReport');
-        const pusher = require('./Pusher/Weibo');
-        parseResults = await parser.parse(event, pusher.sendWeibo);
+        parseResults = await parser.parse(event);
         break;
       }
       case 'eew': {

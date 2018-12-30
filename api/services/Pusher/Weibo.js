@@ -23,13 +23,13 @@ module.exports = {
         counter += getLength(i);
         tempStr += i;
         if (counter >= length) {
-          result.push(`${tempStr} https://shiny.kotori.moe/`);
+          result.push(`${tempStr} https://minyami.net/${id2ShortUrl(id)}`);
           tempStr = "";
           counter = 0;
         }
       }
       if (tempStr.length > 0) {
-        result.push(`${tempStr} https://shiny.kotori.moe/`);
+        result.push(`${tempStr} https://minyami.net/${id2ShortUrl(id)}`);
       }
       if (result.length > 1) {
         // 多条时显示发送序号
@@ -39,14 +39,25 @@ module.exports = {
       }
     };
 
+    const id2ShortUrl = (id) => {
+      const baseCh = "rstWXYabcdefgzZABCDEFhijklmnopqG012STUV3456789HIJKLMNOPQRuvwxy";
+      const base = 62;
+      let res = "";
+      if(id === 0) return 'r';
+      let c = id;
+      while(c > 0){
+        res = baseCh[c % base] + res;
+        c = Math.floor(c / base);
+      }
+      return res;
+    };
+
     const accessKey = sails.config.common.weibo_access_key;
     const request = require('request-promise');
     const fs = require('fs');
 
     let retries = 3;
     let errorFlag, errorText, response;
-
-    text += ' https://minyami.net/';
 
     if (!pic) {
       // 不带图
@@ -111,6 +122,8 @@ module.exports = {
     } else {
       // 带图
       // 记录任务
+      text += ` https://minyami.net/${id2ShortUrl(id)}`;
+
       const job = await Job.create({
         type: 'push',
         info: JSON.stringify({
