@@ -19,7 +19,7 @@ module.exports = {
    * @param event
    * @param id
    */
-  pushSocial: async function (event) {
+  pushSocial: async function (event, eventId) {
     // Try to parse event
     let parseResults = [{
       text: undefined,
@@ -62,12 +62,10 @@ module.exports = {
           const parser = require('./EventParser/EEW');
           parseResults = await parser.parse(event);
         } else {
-          if (event.level === 4 || event.level === 5) {
-            const WeiboPusher = require('./Pusher/Weibo');
-            WeiboPusher.sendWeibo(`${event.data.title} : ${event.data.content}`, event.id).then(() => {
-              //
-            });
-          }
+          const WeiboPusher = require('./Pusher/Weibo');
+          WeiboPusher.sendWeibo(`${event.data.title} : ${event.data.content}`, eventId).then(() => {
+            //
+          });
           return;
         }
         break;
@@ -75,7 +73,7 @@ module.exports = {
       default: {
         if (event.level === 4 || event.level === 5) {
           const WeiboPusher = require('./Pusher/Weibo');
-          WeiboPusher.sendWeibo(`${event.data.title} : ${event.data.content}`, event.id).then(() => {
+          WeiboPusher.sendWeibo(`${event.data.title} : ${event.data.content}`, eventId).then(() => {
             //
           });
         }
@@ -84,7 +82,7 @@ module.exports = {
     }
     const WeiboPusher = require('./Pusher/Weibo');
     for (const result of parseResults) {
-      await WeiboPusher.sendWeibo(result.text, event.id, result.pic, result.deleteImage);
+      await WeiboPusher.sendWeibo(result.text, eventId, result.pic, result.deleteImage);
       await CommonUtils.sleep(2000);
     }
   }

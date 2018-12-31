@@ -68,7 +68,7 @@ module.exports = {
           };
           PushService.sendSocket('normal', messageBody);
           // 推送到微博
-          PushService.pushSocial(event);
+          PushService.pushSocial(event, result);
           // 推送到 Telegram
           PushService.sendTeleGram(`Level.${event.level} - ${event.data.title}
 ${event.data.content}
