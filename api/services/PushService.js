@@ -17,7 +17,7 @@ module.exports = {
   /**
    * 推送到社交平台
    * @param event
-   * @param id
+   * @param eventId
    */
   pushSocial: async function (event, eventId) {
     // Try to parse event

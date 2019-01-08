@@ -53,7 +53,7 @@ module.exports = {
           level: event.level,
           hash: event.hash,
           data: typeof event.data === 'object' ? JSON.stringify(event.data) : event.data // 字符类型入库
-        });
+        }).fetch();
 
         createdEvents.push(result);
 
@@ -68,7 +68,7 @@ module.exports = {
           };
           PushService.sendSocket('normal', messageBody);
           // 推送到微博
-          PushService.pushSocial(event, result);
+          PushService.pushSocial(event, result.id);
           // 推送到 Telegram
           PushService.sendTeleGram(`Level.${event.level} - ${event.data.title}
 ${event.data.content}
