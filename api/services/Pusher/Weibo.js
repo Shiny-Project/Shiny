@@ -15,7 +15,7 @@ module.exports = {
     };
 
     // 分隔超长微博
-    const splitByLength = (str, length = 110) => {
+    const splitByLength = (str, length = 110, addIndex = true) => {
       const result = [];
       let counter = 0;
       let tempStr = "";
@@ -31,7 +31,7 @@ module.exports = {
       if (tempStr.length > 0) {
         result.push(`${tempStr} https://minyami.net/${id2ShortUrl(id)}`);
       }
-      if (result.length > 1) {
+      if (result.length > 1 && addIndex) {
         // 多条时显示发送序号
         return result.map((v, i) => `(${i + 1}/${result.length}) ${v}`);
       } else {
@@ -122,6 +122,7 @@ module.exports = {
     } else {
       // 带图
       // 记录任务
+      text = splitByLength(text, 110, false)[0];
       text += ` https://minyami.net/${id2ShortUrl(id)}`;
 
       const job = await Job.create({
