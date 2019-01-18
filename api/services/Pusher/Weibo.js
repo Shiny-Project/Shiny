@@ -15,7 +15,7 @@ module.exports = {
     };
 
     // 分隔超长微博
-    const splitByLength = (str, length = 110, addIndex = true) => {
+    const splitByLength = (str, length = 95, addIndex = true) => {
       const result = [];
       let counter = 0;
       let tempStr = "";
@@ -23,13 +23,13 @@ module.exports = {
         counter += getLength(i);
         tempStr += i;
         if (counter >= length) {
-          result.push(`${tempStr} https://minyami.net/${id2ShortUrl(id)}`);
+          result.push(`${tempStr}`);
           tempStr = "";
           counter = 0;
         }
       }
       if (tempStr.length > 0) {
-        result.push(`${tempStr} https://minyami.net/${id2ShortUrl(id)}`);
+        result.push(`${tempStr}`);
       }
       if (result.length > 1 && addIndex) {
         // 多条时显示发送序号
@@ -79,7 +79,7 @@ module.exports = {
               url: 'https://api.weibo.com/2/statuses/share.json',
               form: {
                 access_token: accessKey,
-                status: i
+                status: i + ` https://minyami.net/${id2ShortUrl(id)}`
               }
             });
             retries = 0;
@@ -122,7 +122,7 @@ module.exports = {
     } else {
       // 带图
       // 记录任务
-      text = splitByLength(text, 110, false)[0];
+      text = splitByLength(text, 95, false)[0];
       text += ` https://minyami.net/${id2ShortUrl(id)}`;
 
       const job = await Job.create({
