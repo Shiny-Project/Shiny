@@ -76,6 +76,7 @@ ${event.data.link}`);
         }
       }
     } catch (e) {
+      console.log(e);
       return response.error(500, 'database_error', '数据库读写错误');
     }
     return response.success(createdEvents);
