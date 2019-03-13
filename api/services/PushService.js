@@ -70,6 +70,11 @@ module.exports = {
         }
         break;
       }
+      case 'tsunami_warning': {
+        const parser = require('./EventParser/TsunamiWarning');
+        parseResults = await parser.parse(event);
+        break;
+      }
       default: {
         if (event.level === 4 || event.level === 5) {
           const WeiboPusher = require('./Pusher/Weibo');
