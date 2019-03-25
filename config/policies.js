@@ -104,5 +104,9 @@ module.exports.policies = {
     'list': ['isLogin', 'isAdmin'],
     'delete': ['isPost', 'isLogin', 'isAdmin'],
     'create': ['isPost', 'isLogin', 'isAdmin']
+  },
+  ToolController: {
+	  '*' : false,
+    'parseYouTube': ['isPost']
   }
 };
