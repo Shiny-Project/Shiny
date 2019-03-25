@@ -19,7 +19,7 @@ module.exports = {
         url = stdout.split("\n")[1];
       }
       try{
-        const cookies = fs.readFileSync(`./${timestamp}.txt`, "utf-8").split("\n").slice(4, 6);
+        const cookies = fs.readFileSync(`./${timestamp}.txt`, "utf-8").split("\n");
         for (const c of cookies){
           const t = c.split("\t");
           parsedCookies.push(`${t[5]}=${t[6]}`);
