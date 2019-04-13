@@ -75,6 +75,11 @@ module.exports = {
         parseResults = await parser.parse(event);
         break;
       }
+      case 'tsunami_estimation': {
+        const parser = require('./EventParser/TsunamiEstimation');
+        parseResults = await parser.parse(event);
+        break;
+      }
       default: {
         if (event.level === 4 || event.level === 5) {
           const WeiboPusher = require('./Pusher/Weibo');

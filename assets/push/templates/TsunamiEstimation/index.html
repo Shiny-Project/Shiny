@@ -97,7 +97,7 @@
 </style>
 <script>
   (() => {
-    // const data = utils.getParameter();
+    const data = utils.getParameter();
 
     const header = document.getElementById('alert-area-header');
     const insert = (areaName, height, time) => {
@@ -117,7 +117,9 @@
       item.appendChild(timeNode);
       header.parentElement.appendChild(item);
     };
-
-    insert('东京湾内湾', '10m以上', '立即到达');
+    const estimationItems = data.estimation;
+    estimationItems.forEach(item => {
+      insert(item.name, item.height, item.time);
+    });
   })()
 </script>
