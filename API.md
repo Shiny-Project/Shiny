@@ -148,7 +148,7 @@
 | `CMAAlert` | 中控 | CMA全国气象预警 |
 | `Flood` | 中控 | 洪水警报 |
 | `USGSEarthquake` | 中控 | USGS全球显著地震速报 |
-| `TsunamiEstimation` | 中控 | 海啸到达时间和高度预测 | 
+| `tsunami_estimation` | 中控 | 海啸到达时间和高度预测 | 
 
 ### 紧急地震速报
 
