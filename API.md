@@ -201,6 +201,7 @@ interface EstimationItem {
     height: string;
     time: string;
     name: string;
+    type: "warning" | "notice" | "alert"
 }
 ```
 其中键名为观测点名称。
@@ -210,13 +211,15 @@ interface EstimationItem {
 [{
     "height": "10米以上",
     "time": "立即到达",
-    "name": "东京湾内湾"
+    "name": "东京湾内湾",
+    "type": "alert"
 }, {
     "height": "3米",
     "time": "立即到达",
-    "name": "福岛县"
+    "name": "福岛县",
+    "type": "warning"
 }]
 ```
 
-注意，请按高度降序排列。
+注意，中控不会对此列表排序。
 
