@@ -7,39 +7,35 @@
 
 module.exports = {
   /**
-   * 绑定设备与账户或者直接注册
+   * 用户注册
    * @param request
    * @param response
    * @returns {*}
    */
-  create: function (request, response) {
-    let email = request.param('email');
-    let password = request.param('password');
+  create: async function (request, response) {
+    const email = request.param('email');
+    const password = request.param('password');
 
     if (!email || !password) {
       return response.error(400, 'missing_parameters', '缺少必要参数');
     }
-
-    User.findOne({
-      'email': email
-    }).then(user => {
-      if (user) {
-        return response.error(403, 'user_already_existed', '用户已经存在');
-      }
-      else {
-        // 新用户
-        User.create({
-          'email': email,
-          'password': EncryptionService.doEncryption(password),
-        }).then(newUser => {
-          return response.success({
-            'id': newUser.id
-          })
-        }).catch(err => {
-          return response.error(500, 'database_error', '数据库通信错误');
-        })
-      }
-    })
+    const user = await User.findOne({
+      email,
+    });
+    if (user) {
+      return response.error(403, 'user_already_existed', '用户已经存在');
+    }
+    try {
+      const newUser = await User.create({
+        email,
+        'password': EncryptionService.doEncryption(password),
+      }).fetch();
+      return response.success({
+        'id': newUser.id
+      });
+    } catch (e) {
+      return response.error(500, 'database_error', '数据库通信错误');
+    }
   },
   /**
    * 查询用户信息
@@ -47,25 +43,25 @@ module.exports = {
    * @param response
    * @returns {*}
    */
-  info: function (request, response) {
-    let id = request.param('id');
+  info: async function (request, response) {
+    const id = request.param('id');
 
     if (!id) {
       return response.error(400, 'miss_parameters', '缺少必要参数');
     }
 
-
-    User.findOne({
+    const user = await User.findOne({
       id
-    }).then(user => {
-      if (!user) {
-        return response.error(404, 'user_not_found', '不存在的用户')
-      }
-      delete user.password;
-      delete user.fingerprint;
-      delete user.token;
-      return response.success(user);
-    })
+    });
+
+    if (!user) {
+      return response.error(404, 'user_not_found', '不存在的用户');
+    }
+
+    delete user.password;
+    delete user.fingerprint;
+    delete user.token;
+    return response.success(user);
   },
   /**
    * 登录
@@ -73,61 +69,60 @@ module.exports = {
    * @param response
    * @returns {*}
    */
-  login: function (request, response) {
-    let email = request.param('email');
-    let password = request.param('password');
+  login: async function (request, response) {
+    const email = request.param('email');
+    const password = request.param('password');
 
     if (!email || !password) {
       return response.error(400, 'miss_parameters', '缺少必要参数');
     }
 
-    User.findOne({
-      'email': email
-    }).then(user => {
+    try {
+      const user = await User.findOne({
+        email
+      });
+
       if (!user) {
         return response.error(404, 'user_not_found', '不存在的用户');
       }
 
-      if (EncryptionService.compare(password, user.password)) {
-        // 登录成功
-        let remember_token = CommonUtils.generateToken();
-        request.session.uid = user.id;
-        response.cookie('uid', user.id, {
-          maxAge: 60 * 60 * 24 * 365
-        });
-        response.cookie('remember_token', remember_token, {
-          maxAge: 60 * 60 * 24 * 365
-        });
-        response.cookie('token', EncryptionService.doEncryption(user.id + user.password + remember_token), {
-          // uuid+密码拼接 保证 改密码后失效 并每次登陆唯一
-          maxAge: 60 * 60 * 24 * 365
-        });
-
-        if (!user.token) {
-          const newToken = new Buffer(require('node-uuid').v4()).toString('base64');
-          user.token = new Buffer(require('node-uuid').v4()).toString('base64');
-          User.update({
-            email
-          }, {
-            token: newToken
-          }).then(() => {
-            return response.success({
-              'uid': user.id,
-              'token': newToken
-            });
-          });
-        }
-        response.success({
-          uid: user.id,
-          token: user.token
-        })
-      }
-      else {
+      if (!EncryptionService.compare(password, user.password)) {
         return response.error(403, 'wrong_password', '密码错误');
       }
-    }).catch(e => {
+      // 登录成功
+      let remember_token = CommonUtils.generateToken();
+      request.session.uid = user.id;
+      response.cookie('uid', user.id, {
+        maxAge: 60 * 60 * 24 * 365
+      });
+      response.cookie('remember_token', remember_token, {
+        maxAge: 60 * 60 * 24 * 365
+      });
+      response.cookie('token', EncryptionService.doEncryption(user.id + user.password + remember_token), {
+        // uuid+密码拼接 保证 改密码后失效 并每次登陆唯一
+        maxAge: 60 * 60 * 24 * 365
+      });
+
+      if (!user.token) {
+        const newToken = new Buffer(require('node-uuid').v4()).toString('base64');
+        user.token = new Buffer(require('node-uuid').v4()).toString('base64');
+        await User.update({
+          email
+        }, {
+          token: newToken
+        });
+        return response.success({
+          'uid': user.id,
+          'token': newToken
+        });
+      }
+      return response.success({
+        uid: user.id,
+        token: user.token
+      })
+    } catch (e) {
       return response.error(500, 'database_error', '数据库通信错误');
-    })
+    }
   },
   /**
    * 登出
