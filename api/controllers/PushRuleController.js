@@ -95,12 +95,6 @@ module.exports = {
     }
 
     try {
-      const rule = await PushRule.findOne({
-        spider_name: spiderName
-      });
-      if (rule) {
-        return response.error(400, 'duplicated_rule', '该 spider 已经有规则');
-      }
       const result = await PushRule.update({
         id: ruleId
       }).set({
