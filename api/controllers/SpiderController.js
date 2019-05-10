@@ -13,7 +13,7 @@ module.exports = {
    */
 	list:function (request, response) {
     Spider.find().then(list=>{
-      const result = list.forEach(spider => {
+      list.forEach(spider => {
         spider.info = JSON.parse(spider.info);
       });
       return response.success(list);
@@ -36,7 +36,7 @@ module.exports = {
         path,
         description,
         group
-      });
+      }).fetch();
       result[0].info = JSON.parse(result[0].info);
       return response.success(result[0]);
     } catch (e) {

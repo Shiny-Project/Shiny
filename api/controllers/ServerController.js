@@ -38,7 +38,7 @@ module.exports = {
         "group": JSON.stringify(parsedServerGroup),
         "key_pair": null,
         "info": '{}'
-      });
+      }).fetch();
 	    return response.success(newRecord);
     }
     catch (e){

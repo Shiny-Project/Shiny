@@ -22,7 +22,7 @@ module.exports = {
         platform,
         name,
         credential
-      });
+      }).fetch();
       result.credential = JSON.parse(result.credential);
       return response.success(result);
     } catch (e) {

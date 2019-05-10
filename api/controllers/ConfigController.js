@@ -109,7 +109,7 @@ module.exports = {
       const createdConfig = await Config.create({
         key,
         value
-      });
+      }).fetch();
       return response.success(createdConfig);
     } catch (e) {
       return response.error(500, 'database_error', '数据库读写错误');

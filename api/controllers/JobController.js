@@ -94,7 +94,7 @@ module.exports = {
       }
       try {
         // 把新的任务记录到数据库
-        const result = await Job.create(newJob);
+        const result = await Job.create(newJob).fetch();
         newJob.id = result.id;
         jobs.push(newJob);
         // 推送新任务通知
@@ -140,10 +140,10 @@ module.exports = {
         }
         result = await Job.update({
           id: jobId,
-        }, {
+        }).set({
           status: status,
           done_by: doneBy
-        });
+        }).fetch();
         // 更新调用时间
         const job = await Job.findOne({
           id: jobId
@@ -153,16 +153,16 @@ module.exports = {
         });
         await Spider.update({
           name: job.spider
-        }, {
+        }).set({
           trigger_time: CommonUtils.generateDateTimeByOffset(0),
           trigger_count: parseInt(spider.trigger_count) + 1
-        });
+        }).fetch();
       } else {
         result = await Job.update({
           id: jobId,
-        }, {
+        }).set({
           status: status
-        });
+        }).fetch();
       }
 
       sails.io.sockets.emit('job', {
@@ -200,7 +200,7 @@ module.exports = {
       return response.success({
         total,
         jobs
-      })
+      });
     } catch (e) {
       return response.error(500, "database_error", "数据库读写错误");
     }

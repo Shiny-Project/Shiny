@@ -29,7 +29,7 @@ module.exports = {
       const result = await PushRule.create({
         spider_name: spiderName,
         rule
-      });
+      }).fetch();
       return response.success(result);
     } catch (e) {
       return response.error(500, "database_error", "数据库读写错误");
