@@ -205,7 +205,27 @@ ${event.data.link}`);
       return response.error(500, 'database_error', '数据库读写错误');
     });
   },
-  test: async (request, response) => {
-    return response.success();
+  detail: async (request, response) => {
+    const eventId = request.param('eventId');
+    if (!eventId) {
+      return response.error(400, 'missing_parameters', '缺少必要参数');
+    }
+    try {
+      const event = await Data.findOne({
+        id: eventId
+      });
+      if (!event) {
+        return response.error(404, 'event_not_found', '事件不存在');
+      }
+      const jobs = await PushHistory.find({
+        event_id: eventId
+      }).populate('logs');
+      return response.success({
+        id: event.id,
+        jobs
+      });
+    } catch (e) {
+      return response.error(500, "database_error", "数据库读写错误");
+    }
   }
 };

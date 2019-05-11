@@ -41,7 +41,7 @@ module.exports.policies = {
     'view': true,
     'info': true,
     'rate': 'isPost',
-    'test': ['isLatestVersion'],
+    'detail': true,
     'statistics': true
   },
   JobController: {
