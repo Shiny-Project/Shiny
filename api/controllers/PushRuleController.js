@@ -14,15 +14,14 @@ module.exports = {
     }
 
     try {
-      const rule = await PushRule.findOne({
+      const oldRule = await PushRule.findOne({
         spider_name: spiderName
       });
-      if (rule) {
+      if (oldRule) {
         return response.error(400, 'duplicated_rule', '该 spider 已经有规则');
       }
-      JSON.parse(rule);
     } catch (e) {
-      return response.response(400, 'bad_json', '无法解析JSON');
+      return response.error(400, 'bad_json', '无法解析JSON');
     }
 
     try {
