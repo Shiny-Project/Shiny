@@ -106,11 +106,11 @@ module.exports = {
       for (const result of parseResults) {
         try {
           // 交由 Shiny Push 进行推送
-          const createdJobs = await axios.post('http://push.shiny.kotori.moe/push/send', {
+          const createdJobs = (await axios.post('http://push.shiny.kotori.moe/push/send', {
             channels: parsedRule.channels,
             text: result.text,
             images: result.pic ? [result.pic] : undefined
-          });
+          })).data;
           const jobIds = Array.from(createdJobs, i => i.id);
           // 绑定任务与事件
           await PushHistory.update({

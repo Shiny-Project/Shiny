@@ -229,6 +229,14 @@ ${event.data.link}`);
     }
   },
   test: async (request, response) => {
+    const event = {
+      id: 773,
+      spiderName: 'CMAAlert',
+      level: 3,
+      hash: '67a65fd3fdd7d948025cffafb988282c',
+      data: {"alertName":"大雾黄色","content":"中央气象台5月11日18时发布大雾黄色预警(2019-05-12)","cover":"https://upload.wikimedia.org/wikipedia/commons/5/51/Yellow_heavy_fog_alert_-_China.svg","description":"12小时内可能出现能见度小于500米的浓雾，或者已经出现能见度小于500米、大于等于200米的浓雾且可能持续。","link":"http://www.nmc.cn/publish/country/warning/fog.html","title":"CMA·全国级预警速报"}
+    };
+    PushService.pushSocial(event, 773);
     return response.success();
   }
 };
