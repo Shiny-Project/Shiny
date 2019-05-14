@@ -1,3 +1,4 @@
+const path = require('path');
 module.exports = {
   /**
    * 生成一个随机Token
@@ -52,7 +53,7 @@ module.exports = {
     ).toString('base64');
   },
   screenshot: async (url, prefix = 'image') => {
-    const path = `output/${prefix}-${new Date().valueOf().toString()}.png`;
+    const outputPath = path.resolve(__dirname, `../../output/${prefix}-${new Date().valueOf().toString()}.png`);
     const puppeteer = require('puppeteer');
     const browser = await puppeteer.launch({
       args: ['--no-sandbox']
@@ -64,10 +65,10 @@ module.exports = {
     });
     await page.goto(url);
     await page.screenshot({
-      path: path
+      path: outputPath
     });
     await browser.close();
-    return path;
+    return outputPath;
   },
   // Sleep
   sleep: time => new Promise(resolve => setTimeout(resolve, time)),

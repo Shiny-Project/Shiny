@@ -92,7 +92,7 @@ module.exports = {
       }
     }
     const pushRule = await PushRule.findOne({
-      publisher: event.spiderName
+      spider_name: event.spiderName
     });
     if (!pushRule) {
       // 无对应规则 fallback到旧模式
@@ -113,8 +113,7 @@ module.exports = {
           });
           const jobIds = Array.from(createdJobs, i => i.id);
           // 绑定任务与事件
-          // ↓不阻塞
-          PushHistory.update({
+          await PushHistory.update({
             id: { in: jobIds }
           }).set({
             event_id: eventId

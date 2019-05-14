@@ -229,6 +229,6 @@ ${event.data.link}`);
     }
   },
   test: async (request, response) => {
-    return response.success(result);
+    return response.success();
   }
 };
