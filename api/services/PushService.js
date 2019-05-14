@@ -1,4 +1,5 @@
 const CommonUtils = require('./CommonUtils');
+const axios = require('axios');
 
 module.exports = {
   /**
@@ -90,10 +91,39 @@ module.exports = {
         return;
       }
     }
-    const WeiboPusher = require('./Pusher/Weibo');
-    for (const result of parseResults) {
-      await WeiboPusher.sendWeibo(result.text, eventId, result.pic, result.deleteImage);
-      await CommonUtils.sleep(2000);
+    const pushRule = await PushRule.findOne({
+      publisher: event.spiderName
+    });
+    if (!pushRule) {
+      // 无对应规则 fallback到旧模式
+      const WeiboPusher = require('./Pusher/Weibo');
+      for (const result of parseResults) {
+        await WeiboPusher.sendWeibo(result.text, eventId, result.pic);
+        await CommonUtils.sleep(2000);
+      }
+    } else {
+      const parsedRule = JSON.parse(pushRule.rule);
+      for (const result of parseResults) {
+        try {
+          // 交由 Shiny Push 进行推送
+          const createdJobs = await axios.post('http://push.shiny.kotori.moe/push/send', {
+            channels: parsedRule.channels,
+            text: result.text,
+            images: result.pic ? [result.pic] : undefined
+          });
+          const jobIds = Array.from(createdJobs, i => i.id);
+          // 绑定任务与事件
+          // ↓不阻塞
+          PushHistory.update({
+            id: { in: jobIds }
+          }).set({
+            event_id: eventId
+          });
+        } catch (e) {
+          console.log('与 Shiny-Push 通信失败');
+          console.log(e);
+        }
+      }
     }
   }
 };

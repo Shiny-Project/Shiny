@@ -51,8 +51,8 @@ module.exports = {
       )
     ).toString('base64');
   },
-  screenshot: async (url) => {
-    const path = './' + CommonUtils.generateRandomFileName('png');
+  screenshot: async (url, prefix = 'image') => {
+    const path = `output/${prefix}-${new Date().valueOf().toString()}.png`;
     const puppeteer = require('puppeteer');
     const browser = await puppeteer.launch({
       args: ['--no-sandbox']

@@ -42,7 +42,8 @@ module.exports.policies = {
     'info': true,
     'rate': 'isPost',
     'detail': true,
-    'statistics': true
+    'statistics': true,
+    'test': true
   },
   JobController: {
     '*': false,
@@ -81,6 +82,13 @@ module.exports.policies = {
     'delete': ['isPost', 'isLogin', 'isAdmin']
   },
   PushAccountController: {
+	  '*': false,
+    'create': ['isPost', 'isLogin', 'isAdmin'],
+    'list': ['isLogin', 'isAdmin'],
+    'delete': ['isPost', 'isLogin', 'isAdmin'],
+    'edit': ['isPost', 'isLogin', 'isAdmin']
+  },
+  PushRuleController: {
 	  '*': false,
     'create': ['isPost', 'isLogin', 'isAdmin'],
     'list': ['isLogin', 'isAdmin'],

@@ -227,5 +227,8 @@ ${event.data.link}`);
     } catch (e) {
       return response.error(500, "database_error", "数据库读写错误");
     }
+  },
+  test: async (request, response) => {
+    return response.success(result);
   }
 };

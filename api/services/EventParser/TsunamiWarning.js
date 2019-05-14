@@ -9,8 +9,7 @@ module.exports = {
 
     return [{
       text: event.data.content,
-      pic: response.data.path,
-      deleteImage: false
+      pic: response.data.path
     }];
   }
 };

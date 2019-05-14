@@ -4,9 +4,8 @@ module.exports = {
    * @param text
    * @param id
    * @param pic
-   * @param deleteImage
    */
-  sendWeibo: async function (text, id = 0, pic = undefined, deleteImage = true) {
+  sendWeibo: async function (text, id = 0, pic = undefined) {
     // 微博字数
     const getLength = (str) => {
       const unicodeCharacters = str.match(/[^\x00-\x80]/g) || [];
@@ -176,10 +175,6 @@ module.exports = {
             response: response
           })
         });
-      }
-      // 删除图片
-      if (deleteImage) {
-        fs.unlinkSync(pic);
       }
     }
   },
