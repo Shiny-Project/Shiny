@@ -63,11 +63,9 @@ module.exports = {
           const parser = require('./EventParser/EEW');
           parseResults = await parser.parse(event);
         } else {
-          const WeiboPusher = require('./Pusher/Weibo');
-          WeiboPusher.sendWeibo(`${event.data.title} : ${event.data.content}`, eventId).then(() => {
-            //
-          });
-          return;
+          parseResults = [{
+            text: `${event.data.title} : ${event.data.content}`
+          }];
         }
         break;
       }
