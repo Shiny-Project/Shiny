@@ -42,9 +42,6 @@
 config/local.js
 
 
-
-
-
 ################################################
 # Dependencies
 #
@@ -120,3 +117,4 @@ nbproject
 /config/env/production.js
 /config/env/development.js
 /output/
+/.vscode/
