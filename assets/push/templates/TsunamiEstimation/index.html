@@ -18,6 +18,7 @@
       <div class="alert-item-area bold">区域</div>
       <div class="alert-item-height bold">预测高度</div>
       <div class="alert-item-time bold">预测到达时间</div>
+    <div class="alert-item-type bold">预警类型</div>
     </div>
     </p>
   </div>
@@ -51,7 +52,6 @@
   }
 
   .alert_description {
-    margin-left: 10vw;
     width: 49.5vw;
     height: 90vh;
     display: flex;
@@ -80,27 +80,46 @@
     display: flex;
     min-height: 70px;
     font-size: 2rem;
-    width: 800px;
+    width: 100vw;
   }
 
   .alert-item-area {
-    width: 300px;
+    width: 30vw;
   }
 
   .alert-item-height {
-    width: 200px;
+    width: 15vw;
   }
 
   .alert-item-time {
-    width: 300px;
+    width: 30vw;
+  }
+
+  .alert-item-type {
+    width: 25vw
+  }
+
+  .alert-notice {
+    color: #faf500;
+  }
+  .alert-warning {
+    color: #ff2800;
+  }
+  .alert-alert {
+    color: #c800ff;
   }
 </style>
 <script>
   (() => {
-    const data = utils.getParameter();
+    // const data = utils.getParameter();
 
     const header = document.getElementById('alert-area-header');
-    const insert = (areaName, height, time) => {
+    const insert = (areaName, height, time, type) => {
+      const typeMap = {
+        'notice': '海啸注意报',
+        'warning': '海啸警报',
+        'alert': '大海啸警报'
+      };
       const item = document.createElement('div');
       item.className = 'alert-item';
       const areaNode = document.createElement('div');
@@ -112,14 +131,21 @@
       const timeNode = document.createElement('div');
       timeNode.className = 'alert-item-time';
       timeNode.innerText = time;
+      const typeNode = document.createElement('div');
+      typeNode.className = 'bold alert-item-type';
+      typeNode.innerText = typeMap[type];
+      typeNode.className += ' ' + ('alert-' + type);
       item.appendChild(areaNode);
       item.appendChild(heightNode);
       item.appendChild(timeNode);
+      item.appendChild(typeNode);
       header.parentElement.appendChild(item);
     };
-    const estimationItems = data.estimation;
-    estimationItems.forEach(item => {
-      insert(item.name, item.height, item.time);
-    });
+
+    // const estimationItems = data.estimation;
+    // estimationItems.forEach(item => {
+    //   insert(item.name, item.height, item.time, item.type);
+    // });
+    insert('东京湾内湾', '10m', '即将到达', 'alert')
   })()
 </script>
