@@ -1,4 +1,61 @@
-# API
+## 事件详细数据
+<a id=事件详细数据> </a>
+### 基本信息
+
+**Path：** /Data/detail
+
+**Method：** GET
+
+**接口描述：**
+
+
+### 请求参数
+**Query**
+
+| 参数名称  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ |
+| eventId | 是  |  38162 |  事件ID |
+
+### 返回数据
+
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> id</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">事件ID</span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>@id</span></p></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> jobs</span></td><td key=1><span>object []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">事件关联任务</span></td><td key=5><p key=0><span style="font-weight: '700'">最小数量: </span><span>0</span></p><p key=2><span style="font-weight: '700'">最大数量: </span><span>10</span></p><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-1-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> id</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">推送任务ID</span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>@id</span></p></td></tr><tr key=0-1-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> channel</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">推送渠道</span></td><td key=5><p key=2><span style="font-weight: '700'">枚举: </span><span>twitter,weibo</span></p></td></tr><tr key=0-1-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> status</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">状态</span></td><td key=5><p key=2><span style="font-weight: '700'">枚举: </span><span>pending,success,failed</span></p></td></tr><tr key=0-1-3><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> text</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">推送正文</span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>@paragraph</span></p></td></tr><tr key=0-1-4><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> event_id</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">事件ID</span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>@id</span></p></td></tr><tr key=0-1-5><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> image</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">图片信息</span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>[]</span></p></td></tr><tr key=0-1-6><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> info</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">响应内容</span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>{}</span></p></td></tr><tr key=0-1-7><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> logs</span></td><td key=1><span>object []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">推送任务日志</span></td><td key=5><p key=0><span style="font-weight: '700'">最小数量: </span><span>0</span></p><p key=2><span style="font-weight: '700'">最大数量: </span><span>3</span></p><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-1-7-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> channel</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=2><span style="font-weight: '700'">枚举: </span><span>weibo,twitter</span></p></td></tr><tr key=0-1-7-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> status</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=2><span style="font-weight: '700'">枚举: </span><span>job_created,finished</span></p></td></tr><tr key=0-1-7-2><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> job_id</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>@id</span></p></td></tr><tr key=0-1-7-3><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> info</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">响应内容</span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>{}</span></p></td></tr><tr key=0-1-7-4><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> createdAt</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>@datetime</span></p></td></tr><tr key=0-1-7-5><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> updatedAt</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>@datetime</span></p></td></tr><tr key=0-1-8><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> createdAt</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>@datetime</span></p></td></tr><tr key=0-1-9><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> updatedAt</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>@datetime</span></p></td></tr>
+               </tbody>
+              </table>
+            
+## 获取最近事件
+<a id=获取最近事件> </a>
+### 基本信息
+
+**Path：** /Data/recent
+
+**Method：** GET
+
+**接口描述：**
+
+
+### 请求参数
+**Query**
+
+| 参数名称  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ |
+| page | 否  |  1 |  页数 |
+
+### 返回数据
+
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> total</span></td><td key=1><span>integer</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">总事件数量</span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>@integer(30000,40000)</span></p></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> events</span></td><td key=1><span>object []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">事件</span></td><td key=5><p key=0><span style="font-weight: '700'">最小数量: </span><span>20</span></p><p key=2><span style="font-weight: '700'">最大数量: </span><span>20</span></p><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-1-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> id</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">事件ID</span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>@id</span></p></td></tr><tr key=0-1-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">事件详细数据</span></td><td key=5></td></tr><tr key=0-1-1-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> title</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">标题</span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>@title</span></p></td></tr><tr key=0-1-1-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> cover</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">封面</span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>@url</span></p></td></tr><tr key=0-1-1-2><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> link</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">链接</span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>@url</span></p></td></tr><tr key=0-1-1-3><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> content</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">内容</span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>@paragraph</span></p></td></tr><tr key=0-1-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> publisher</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">发布者</span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>@word</span></p></td></tr><tr key=0-1-3><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> level</span></td><td key=1><span>integer</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">事件等级</span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>@integer(1,5)</span></p></td></tr><tr key=0-1-4><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> createdAt</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>@datetime</span></p></td></tr><tr key=0-1-5><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> updatedAt</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>@datetime</span></p></td></tr><tr key=0-1-6><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> hash</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=5><span style="font-weight: '700'">mock: </span><span>@string(32)</span></p></td></tr>
+               </tbody>
+              </table>
+            
 ## 添加数据
 地址: `https://shiny.kotori.moe/Data/add`
 
