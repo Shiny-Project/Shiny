@@ -79,6 +79,12 @@ module.exports = {
         parseResults = await parser.parse(event);
         break;
       }
+      case 'jma': {
+        parseResults = [{
+          text: `${event.data.title} : ${event.data.content}`
+        }];
+        break;
+      }
       default: {
         if (event.level === 4 || event.level === 5) {
           const WeiboPusher = require('./Pusher/Weibo');
