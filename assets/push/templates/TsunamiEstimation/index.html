@@ -142,10 +142,9 @@
       header.parentElement.appendChild(item);
     };
 
-    // const estimationItems = data.estimation;
-    // estimationItems.forEach(item => {
-    //   insert(item.name, item.height, item.time, item.type);
-    // });
-    insert('东京湾内湾', '10m', '即将到达', 'alert')
+    const estimationItems = data.estimation;
+    estimationItems.forEach(item => {
+      insert(item.name, item.height, item.time, item.type);
+    });
   })()
 </script>
