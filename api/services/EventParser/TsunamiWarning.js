@@ -3,7 +3,7 @@ module.exports = {
     const axios = require('axios');
 
     const response = await axios.post('http://localhost:3000/Map/tsunami_warning', {
-      type: JSON.stringify(event.data.type),
+      type: event.data.type,
       warning: JSON.stringify(event.data.warning)
     });
 
