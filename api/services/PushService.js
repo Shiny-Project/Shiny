@@ -79,6 +79,11 @@ module.exports = {
         parseResults = await parser.parse(event);
         break;
       }
+      case 'tsunami_observation': {
+        const parser = require('./EventParser/TsunamiObservation');
+        parseResults = await parser.parse(event);
+        break;
+      }
       case 'jma': {
         parseResults = [{
           text: `${event.data.title} : ${event.data.content}`
