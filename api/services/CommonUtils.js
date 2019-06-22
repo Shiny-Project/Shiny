@@ -43,12 +43,17 @@ module.exports = {
    * @returns {string}
    */
   encodeBase64: (event) => {
+    const data = event.data;
+    try {
+      if (sails) {
+        data.__apiKeys = sails.config.common.__apiKeys // 插入 可能用到的 API Key
+      }
+    } catch (e) {
+      // pass
+    }
     return Buffer.from(
       encodeURIComponent(
-        JSON.stringify({
-          ...event.data,
-          __apiKeys: sails.config.common.__apiKeys // 插入 可能用到的 API Key
-        })
+        JSON.stringify(data)
       )
     ).toString('base64');
   },

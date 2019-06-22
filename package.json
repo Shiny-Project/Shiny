@@ -41,7 +41,8 @@
   },
   "scripts": {
     "debug": "node debug app.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "test:e2e": "nightwatch"
   },
   "main": "app.js",
   "repository": {
@@ -49,5 +50,9 @@
     "url": "git://github.com/Shiny-Project/Shiny"
   },
   "author": "Eridanus Sora",
-  "license": ""
+  "license": "",
+  "devDependencies": {
+    "chromedriver": "^75.0.0",
+    "nightwatch": "^1.1.12"
+  }
 }
