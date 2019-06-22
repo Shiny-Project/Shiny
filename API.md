@@ -198,13 +198,15 @@
 
 ```TypeScript
 interface EstimationItem {
+    /** 预测高度 */
     height: string;
+   /** 预测到达时间 */
     time: string;
+    /** 地区名 */
     name: string;
     type: "warning" | "notice" | "alert"
 }
 ```
-其中键名为观测点名称。
 
 示例：
 ```JSON
@@ -223,3 +225,25 @@ interface EstimationItem {
 
 注意，中控不会对此列表排序。
 
+### 海啸观测情报
+
+在`data`中添加以下字段
+
+| 字段名 | 类型 | 说明 |
+| ------| ------| ---|
+| observation | ObservationItem[] | 观测信息 |
+
+对观测信息项目定义如下
+
+```TypeScript
+interface ObservationItem {
+    /** 观测高度 */
+    height: string;
+    /** 预测时间 */
+    time: string;
+    /** 观测点名 */
+    name: string;
+}
+```
+
+注意，中控不会对此列表排序。
