@@ -118,3 +118,4 @@ nbproject
 /config/env/development.js
 /output/
 /.vscode/
+/tests_output/
