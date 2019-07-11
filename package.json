@@ -6,7 +6,7 @@
   "keywords": [],
   "dependencies": {
     "async": "2.1.4",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "bcryptjs": "latest",
     "bluebird": "^3.5.1",
     "cheerio": "^0.20.0",
