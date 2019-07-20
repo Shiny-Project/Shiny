@@ -7,7 +7,7 @@ module.exports = {
       请保持高度警惕，特别警报往往意味着可能导致重大伤亡的气象灾害。`, event.id);
     }
     let text = '';
-    if (event.data.isRelease) {
+    if (!event.data.isRelease) {
       text = `【${event.data.alertType.join('、')}特别警报解除】
       ${event.data.areas.join('、')}
       `
