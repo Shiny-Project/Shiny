@@ -72,11 +72,11 @@
   (() => {
     const data = utils.getParameter();
     document.getElementById('description-title').innerText = data.alertType.join('、') + '特别警报';
-    if (data.isRelease) {
+    if (!data.isRelease) {
       document.getElementById('description-title').innerText += '解除'
     }
     document.getElementById('description-areas').innerText = data.areas.join('、');
-    if (data.isRelease) {
+    if (!data.isRelease) {
       document.getElementById('description-detail').innerText = '特别警报现已对上述地区解除';
     }
   })()
