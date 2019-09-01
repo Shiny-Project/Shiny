@@ -107,7 +107,7 @@ module.exports.policies = {
   },
   ConfigController: {
 	  '*': false,
-    'get': ['isLogin', 'isAdmin'],
+    'get': true,
     'edit': ['isPost', 'isLogin', 'isAdmin'],
     'list': ['isLogin', 'isAdmin'],
     'delete': ['isPost', 'isLogin', 'isAdmin'],
