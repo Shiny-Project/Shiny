@@ -20,22 +20,22 @@
 module.exports.policies = {
 
   /***************************************************************************
-  *                                                                          *
-  * Default policy for all controllers and actions (`true` allows public     *
-  * access)                                                                  *
-  *                                                                          *
-  ***************************************************************************/
+   *                                                                          *
+   * Default policy for all controllers and actions (`true` allows public     *
+   * access)                                                                  *
+   *                                                                          *
+   ***************************************************************************/
 
   // '*': true,
 
   /***************************************************************************
-  *                                                                          *
-  * Here's an example of mapping some policies to run before a controller    *
-  * and its actions                                                          *
-  *                                                                          *
-  ***************************************************************************/
-	DataController:{
-	  '*': false,
+   *                                                                          *
+   * Here's an example of mapping some policies to run before a controller    *
+   * and its actions                                                          *
+   *                                                                          *
+   ***************************************************************************/
+  DataController: {
+    '*': false,
     'add': ['isPost', 'authSign'],
     'recent': true,
     'view': true,
@@ -43,7 +43,6 @@ module.exports.policies = {
     'rate': 'isPost',
     'detail': true,
     'statistics': true,
-    'test': true
   },
   JobController: {
     '*': false,
@@ -51,7 +50,7 @@ module.exports.policies = {
     'report': ['isPost', 'authSign'],
     'recent': ['isLogin', 'isAdmin']
   },
-  UserController:{
+  UserController: {
     '*': false,
     'create': 'isPost',
     'info': true,
@@ -61,7 +60,7 @@ module.exports.policies = {
     'subscribe': ['isPost', 'isLogin'],
     'unsubscribe': ['isPost', 'isLogin']
   },
-  SpiderController:{
+  SpiderController: {
     '*': false,
     'list': true,
     'updateFrequency': ['isPost', 'isLogin', 'isAdmin'],
@@ -69,52 +68,57 @@ module.exports.policies = {
     'update': ['isPost', 'isLogin', 'isAdmin']
   },
   SpiderIdentityController: {
-	  '*': false,
+    '*': false,
     'list': ['isLogin', 'isAdmin'],
     'create': ['isPost', 'isLogin', 'isAdmin'],
     'edit': ['isPost', 'isLogin', 'isAdmin'],
     'delete': ['isPost', 'isLogin', 'isAdmin']
   },
   ServerController: {
-	  '*': false,
+    '*': false,
     'add': ['isPost', 'isLogin', 'isAdmin'],
     'list': true,
     'delete': ['isPost', 'isLogin', 'isAdmin']
   },
   PushAccountController: {
-	  '*': false,
+    '*': false,
     'create': ['isPost', 'isLogin', 'isAdmin'],
     'list': ['isLogin', 'isAdmin'],
     'delete': ['isPost', 'isLogin', 'isAdmin'],
     'edit': ['isPost', 'isLogin', 'isAdmin']
   },
   PushRuleController: {
-	  '*': false,
+    '*': false,
     'create': ['isPost', 'isLogin', 'isAdmin'],
     'list': ['isLogin', 'isAdmin'],
     'delete': ['isPost', 'isLogin', 'isAdmin'],
     'edit': ['isPost', 'isLogin', 'isAdmin']
   },
   ApplicationController: {
-	  '*': false,
+    '*': false,
     'createAPIKeyPairs': ['isPost', 'isLogin', 'isAdmin'],
     'list': ['isLogin', 'isAdmin'],
     'delete': ['isPost', 'isLogin', 'isAdmin']
   },
   LogController: {
-	  '*': false,
+    '*': false,
     'subscribe': true
   },
   ConfigController: {
-	  '*': false,
+    '*': false,
     'get': true,
     'edit': ['isPost', 'isLogin', 'isAdmin'],
     'list': ['isLogin', 'isAdmin'],
     'delete': ['isPost', 'isLogin', 'isAdmin'],
-    'create': ['isPost', 'isLogin', 'isAdmin']
+    'create': ['isPost', 'isLogin', 'isAdmin'],
+    'index': true
   },
   ToolController: {
-	  '*' : false,
+    '*': false,
     'parseYouTube': ['isPost']
+  },
+  SpecialPushLogController: {
+    '*': false,
+    'get': true
   }
 };
