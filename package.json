@@ -8,7 +8,7 @@
     "async": "2.1.4",
     "axios": "^0.18.1",
     "bcryptjs": "latest",
-    "bluebird": "^3.5.1",
+    "bluebird": "^3.5.5",
     "cheerio": "^0.20.0",
     "ejs": "2.5.5",
     "grunt": "^1.0.3",
@@ -22,22 +22,22 @@
     "grunt-contrib-uglify": "^4.0",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-sails-linker": "^1.0",
-    "grunt-sync": "^0.8.0",
+    "grunt-sync": "^0.8.1",
     "include-all": "~0.1.6",
-    "lodash": "latest",
+    "lodash": "^4.17.15",
     "node-uuid": "latest",
-    "puppeteer": "^1.16.0",
+    "puppeteer": "^1.19.0",
     "rc": "^1.2.8",
     "request": "^2.87.0",
     "request-promise": "^4.2.2",
-    "sails": "^1.2.2",
+    "sails": "^1.2.3",
     "sails-disk": "^1.0.1",
-    "sails-hook-grunt": "^3.1",
+    "sails-hook-grunt": "^3.1.1",
     "sails-hook-orm": "^2.0.1",
     "sails-hook-sockets": "^1.5.3",
     "sails-mysql": "^1.0.0",
     "socket.io-client": "^2.2",
-    "youtube-dl": "^1.11.1"
+    "youtube-dl": "^2.0.1"
   },
   "scripts": {
     "debug": "node debug app.js",
@@ -52,7 +52,7 @@
   "author": "Eridanus Sora",
   "license": "",
   "devDependencies": {
-    "chromedriver": "^75.0.0",
-    "nightwatch": "^1.1.12"
+    "chromedriver": "^75.1.0",
+    "nightwatch": "^1.2.2"
   }
 }
