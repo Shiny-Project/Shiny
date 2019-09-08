@@ -111,7 +111,6 @@ module.exports.policies = {
     'list': ['isLogin', 'isAdmin'],
     'delete': ['isPost', 'isLogin', 'isAdmin'],
     'create': ['isPost', 'isLogin', 'isAdmin'],
-    'index': true
   },
   ToolController: {
     '*': false,
@@ -120,5 +119,9 @@ module.exports.policies = {
   SpecialPushLogController: {
     '*': false,
     'get': true
+  },
+  RepositoryController: {
+    '*': false,
+    'list': ['isLogin', 'isAdmin']
   }
 };
