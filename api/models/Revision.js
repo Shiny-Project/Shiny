@@ -21,6 +21,9 @@ module.exports = {
     },
     status: {
       type: 'string'
+    },
+    compare_url: {
+      type: 'string'
     }
   },
 
