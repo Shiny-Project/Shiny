@@ -14,6 +14,10 @@ module.exports = {
       console.log(e);
       return response.error(500, "database_error", "数据库读写错误");
     }
+  },
+  webhook: async (request, response) => {
+    console.log(request.body);
+    return response.success();
   }
 };
 

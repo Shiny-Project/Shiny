@@ -122,6 +122,7 @@ module.exports.policies = {
   },
   RepositoryController: {
     '*': false,
-    'list': ['isLogin', 'isAdmin']
+    'list': ['isLogin', 'isAdmin'],
+    'webhook': true
   }
 };
