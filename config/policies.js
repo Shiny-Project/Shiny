@@ -123,6 +123,6 @@ module.exports.policies = {
   RepositoryController: {
     '*': false,
     'list': ['isLogin', 'isAdmin'],
-    'webhook': true
+    'webhook': ['isPost']
   }
 };
