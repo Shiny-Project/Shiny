@@ -6,6 +6,12 @@
  */
 
 module.exports = {
+  /**
+   * 列出全部仓库
+   * @param request
+   * @param response
+   * @returns {Promise<*>}
+   */
   list: async (request, response) => {
     try {
       const repositories = await Repository.find().populate('revisions');
@@ -14,6 +20,54 @@ module.exports = {
       return response.error(500, "database_error", "数据库读写错误");
     }
   },
+  /**
+   * 创建仓库
+   * @param request
+   * @param response
+   * @returns {Promise<*>}
+   */
+  create: async (request, response) => {
+      const name = request.param("name");
+      const description = request.param("description");
+      if (!name || !description) {
+        return response.error(400, 'missing_parameters', '缺少必要参数');
+      }
+      try {
+        const newRepository = await Repository.create({
+          name,
+          description
+        }).fetch();
+        return response.success(newRepository);
+      } catch (e) {
+        return response.error(500, "database_error", "数据库读写错误");
+      }
+  },
+  /**
+   * 删除仓库
+   * @param request
+   * @param response
+   * @returns {Promise<*>}
+   */
+  delete: async (request, response) => {
+      const repositoryId = request.param('id');
+      if (!repositoryId) {
+        return response.error(400, 'missing_parameters', '缺少必要参数');
+      }
+      try {
+        await Repository.destroy({
+          id: repositoryId
+        });
+        return response.success();
+      } catch (e) {
+        return response.error(500, "database_error", "数据库读写错误");
+      }
+  },
+  /**
+   * GitHub WebHook
+   * @param request
+   * @param response
+   * @returns {Promise<*>}
+   */
   webhook: async (request, response) => {
     if (!CryptoService.checkGitHubWebhookSign(request.body, sails.config.common.github_webhook_secret, request.headers['x-hub-signature'])) {
       return response.error(400, "invalid_sign", "");

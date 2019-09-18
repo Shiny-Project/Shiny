@@ -123,6 +123,8 @@ module.exports.policies = {
   RepositoryController: {
     '*': false,
     'list': ['isLogin', 'isAdmin'],
+    'create': ['isPost', 'isLogin', 'isAdmin'],
+    'delete': ['isPost', 'isLogin', 'isAdmin'],
     'webhook': ['isPost']
   }
 };
