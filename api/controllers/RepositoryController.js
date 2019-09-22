@@ -14,7 +14,10 @@ module.exports = {
    */
   list: async (request, response) => {
     try {
-      const repositories = await Repository.find().populate("revisions");
+      const repositories = await Repository.find().populate("revisions", {
+        sort: "createdAt DESC",
+        limit: 20
+      });
       return response.success(repositories);
     } catch (e) {
       return response.error(500, "database_error", "数据库读写错误");
