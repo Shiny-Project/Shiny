@@ -125,6 +125,7 @@ module.exports.policies = {
     'list': ['isLogin', 'isAdmin'],
     'create': ['isPost', 'isLogin', 'isAdmin'],
     'delete': ['isPost', 'isLogin', 'isAdmin'],
+    'update': ['isPost', 'isLogin', 'isAdmin'],
     'webhook': ['isPost']
   }
 };

@@ -62,7 +62,11 @@ module.exports = {
         name,
         description
       }).fetch();
-      return response.success(updatedRepository);
+      if (updatedRepository.length > 0) {
+        return response.success(updatedRepository[0]);
+      } else {
+        return response.error(404, 'repository_not_found', '找不到对应的仓库');
+      }
     } catch (e) {
       return response.error(500, "database_error", "数据库读写错误");
     }
