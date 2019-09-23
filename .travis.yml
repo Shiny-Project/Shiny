@@ -8,11 +8,6 @@ services:
 install:
   - echo "Skip Install"
 
-deploy:
-  provider: script
-  script: scripts/deploy.sh
-  on:
-    branch: master
 script:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
       docker run -v $(pwd):/data:ro mbologna/docker-tokei | awk '/Total/{print $4 + $5}'>temp.txt;
