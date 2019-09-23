@@ -130,9 +130,9 @@ module.exports = {
    * @returns {Promise<*>}
    */
   updateLines: async (request, response) => {
-    const lines = request.param('lines');
+    const line = request.param('line');
     const name = request.param('name');
-    if (!lines || !name) {
+    if (!line || !name) {
       return response.error(400, "missing_parameters", "缺少必要参数");
     }
     const repository = await Repository.findOne({
@@ -145,7 +145,7 @@ module.exports = {
       const updatedRepository = await Repository.update({
         name
       }, {
-        lines
+        line
       }).fetch();
       return response.success(updatedRepository);
     } catch (e) {

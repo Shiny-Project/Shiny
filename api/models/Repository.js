@@ -22,7 +22,7 @@ module.exports = {
     path: {
       type: 'string'
     },
-    lines: {
+    line: {
       type: 'number'
     },
     revisions: {

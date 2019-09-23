@@ -1,0 +1,18 @@
+language: node
+
+services:
+  - docker
+
+install:
+  - npm install
+
+deploy:
+  provider: script
+  script: scripts/deploy.sh
+  on:
+    branch: master
+script:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+      docker run -v $(pwd):/data:ro mbologna/docker-tokei | awk '/Total/{print $4 + $5}'>temp.txt;
+      curl -H "Content-Type:application/json" -H "X-Shiny-Token:$SHINY_TOKEN" -X POST -d '{"line":'$(cat temp.txt)', name:"Shiny"}' "https://shiny.kotori.moe/Repository/updateLines";
+    fi
