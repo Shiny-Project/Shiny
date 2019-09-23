@@ -16,7 +16,7 @@ deploy:
 script:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
       docker run -v $(pwd):/data:ro mbologna/docker-tokei | awk '/Total/{print $4 + $5}'>temp.txt;
-      cat temp.txt
+      cat temp.txt;
       curl -H "Content-Type:application/json" -H "X-Shiny-Token:$SHINY_TOKEN" -X POST -d '{"line":'$(cat temp.txt)', "name":"Shiny"}' "https://shiny.kotori.moe/Repository/updateLines";
-      rm -f temp.txt
+      rm -f temp.txt;
     fi
