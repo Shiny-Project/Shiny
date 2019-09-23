@@ -1,0 +1,7 @@
+package-lock.json
+tests
+tests_output
+assets/js/dependencies
+assets/styles
+
+

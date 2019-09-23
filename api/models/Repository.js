@@ -19,6 +19,12 @@ module.exports = {
     description: {
       type: 'string'
     },
+    path: {
+      type: 'string'
+    },
+    lines: {
+      type: 'number'
+    },
     revisions: {
       collection: 'Revision',
       via: 'repository_id'

@@ -122,6 +122,35 @@ module.exports = {
     } catch (e) {
       return response.error(500, "database_error", "数据库读写错误");
     }
+  },
+  /**
+   * 更新行数
+   * @param request
+   * @param response
+   * @returns {Promise<*>}
+   */
+  updateLines: async (request, response) => {
+    const lines = request.param('lines');
+    const name = request.param('name');
+    if (!lines || !name) {
+      return response.error(400, "missing_parameters", "缺少必要参数");
+    }
+    const repository = await Repository.findOne({
+      name
+    });
+    if (!repository) {
+      return response.error(404, "repository_not_found", "不存在的仓库");
+    }
+    try {
+      const updatedRepository = await Repository.update({
+        name
+      }, {
+        lines
+      }).fetch();
+      return response.success(updatedRepository);
+    } catch (e) {
+      return response.error(500, "database_error", "数据库读写错误");
+    }
   }
 };
 
