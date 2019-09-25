@@ -151,6 +151,17 @@ module.exports = {
     } catch (e) {
       return response.error(500, "database_error", "数据库读写错误");
     }
+  },
+  /**
+   * 获得总仓库行数
+   * @param request
+   * @param response
+   * @returns {Promise<*>}
+   */
+  countLines: async (request, response) => {
+    return response.success({
+      lines: await Repository.sum('line')
+    });
   }
 };
 

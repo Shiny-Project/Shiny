@@ -127,6 +127,7 @@ module.exports.policies = {
     'delete': ['isPost', 'isLogin', 'isAdmin'],
     'update': ['isPost', 'isLogin', 'isAdmin'],
     'webhook': ['isPost'],
-    'updateLines': ['isPost', 'authToken']
+    'updateLines': ['isPost', 'authToken'],
+    'countLines': true
   }
 };
