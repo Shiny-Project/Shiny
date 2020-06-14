@@ -302,7 +302,7 @@
   const place = content.match(/-(.+),/)[1];
   const city = place.match(/of (.+)/)[1];
   const direction = place.match(/km (.+) of/)[1];
-  const distance = place.match(/(\d+)km/)[1];
+  const distance = place.match(/(\d+)[ ]*km/)[1];
   const magnitude = event.content.match(/M ([\d.]+)/)[1];
   const apiKey = event.__apiKeys.GOOGLE_API_KEY;
   document.getElementById('description-title').innerText = `${translate(region)}
