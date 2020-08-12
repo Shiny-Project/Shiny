@@ -112,10 +112,6 @@ module.exports.policies = {
     'delete': ['isPost', 'isLogin', 'isAdmin'],
     'create': ['isPost', 'isLogin', 'isAdmin'],
   },
-  ToolController: {
-    '*': false,
-    'parseYouTube': ['isPost']
-  },
   SpecialPushLogController: {
     '*': false,
     'get': true
