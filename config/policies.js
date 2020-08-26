@@ -127,6 +127,7 @@ module.exports.policies = {
     'countLines': true
   },
   'Weather/JMAController': {
-    '*': true
+    '*': false,
+    'query': ['isPost']
   }
 };

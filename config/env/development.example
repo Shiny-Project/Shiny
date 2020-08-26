@@ -11,31 +11,30 @@
  */
 
 module.exports = {
-
-  /***************************************************************************
-   * Set the default database connection for models in the development       *
-   * environment (see config/connections.js and config/models.js )           *
-   ***************************************************************************/
-  models: {
-    connection: 'sqlServer',
-    migrate: 'safe'
-  },
-  connections: {
-    sqlServer: {
-        adapter: 'sails-mysql',
-        host: 'localhost',
-        user: 'root', //optional
-        password: '', //optional
-        database: 'mirai' //optional
-    }
-  },
-  common:{
-    weibo_access_key : '2.00pqtIREmuLweB333db27041HkSv2C',
-    __apiKeys: {
-      "GOOGLE_API_KEY": "",
-      "INFLUXDB_HOST": "",
-      "INFLUXDB_TOKEN": "",
-      "INFLUXDB_ORG": "",
-    }
-  }
+    /***************************************************************************
+     * Set the default database connection for models in the development       *
+     * environment (see config/connections.js and config/models.js )           *
+     ***************************************************************************/
+    models: {
+        connection: "sqlServer",
+        migrate: "safe",
+    },
+    connections: {
+        sqlServer: {
+            adapter: "sails-mysql",
+            host: "localhost",
+            user: "root", //optional
+            password: "", //optional
+            database: "mirai", //optional
+        },
+    },
+    common: {
+        weibo_access_key: "2.00pqtIREmuLweB333db27041HkSv2C",
+        __apiKeys: {
+            GOOGLE_API_KEY: "",
+        },
+        INFLUXDB_HOST: "",
+        INFLUXDB_TOKEN: "",
+        INFLUXDB_ORG: "",
+    },
 };

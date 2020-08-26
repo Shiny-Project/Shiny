@@ -4,15 +4,50 @@
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
-const { InfluxDB, FluxTableMetaData, flux } = require("@influxdata/influxdb-client");
+const { InfluxDB, flux } = require("@influxdata/influxdb-client");
 module.exports = {
-    query: (request, response) => {
+    query: async (request, response) => {
+        const allowedFactors = [
+            "averagePressure",
+            "averageSeaLevelPressure",
+            "precipitation",
+            "oneHourMaxPrecipitation",
+            "tenMinuteMaxPrecipitation",
+            "averageTemperature",
+            "highestTemperature",
+            "lowestTemperature",
+            "averageHumidity",
+            "lowestHumidity",
+            "averageWindSpeed",
+            "maximumWindSpeed",
+            "maximumWindDirection",
+            "maximumGustSpeed",
+            "maximumGustDirection",
+            "daylightHours",
+            "showFall",
+            "showDepth",
+            "dayWeatherDescription",
+            "nightWeatherDescription",
+        ];
         const startTime = request.param("startTime");
         const endTime = request.param("endTime");
         const blockId = request.param("blockId");
-        const measurement = request.param("measurement");
-        if (!startTime || !endTime || !blockId) {
+        const factors = request.param("factors");
+        if (!startTime || !endTime || !blockId || !factors) {
             return response.error(400, "missing_parameters", "缺少必要参数");
+        }
+        if (!Array.isArray(factors) || factors.length === 0) {
+            return response.error(
+                400,
+                "bad_parameters",
+                "factors 参数必须为数组且不为空"
+            );
+        }
+        if (factors.some((i) => !allowedFactors.includes(i))) {
+            return response.error(400, "bad_parameters", "factors 参数不合法");
+        }
+        if (factors.length > 3) {
+            return response.error(400, "bad_parameters", "查询的 column 过多");
         }
         if (
             isNaN(new Date(startTime).valueOf()) ||
@@ -46,14 +81,29 @@ module.exports = {
                 "时间终点超出范围"
             );
         }
-        let query = flux`
+        let query =
+            flux`
             from(bucket: "Weather") 
-                |> range(start: ${startTime.toISOString()}, end: ${endTime.toISOString()})
+                |> range(start: ` +
+            new Date(startTime).toISOString() +
+            flux`, stop: ` +
+            new Date(endTime).toISOString() +
+            flux`)
+                |> filter(fn: (r) => r._measurement == "weather")
+                |> filter(fn: (r) => r.blockId == "${blockId}")
         `;
-        if (measurement) {
-            query += flux`
-                |> filter(fn: (r) => r._measurement == ${measurement})
-            `
-        }
+        query +=
+            flux`
+            |> filter(fn: (r) => ` +
+            factors.map((f) => `r["_field"] == "${f}"`).join(" or ") +
+            ")";
+        const host = sails.config.common.INFLUXDB_HOST;
+        const token = sails.config.common.INFLUXDB_TOKEN;
+        const org = sails.config.common.INFLUXDB_ORG;
+        const queryApi = new InfluxDB({ url: host, token }).getQueryApi(org);
+        const result = await queryApi.collectRows(query);
+        return response.success({
+            result,
+        });
     },
 };
