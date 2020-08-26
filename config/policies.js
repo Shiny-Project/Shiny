@@ -27,7 +27,7 @@ module.exports.policies = {
    ***************************************************************************/
 
   // '*': true,
-
+  '*': false,
   /***************************************************************************
    *                                                                          *
    * Here's an example of mapping some policies to run before a controller    *
@@ -125,5 +125,8 @@ module.exports.policies = {
     'webhook': ['isPost'],
     'updateLines': ['isPost', 'authToken'],
     'countLines': true
+  },
+  'Weather/JMAController': {
+    '*': true
   }
 };
