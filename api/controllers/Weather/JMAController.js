@@ -5,6 +5,7 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 const { InfluxDB, flux } = require("@influxdata/influxdb-client");
+const _ = require('lodash');
 module.exports = {
     query: async (request, response) => {
         const allowedFactors = [
@@ -102,8 +103,25 @@ module.exports = {
         const org = sails.config.common.INFLUXDB_ORG;
         const queryApi = new InfluxDB({ url: host, token }).getQueryApi(org);
         const result = await queryApi.collectRows(query);
-        return response.success({
-            result,
-        });
+        if (!result || !result.length) {
+            return response.error(404, "data_not_found", "当前查询区间数据不可用");
+        }
+        const groupedResult = _.groupBy(result, '_time');
+        const parsedResult = {
+            blockId: +result[0].blockId,
+            location: result[0].location,
+            data: [],
+        };
+        Object.entries(groupedResult).forEach(entry => {
+            const [key, values] = entry;
+            const item = {
+                time: key,
+            };
+            for (const value of values) {
+                item[value['_field']] = value['_value']
+            };
+            parsedResult.data.push(item);
+        })
+        return response.success(parsedResult);
     },
 };
