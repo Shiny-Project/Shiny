@@ -6,7 +6,7 @@
  */
 const { InfluxDB, flux } = require("@influxdata/influxdb-client");
 const _ = require('lodash');
-const Protobufs = require('../../../proto/weather');
+const Protobufs = require('../../../proto');
 module.exports = {
     query: async (request, response) => {
         const allowedFactors = [
@@ -117,13 +117,9 @@ module.exports = {
             const [key, values] = entry;
             const item = {
                 time: key,
-                measurements: []
             };
             for (const value of values) {
-                item.measurements.push({
-                    field: value['_field'],
-                    value: value['_value'].toString()
-                })
+                item[value['_field']] = value['_value'];
             };
             parsedResult.data.push(item);
         });
