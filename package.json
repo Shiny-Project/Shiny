@@ -27,6 +27,7 @@
     "include-all": "~0.1.6",
     "lodash": "^4.17.19",
     "node-uuid": "latest",
+    "protobufjs": "^6.10.1",
     "puppeteer": "^1.19.0",
     "rc": "^1.2.8",
     "request": "^2.87.0",

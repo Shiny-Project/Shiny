@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+message HistoryWeatherDataResponse {
+    int32 blockId = 16;
+    string location = 17;
+    repeated HistoryWeatherDataResponseItem data = 18;
+}
+
+message HistoryWeatherDataResponseItem {
+    string time = 19;
+    repeated Measurement measurements = 20;
+}
+
+message Measurement {
+    string field = 1;
+    string value = 2;
+}
