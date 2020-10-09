@@ -29,51 +29,51 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
         id: 19
       },
       averagePressure: {
-        type: "float",
+        type: "double",
         id: 20
       },
       averageSeaLevelPressure: {
-        type: "float",
+        type: "double",
         id: 21
       },
       precipitation: {
-        type: "float",
+        type: "double",
         id: 22
       },
       oneHourMaxPrecipitation: {
-        type: "float",
+        type: "double",
         id: 23
       },
       tenMinuteMaxPrecipitation: {
-        type: "float",
+        type: "double",
         id: 24
       },
       averageTemperature: {
-        type: "float",
+        type: "double",
         id: 25
       },
       highestTemperature: {
-        type: "float",
+        type: "double",
         id: 26
       },
       lowestTemperature: {
-        type: "float",
+        type: "double",
         id: 27
       },
       averageHumidity: {
-        type: "float",
+        type: "double",
         id: 28
       },
       lowestHumidity: {
-        type: "float",
+        type: "double",
         id: 29
       },
       averageWindSpeed: {
-        type: "float",
+        type: "double",
         id: 30
       },
       maximumWindSpeed: {
-        type: "float",
+        type: "double",
         id: 31
       },
       maximumWindDirection: {
@@ -81,7 +81,7 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
         id: 32
       },
       maximumGustSpeed: {
-        type: "float",
+        type: "double",
         id: 33
       },
       maximumGustDirection: {
@@ -89,15 +89,15 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
         id: 34
       },
       daylightHours: {
-        type: "float",
+        type: "double",
         id: 35
       },
       showFall: {
-        type: "float",
+        type: "double",
         id: 36
       },
       showDepth: {
-        type: "float",
+        type: "double",
         id: 37
       },
       dayWeatherDescription: {
