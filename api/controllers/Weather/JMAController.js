@@ -62,7 +62,7 @@ module.exports = {
         }
         if (
             new Date(endTime).valueOf() - new Date(startTime).valueOf() >
-            180 * 24 * 60 * 60 * 1000
+            365 * 24 * 60 * 60 * 1000
         ) {
             return response.error(400, "bad_time_range", "时间跨度过大");
         }
