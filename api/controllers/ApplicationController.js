@@ -39,6 +39,7 @@ module.exports = {
       response.success(result);
     }
     catch (e) {
+      console.log(e);
       return response.error(500, "database_error", "数据库读写错误");
     }
   },
@@ -57,9 +58,15 @@ module.exports = {
       const result = await API.destroy({
         id: id
       });
+      await Server.update({
+        key_pair: id
+      }).set({
+        key_pair: null
+      });
       return response.success(result);
     }
     catch (e) {
+      console.log(e);
       return response.error(500, "database_error", "数据库读写错误");
     }
   }
