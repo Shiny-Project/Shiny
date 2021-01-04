@@ -39,6 +39,8 @@ module.exports = {
         "key_pair": null,
         "info": '{}'
       }).fetch();
+      newRecord.info = JSON.parse(newRecord.info);
+      newRecord.group = JSON.parse(newRecord.group);
 	    return response.success(newRecord);
     }
     catch (e){
