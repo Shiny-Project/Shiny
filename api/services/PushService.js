@@ -1,5 +1,6 @@
 const CommonUtils = require("./CommonUtils");
 const axios = require("axios");
+const Data = require("../models/Data");
 
 module.exports = {
     /**
@@ -136,6 +137,20 @@ module.exports = {
                         }).set({
                             event_id: eventId,
                         });
+                        if (item.pic) {
+                            // 创建上传图片任务
+                            await QueueService.sendMessage({
+                                paths: [item.pic]
+                            });
+                            await Data.update({
+                                id: eventId
+                            }, {
+                                data: JSON.stringify({
+                                    ...event.data,
+                                    shinyImages: [item.pic]
+                                })
+                            });
+                        }
                     } catch (e) {
                         console.log("与 Shiny-Push 通信失败");
                         console.log(e);
