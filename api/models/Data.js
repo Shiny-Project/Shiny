@@ -32,9 +32,5 @@ module.exports = {
             collection: "KeywordScore",
             via: "event",
         },
-        analysed: {
-            type: "number",
-            defaultsTo: 0,
-        },
     },
 };
