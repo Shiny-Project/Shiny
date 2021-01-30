@@ -6,29 +6,28 @@
  */
 
 module.exports = {
-  tableName: 'repository',
-  primaryKey: 'id',
-  attributes: {
-    id: {
-      type: 'number',
-      autoIncrement: true,
+    tableName: "repository",
+    primaryKey: "id",
+    attributes: {
+        id: {
+            type: "number",
+            autoIncrement: true,
+        },
+        name: {
+            type: "string",
+        },
+        description: {
+            type: "string",
+        },
+        path: {
+            type: "string",
+        },
+        line: {
+            type: "number",
+        },
+        revisions: {
+            collection: "Revision",
+            via: "repository_id",
+        },
     },
-    name: {
-      type: 'string'
-    },
-    description: {
-      type: 'string'
-    },
-    path: {
-      type: 'string'
-    },
-    line: {
-      type: 'number'
-    },
-    revisions: {
-      collection: 'Revision',
-      via: 'repository_id'
-    }
-  },
 };
-

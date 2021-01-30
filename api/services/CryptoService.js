@@ -1,5 +1,5 @@
 module.exports = {
-  checkGitHubWebhookSign: (requestBody, secret, sign) => {
-    return !(!requestBody || !secret || !sign);
-  }
+    checkGitHubWebhookSign: (requestBody, secret, sign) => {
+        return !(!requestBody || !secret || !sign);
+    },
 };

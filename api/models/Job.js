@@ -6,32 +6,31 @@
  */
 
 module.exports = {
-  primaryKey: 'id',
-  attributes: {
-    id: {
-      type: 'number',
-      autoIncrement: true,
+    primaryKey: "id",
+    attributes: {
+        id: {
+            type: "number",
+            autoIncrement: true,
+        },
+        type: {
+            type: "string",
+        },
+        spider: {
+            type: "string",
+        },
+        path: {
+            type: "string",
+        },
+        info: {
+            type: "string",
+            columnType: "text",
+            allowNull: true,
+        },
+        status: {
+            type: "string",
+        },
+        done_by: {
+            type: "string",
+        },
     },
-    type: {
-      type: 'string'
-    },
-    spider: {
-      type: 'string'
-    },
-    path: {
-      type: 'string'
-    },
-    info: {
-      type: 'string',
-      columnType: 'text',
-      allowNull: true
-    },
-    status: {
-      type: 'string'
-    },
-    done_by: {
-      type: 'string'
-    }
-  }
 };
-

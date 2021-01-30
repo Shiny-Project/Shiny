@@ -13,12 +13,12 @@
  * @returns {*}
  */
 module.exports = function error(statusCode, errorCode, explanation) {
-  this.res.status(statusCode);
-  return this.res.json({
-    status: 'fail',
-    error: {
-      code: errorCode,
-      info: explanation
-    }
-  });
+    this.res.status(statusCode);
+    return this.res.json({
+        status: "fail",
+        error: {
+            code: errorCode,
+            info: explanation,
+        },
+    });
 };

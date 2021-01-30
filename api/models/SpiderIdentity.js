@@ -3,20 +3,20 @@
  */
 
 module.exports = {
-  tableName: 'spider_identity',
-  primaryKey: 'id',
-  attributes: {
-    id: {
-      type: 'number',
-      autoIncrement: true,
+    tableName: "spider_identity",
+    primaryKey: "id",
+    attributes: {
+        id: {
+            type: "number",
+            autoIncrement: true,
+        },
+        name: {
+            type: "string",
+        },
+        identity: {
+            type: "string",
+            columnType: "text",
+            defaultsTo: "{}",
+        },
     },
-    name: {
-      type: 'string'
-    },
-    identity: {
-      type: 'string',
-      columnType: 'text',
-      defaultsTo: '{}'
-    }
-  }
 };

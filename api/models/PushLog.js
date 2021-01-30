@@ -6,28 +6,26 @@
  */
 
 module.exports = {
-  tableName: 'push_log',
-  primaryKey: 'id',
-  attributes: {
-    id: {
-      type: 'number',
-      autoIncrement: true,
+    tableName: "push_log",
+    primaryKey: "id",
+    attributes: {
+        id: {
+            type: "number",
+            autoIncrement: true,
+        },
+        channel: {
+            type: "string",
+        },
+        status: {
+            type: "string",
+        },
+        info: {
+            type: "string",
+            columnType: "text",
+            allowNull: true,
+        },
+        job_id: {
+            model: "pushhistory",
+        },
     },
-    channel: {
-      type: 'string',
-    },
-    status: {
-      type: 'string'
-    },
-    info: {
-      type: 'string',
-      columnType: 'text',
-      allowNull: true
-    },
-    job_id: {
-      model: 'pushhistory'
-    },
-  },
-
 };
-

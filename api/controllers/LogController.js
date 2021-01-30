@@ -6,12 +6,11 @@
  */
 
 module.exports = {
-	subscribe: (request, response) => {
-	  if (!request.isSocket) {
-	    return response.error(400, 'invalid_request', '请求非法');
-    }
-    sails.sockets.join(request, 'test');
-	  return response.success();
-  }
+    subscribe: (request, response) => {
+        if (!request.isSocket) {
+            return response.error(400, "invalid_request", "请求非法");
+        }
+        sails.sockets.join(request, "test");
+        return response.success();
+    },
 };
-

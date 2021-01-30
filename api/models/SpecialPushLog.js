@@ -6,23 +6,22 @@
  */
 
 module.exports = {
-  tableName: 'special_push_log',
-  primaryKey: 'id',
-  attributes: {
-    id: {
-      type: 'number',
-      autoIncrement: true,
+    tableName: "special_push_log",
+    primaryKey: "id",
+    attributes: {
+        id: {
+            type: "number",
+            autoIncrement: true,
+        },
+        name: {
+            type: "string",
+        },
+        description: {
+            type: "string",
+        },
+        last_trigger: {
+            type: "ref",
+            columnType: "datetime",
+        },
     },
-    name: {
-      type: 'string'
-    },
-    description: {
-      type: 'string'
-    },
-    last_trigger: {
-      type: 'ref',
-      columnType: 'datetime'
-    }
-  },
 };
-

@@ -8,10 +8,9 @@
  *
  */
 module.exports = function (req, res, next) {
-  if (req.method === 'POST') {
-    next();
-  }
-  else {
-    return res.error(405, 'need_post', '本方法需要POST提交')
-  }
+    if (req.method === "POST") {
+        next();
+    } else {
+        return res.error(405, "need_post", "本方法需要POST提交");
+    }
 };

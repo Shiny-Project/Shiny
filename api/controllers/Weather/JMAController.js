@@ -5,8 +5,8 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 const { InfluxDB, flux } = require("@influxdata/influxdb-client");
-const _ = require('lodash');
-const Protobufs = require('../../../proto');
+const _ = require("lodash");
+const Protobufs = require("../../../proto");
 module.exports = {
     query: async (request, response) => {
         const allowedFactors = [
@@ -39,11 +39,7 @@ module.exports = {
             return response.error(400, "missing_parameters", "缺少必要参数");
         }
         if (!Array.isArray(factors) || factors.length === 0) {
-            return response.error(
-                400,
-                "bad_parameters",
-                "factors 参数必须为数组且不为空"
-            );
+            return response.error(400, "bad_parameters", "factors 参数必须为数组且不为空");
         }
         if (factors.some((i) => !allowedFactors.includes(i))) {
             return response.error(400, "bad_parameters", "factors 参数不合法");
@@ -51,37 +47,20 @@ module.exports = {
         if (factors.length > 3) {
             return response.error(400, "bad_parameters", "查询的 column 过多");
         }
-        if (
-            isNaN(new Date(startTime).valueOf()) ||
-            isNaN(new Date(endTime).valueOf())
-        ) {
+        if (isNaN(new Date(startTime).valueOf()) || isNaN(new Date(endTime).valueOf())) {
             return response.error(400, "bad_time_range", "时间格式有误");
         }
         if (new Date(startTime).valueOf() > new Date(endTime).valueOf()) {
             return response.error(400, "bad_time_range", "时间格式有误");
         }
-        if (
-            new Date(endTime).valueOf() - new Date(startTime).valueOf() >
-            365 * 24 * 60 * 60 * 1000
-        ) {
+        if (new Date(endTime).valueOf() - new Date(startTime).valueOf() > 365 * 24 * 60 * 60 * 1000) {
             return response.error(400, "bad_time_range", "时间跨度过大");
         }
-        if (
-            new Date(startTime).valueOf() <
-            new Date("2010-01-01 00:00:00+0900").valueOf()
-        ) {
-            return response.error(
-                400,
-                "bad_time_start_point",
-                "时间起点超出范围"
-            );
+        if (new Date(startTime).valueOf() < new Date("2010-01-01 00:00:00+0900").valueOf()) {
+            return response.error(400, "bad_time_start_point", "时间起点超出范围");
         }
         if (new Date(endTime).valueOf() > new Date().valueOf() + 86400 * 1000) {
-            return response.error(
-                400,
-                "bad_time_end_point",
-                "时间终点超出范围"
-            );
+            return response.error(400, "bad_time_end_point", "时间终点超出范围");
         }
         let query =
             flux`
@@ -107,26 +86,26 @@ module.exports = {
         if (!result || !result.length) {
             return response.error(404, "data_not_found", "当前查询区间数据不可用");
         }
-        const groupedResult = _.groupBy(result, '_time');
+        const groupedResult = _.groupBy(result, "_time");
         const parsedResult = {
             blockId: +result[0].blockId,
             location: result[0].location,
             data: [],
         };
-        Object.entries(groupedResult).forEach(entry => {
+        Object.entries(groupedResult).forEach((entry) => {
             const [key, values] = entry;
             const item = {
                 time: key,
             };
             for (const value of values) {
-                item[value['_field']] = value['_value'];
-            };
+                item[value["_field"]] = value["_value"];
+            }
             parsedResult.data.push(item);
         });
-        const HistoryWeatherDataResponseSchema = Protobufs.lookup('HistoryWeatherDataResponse');
+        const HistoryWeatherDataResponseSchema = Protobufs.lookup("HistoryWeatherDataResponse");
         const encodedResult = HistoryWeatherDataResponseSchema.encode(parsedResult).finish();
         return response.success({
-            result: Buffer.from(encodedResult).toString('base64')
+            result: Buffer.from(encodedResult).toString("base64"),
         });
     },
 };

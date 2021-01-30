@@ -6,26 +6,24 @@
  */
 
 module.exports = {
-  tableName: 'revision',
-  primaryKey: 'id',
-  attributes: {
-    id: {
-      type: 'number',
-      autoIncrement: true,
+    tableName: "revision",
+    primaryKey: "id",
+    attributes: {
+        id: {
+            type: "number",
+            autoIncrement: true,
+        },
+        repository_id: {
+            model: "Repository",
+        },
+        commit_id: {
+            type: "string",
+        },
+        status: {
+            type: "string",
+        },
+        compare_url: {
+            type: "string",
+        },
     },
-    repository_id: {
-      model: 'Repository'
-    },
-    commit_id: {
-      type: 'string'
-    },
-    status: {
-      type: 'string'
-    },
-    compare_url: {
-      type: 'string'
-    }
-  },
-
 };
-

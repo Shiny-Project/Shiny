@@ -5,6 +5,7 @@
   "description": "Shiny Central Control",
   "keywords": [],
   "dependencies": {
+    "@aws-sdk/client-sqs": "^3.4.1",
     "@influxdata/influxdb-client": "^1.6.0",
     "async": "2.1.4",
     "axios": "^0.18.1",

@@ -6,32 +6,31 @@
  */
 
 module.exports = {
-  primaryKey: 'id',
-  attributes: {
-    id: {
-      autoIncrement: true,
-      type: 'number'
+    primaryKey: "id",
+    attributes: {
+        id: {
+            autoIncrement: true,
+            type: "number",
+        },
+        email: {
+            type: "string",
+        },
+        password: {
+            type: "string",
+        },
+        token: {
+            type: "string",
+        },
+        admin: {
+            type: "boolean",
+        },
+        fingerprint: {
+            type: "string",
+        },
+        subscription: {
+            type: "string",
+            columnType: "text",
+            allowNull: true,
+        },
     },
-    email: {
-      type: 'string',
-    },
-    password: {
-      type: 'string',
-    },
-    token:{
-      type: 'string',
-    },
-    admin: {
-      type: 'boolean'
-    },
-    fingerprint:{
-      type: 'string',
-    },
-    subscription: {
-      type: 'string',
-      columnType: 'text',
-      allowNull: true
-    }
-  }
 };
-

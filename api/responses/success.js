@@ -5,10 +5,9 @@
  * return res.success(data)
  */
 
-
 module.exports = function success(data) {
-  return this.res.json({
-    'status': 'success',
-    'data': data
-  });
+    return this.res.json({
+        status: "success",
+        data: data,
+    });
 };

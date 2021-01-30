@@ -6,15 +6,14 @@
  */
 
 module.exports = {
-  primaryKey: 'id',
-  attributes: {
-    id: {
-      type: 'number',
-      autoIncrement: true,
+    primaryKey: "id",
+    attributes: {
+        id: {
+            type: "number",
+            autoIncrement: true,
+        },
+        keyword: {
+            type: "string",
+        },
     },
-    keyword: {
-      type: 'string'
-    }
-  }
 };
-

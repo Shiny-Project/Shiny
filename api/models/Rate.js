@@ -6,18 +6,17 @@
  */
 
 module.exports = {
-  primaryKey: 'id',
-  attributes: {
-    id: {
-      type: 'number',
-      autoIncrement: true,
+    primaryKey: "id",
+    attributes: {
+        id: {
+            type: "number",
+            autoIncrement: true,
+        },
+        eventid: {
+            type: "number",
+        },
+        score: {
+            type: "number",
+        },
     },
-    eventid:{
-      type: 'number'
-    },
-    score:{
-      type: 'number'
-    }
-  }
 };
-

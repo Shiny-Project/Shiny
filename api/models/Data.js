@@ -5,37 +5,36 @@
  */
 
 module.exports = {
-  primaryKey: 'id',
-  attributes: {
-    id: {
-      type: 'number',
-      autoIncrement: true,
+    primaryKey: "id",
+    attributes: {
+        id: {
+            type: "number",
+            autoIncrement: true,
+        },
+        data: {
+            type: "string",
+            columnType: "text",
+        },
+        level: {
+            type: "number",
+        },
+        publisher: {
+            type: "string",
+        },
+        channel: {
+            type: "string",
+            allowNull: true,
+        },
+        hash: {
+            type: "string",
+        },
+        keywords: {
+            collection: "KeywordScore",
+            via: "event",
+        },
+        analysed: {
+            type: "number",
+            defaultsTo: 0,
+        },
     },
-    data: {
-      type: 'string',
-      columnType: 'text'
-    },
-    level: {
-      type: 'number'
-    },
-    publisher: {
-      type: 'string'
-    },
-    channel: {
-      type: 'string',
-      allowNull: true
-    },
-    hash: {
-      type: 'string'
-    },
-    keywords:{
-      collection: 'KeywordScore',
-      via: 'event'
-    },
-    analysed:{
-      type: 'number',
-      defaultsTo: 0
-    }
-  }
 };
-
