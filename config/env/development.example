@@ -36,5 +36,9 @@ module.exports = {
         INFLUXDB_HOST: "",
         INFLUXDB_TOKEN: "",
         INFLUXDB_ORG: "",
+        AWS_REGION: "",
+        AWS_ACCESS_KEY_ID: "",
+        AWS_SECRET_ACCESS_KEY: "",
+        AWS_SQS_URL: "",
     },
 };
