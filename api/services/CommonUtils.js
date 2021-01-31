@@ -50,7 +50,7 @@ module.exports = {
         return Buffer.from(encodeURIComponent(JSON.stringify(data))).toString("base64");
     },
     screenshot: async (url, prefix = "image") => {
-        const outputPath = path.resolve(__dirname, `../../output/${prefix}-${new Date().valueOf().toString()}.png`);
+        const outputPath = path.resolve(__dirname, `../../output/${prefix}_${new Date().valueOf().toString()}.png`);
         const puppeteer = require("puppeteer");
         const browser = await puppeteer.launch({
             args: ["--no-sandbox"],

@@ -3,7 +3,7 @@ module.exports = {
         const encodedData = CommonUtils.encodeBase64(event);
         const path = await CommonUtils.screenshot(
             "http://localhost:1337/push/templates/CMAAlert/index.html#" + encodedData,
-            "cma-alert"
+            "cma_alert"
         );
 
         return [

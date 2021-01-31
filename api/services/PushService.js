@@ -1,5 +1,6 @@
-const CommonUtils = require("./CommonUtils");
+const Sentry = require("@sentry/node");
 const axios = require("axios");
+const CommonUtils = require("./CommonUtils");
 const Data = require("../models/Data");
 
 module.exports = {
@@ -153,7 +154,7 @@ module.exports = {
                         }
                     } catch (e) {
                         console.log("与 Shiny-Push 通信失败");
-                        console.log(e);
+                        Sentry.captureException(e);
                     }
                 }
                 if (item.special) {
