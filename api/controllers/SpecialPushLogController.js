@@ -4,7 +4,7 @@
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
-
+const Sentry = require("@sentry/node");
 module.exports = {
     get: async (request, response) => {
         const name = request.param("name");
@@ -20,6 +20,7 @@ module.exports = {
             }
             return response.success(record);
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },

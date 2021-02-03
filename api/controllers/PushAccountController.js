@@ -1,3 +1,4 @@
+const Sentry = require("@sentry/node");
 module.exports = {
     /**
      * 创建
@@ -26,6 +27,7 @@ module.exports = {
             result.credential = JSON.parse(result.credential);
             return response.success(result);
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -43,6 +45,7 @@ module.exports = {
             }
             return response.success(result);
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -82,6 +85,7 @@ module.exports = {
                 return response.error(404, "account_not_found", "不存在的账号");
             }
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -102,6 +106,7 @@ module.exports = {
             });
             return response.success();
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },

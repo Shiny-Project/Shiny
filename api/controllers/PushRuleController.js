@@ -1,3 +1,4 @@
+const Sentry = require("@sentry/node");
 module.exports = {
     /**
      * 创建新规则
@@ -31,6 +32,7 @@ module.exports = {
             }).fetch();
             return response.success(result);
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -52,6 +54,7 @@ module.exports = {
             });
             return response.success();
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -69,6 +72,7 @@ module.exports = {
             }
             return response.success(ruleList);
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -109,6 +113,7 @@ module.exports = {
                 return response.error(404, "rule_not_found", "不存在的规则");
             }
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },

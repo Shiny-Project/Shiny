@@ -4,7 +4,7 @@
  * @description :: Server-side logic for managing Servers
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-
+const Sentry = require("@sentry/node");
 module.exports = {
     /**
      * 添加可用的 Shiny 服务器节点
@@ -43,7 +43,7 @@ module.exports = {
             newRecord.group = JSON.parse(newRecord.group);
             return response.success(newRecord);
         } catch (e) {
-            console.log(e);
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -62,6 +62,7 @@ module.exports = {
             }
             return response.success(result);
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -82,6 +83,7 @@ module.exports = {
             });
             return response.success();
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },

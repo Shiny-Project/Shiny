@@ -4,7 +4,7 @@
  * @description :: Server-side logic for managing data
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-
+const Sentry = require("@sentry/node");
 module.exports = {
     /**
      * 添加数据项
@@ -75,7 +75,7 @@ ${event.data.link}`);
                 }
             }
         } catch (e) {
-            console.log(e);
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
         return response.success(createdEvents);
@@ -108,6 +108,7 @@ ${event.data.link}`);
                 events,
             });
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -217,6 +218,7 @@ ${event.data.link}`);
                 return response.success(result);
             })
             .catch((e) => {
+                Sentry.captureException(e);
                 return response.error(500, "database_error", "数据库读写错误");
             });
     },
@@ -240,6 +242,7 @@ ${event.data.link}`);
                 jobs,
             });
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },

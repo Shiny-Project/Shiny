@@ -4,6 +4,7 @@
  * @description :: Server-side logic for managing Spiders
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
+const Sentry = require("@sentry/node");
 module.exports = {
     /**
      * 列出全部凭据
@@ -23,6 +24,7 @@ module.exports = {
             });
             return response.success(identities);
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -59,6 +61,7 @@ module.exports = {
                 return response.error(404, "identity_not_found", "没有该凭据");
             }
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -88,6 +91,7 @@ module.exports = {
             result.identity = parsedIdentity;
             return response.success(result);
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -108,6 +112,7 @@ module.exports = {
             });
             return response.success();
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },

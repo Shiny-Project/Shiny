@@ -4,7 +4,7 @@
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
-
+const Sentry = require("@sentry/node");
 module.exports = {
     /**
      * 列出全部仓库
@@ -20,6 +20,7 @@ module.exports = {
             });
             return response.success(repositories);
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -42,6 +43,7 @@ module.exports = {
             }).fetch();
             return response.success(newRepository);
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -74,6 +76,7 @@ module.exports = {
                 return response.error(404, "repository_not_found", "找不到对应的仓库");
             }
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -94,6 +97,7 @@ module.exports = {
             });
             return response.success();
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -129,6 +133,7 @@ module.exports = {
             });
             return response.success(revision);
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -161,6 +166,7 @@ module.exports = {
             ).fetch();
             return response.success(updatedRepository);
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },

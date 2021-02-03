@@ -4,7 +4,7 @@
  * @description :: Server-side logic for managing Users
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-
+const Sentry = require("@sentry/node");
 module.exports = {
     /**
      * 用户注册
@@ -34,6 +34,7 @@ module.exports = {
                 id: newUser.id,
             });
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库通信错误");
         }
     },
@@ -124,6 +125,7 @@ module.exports = {
                 token: user.token,
             });
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库通信错误");
         }
     },
@@ -160,6 +162,7 @@ module.exports = {
                 return response.success([]);
             }
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库通信错误");
         }
     },
@@ -200,6 +203,7 @@ module.exports = {
             );
             return response.success(subscription);
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库通信错误");
         }
     },
@@ -240,6 +244,7 @@ module.exports = {
             );
             return response.success(subscription);
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库通信错误");
         }
     },

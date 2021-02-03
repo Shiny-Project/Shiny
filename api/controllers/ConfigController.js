@@ -4,7 +4,7 @@
  * @description :: Server-side logic for managing config
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-
+const Sentry = require("@sentry/node");
 module.exports = {
     /**
      * 获得设置项
@@ -27,6 +27,7 @@ module.exports = {
                 value,
             });
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -59,6 +60,7 @@ module.exports = {
                 return response.error(404, "config_not_found", "不存在该设置项");
             }
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -72,6 +74,7 @@ module.exports = {
         try {
             return response.success(await Config.find());
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -86,6 +89,7 @@ module.exports = {
             });
             return response.success();
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -114,6 +118,7 @@ module.exports = {
             }).fetch();
             return response.success(createdConfig);
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },

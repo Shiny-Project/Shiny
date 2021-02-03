@@ -4,7 +4,7 @@
  * @description :: Server-side logic for managing Jobs
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-
+const Sentry = require("@sentry/node");
 module.exports = {
     /**
      * 请求当前任务列表
@@ -113,6 +113,7 @@ module.exports = {
                     })
                     .fetch();
             } catch (e) {
+                Sentry.captureException(e);
                 return response.error(500, "database_error", "数据库读写错误");
             }
         }
@@ -180,6 +181,7 @@ module.exports = {
             });
             return response.success(result);
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -212,6 +214,7 @@ module.exports = {
                 jobs,
             });
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },

@@ -4,7 +4,7 @@
  * @description :: Server-side logic for managing Applications
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-
+const Sentry = require("@sentry/node");
 module.exports = {
     /**
      * 创建新 APIKEY - SECRET 对
@@ -21,6 +21,7 @@ module.exports = {
             });
             return response.success(await API.find().populate("tag"));
         } catch (e) {
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -37,7 +38,7 @@ module.exports = {
             result.serverList = await Server.find();
             response.success(result);
         } catch (e) {
-            console.log(e);
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
@@ -63,7 +64,7 @@ module.exports = {
             });
             return response.success(result);
         } catch (e) {
-            console.log(e);
+            Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
