@@ -1,7 +1,6 @@
 const Sentry = require("@sentry/node");
 const axios = require("axios");
 const CommonUtils = require("./CommonUtils");
-const Data = require("../models/Data");
 
 module.exports = {
     /**

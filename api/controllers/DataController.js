@@ -179,14 +179,6 @@ ${event.data.link}`);
                 "SELECT `publisher`, count(*) as count FROM `data` WHERE `createdAt` >= $1 GROUP BY `publisher` ORDER BY `count` DESC",
                 [CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000)]
             ),
-            DataQueryAsync(
-                "SELECT `publisher`, count(*) as count FROM `data` WHERE `createdAt` >= $1 GROUP BY `publisher` ORDER BY `count` DESC",
-                [CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000 * 3)]
-            ),
-            DataQueryAsync(
-                "SELECT `publisher`, count(*) as count FROM `data` WHERE `createdAt` >= $1 GROUP BY `publisher` ORDER BY `count` DESC",
-                [CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000 * 21)]
-            ),
             DataQueryAsync("SELECT `id`, `level`, `publisher`, `createdAt` FROM `data` WHERE `createdAt` >= $1", [
                 CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000 * 30),
             ]),
@@ -196,13 +188,11 @@ ${event.data.link}`);
         ])
             .then((data) => {
                 let result = {};
-                let recentEvents = data[3]["rows"];
-                let jobStatus = data[4]["rows"];
+                let recentEvents = data[1]["rows"];
+                let jobStatus = data[2]["rows"];
 
                 result["spiderRanking"] = {
                     "1day": data[0]["rows"],
-                    "3days": data[1]["rows"],
-                    "21days": data[2]["rows"],
                 };
 
                 let levelRanking = _.countBy(recentEvents, (i) => `Level ${i.level}`);
