@@ -126,6 +126,10 @@ module.exports.policies = {
     'updateLines': ['isPost', 'authToken'],
     'countLines': true
   },
+  SystemController: {
+    '*': false,
+    'latency': true,
+  },
   'Weather/JMAController': {
     '*': false,
     'query': ['isPost']
