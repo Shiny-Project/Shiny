@@ -112,58 +112,6 @@ ${event.data.link}`);
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
-    view: function (request, response) {
-        return response.view("data/view");
-    },
-    info: function (request, response) {
-        let id = request.param("id");
-
-        if (!id) {
-            return response.error(403, "miss_parameters", "事件缺少必要参数");
-        }
-
-        Data.findOne({
-            id: id,
-        })
-            .populate("keywords")
-            .then((data) => {
-                if (!data) {
-                    return response.error(404, "unexisted_item", "不存在的项目");
-                }
-                data.data = JSON.parse(data.data);
-                return response.success(data);
-            });
-    },
-    /**
-     * 评价事件重要度
-     * @param request
-     * @param response
-     */
-    rate: function (request, response) {
-        let eventId = request.param("eventId");
-        let score = request.param("score");
-
-        if (!eventId || !score) {
-            return response.error(403, "miss_parameters", "事件缺少必要参数");
-        }
-
-        score = parseInt(score);
-
-        if (!(1 <= score && score <= 10)) {
-            return response.error(403, "invalid_parameter", "参数不合法");
-        }
-
-        Rate.create({
-            eventid: eventId,
-            score: score,
-        })
-            .then((res) => {
-                return response.success();
-            })
-            .catch((e) => {
-                return response.error(500, "database_error", "数据库读写错误");
-            });
-    },
     /**
      * 获得近期统计
      * @param request
@@ -212,6 +160,12 @@ ${event.data.link}`);
                 return response.error(500, "database_error", "数据库读写错误");
             });
     },
+    /**
+     * 获得事件详情和关联任务信息
+     * @param {*} request 
+     * @param {*} response 
+     * @returns 
+     */
     detail: async (request, response) => {
         const eventId = request.param("eventId");
         if (!eventId) {
@@ -229,6 +183,7 @@ ${event.data.link}`);
             }).populate("logs");
             return response.success({
                 id: event.id,
+                event,
                 jobs,
             });
         } catch (e) {
