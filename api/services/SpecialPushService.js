@@ -1,3 +1,4 @@
+const Sentry = require("@sentry/node");
 const SpecialPushTexts = require("./SpecialPush/Texts");
 const axios = require("axios");
 module.exports = {
@@ -39,7 +40,7 @@ module.exports = {
                 });
             } catch (e) {
                 console.log("与 Shiny-Push 通信失败");
-                console.log(e);
+                Sentry.captureException(e);
             }
             await CommonUtils.sleep(2000);
         }

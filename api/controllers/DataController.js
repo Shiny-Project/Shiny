@@ -171,10 +171,14 @@ ${event.data.link}`);
         if (!eventId) {
             return response.error(400, "missing_parameters", "缺少必要参数");
         }
+        if (!Number.isInteger(parseInt(eventId))) {
+            return response.error(400, "missing_parameters", "参数数据格式不正确");
+        }
         try {
             const event = await Data.findOne({
                 id: eventId,
             });
+            event.data = JSON.parse(event.data);
             if (!event) {
                 return response.error(404, "event_not_found", "事件不存在");
             }
