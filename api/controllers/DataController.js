@@ -71,7 +71,9 @@ module.exports = {
                     // 推送到 Telegram
                     PushService.sendTeleGram(`Level.${event.level} - ${event.data.title}
 ${event.data.content}
-${event.data.link}`);
+${event.data.link}
+https://console.kotori.moe/#/dashboard/event/${result.id}
+`);
                 }
             }
         } catch (e) {
@@ -162,9 +164,9 @@ ${event.data.link}`);
     },
     /**
      * 获得事件详情和关联任务信息
-     * @param {*} request 
-     * @param {*} response 
-     * @returns 
+     * @param {*} request
+     * @param {*} response
+     * @returns
      */
     detail: async (request, response) => {
         const eventId = request.param("eventId");
