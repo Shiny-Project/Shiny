@@ -130,10 +130,10 @@ https://console.kotori.moe/#/dashboard/event/${result.id}
                 [CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000)]
             ),
             DataQueryAsync("SELECT `id`, `level`, `publisher`, `createdAt` FROM `data` WHERE `createdAt` >= $1", [
-                CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000 * 30),
+                CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000),
             ]),
             DataQueryAsync("SELECT `status`, count(*) as count FROM `job` WHERE `createdAt` >= $1 GROUP BY `status`", [
-                CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000 * 30),
+                CommonUtils.generateDateTimeByOffset(-24 * 60 * 60 * 1000),
             ]),
         ])
             .then((data) => {
