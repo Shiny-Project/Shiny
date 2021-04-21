@@ -64,6 +64,7 @@
 | data.content | 内容 |
 | data.link | 链接 |
 | data.cover | 桌面通知图片 |
+| data.images | 数组 事件附加图片列表 |
 
 
 正常返回示例
@@ -80,7 +81,8 @@
             "title": "标题",
             "content": "内容",
             "link": "链接",
-            "cover": "用于桌面通知的图片"  
+            "cover": "用于桌面通知的图片",
+            "images": []
         }
     }]
 }

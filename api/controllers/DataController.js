@@ -5,6 +5,7 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 const Sentry = require("@sentry/node");
+
 module.exports = {
     /**
      * 添加数据项
@@ -192,6 +193,29 @@ https://console.kotori.moe/#/dashboard/event/${result.id}
                 event,
                 jobs,
             });
+        } catch (e) {
+            Sentry.captureException(e);
+            return response.error(500, "database_error", "数据库读写错误");
+        }
+    },
+    /**
+     * 事件到达回报打点
+     * @param {*} request
+     * @param {*} response
+     */
+    ack: async (request, response) => {
+        const eventId = request.param("eventId");
+        if (!eventId) {
+            return response.error(400, "missing_parameters", "缺少必要参数");
+        }
+        if (!Number.isInteger(parseInt(eventId))) {
+            return response.error(400, "missing_parameters", "参数数据格式不正确");
+        }
+        try {
+            const result = await DataAck.create({
+                event_id: eventId,
+            }).fetch();
+            return response.success(result);
         } catch (e) {
             Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");

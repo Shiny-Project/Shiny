@@ -43,6 +43,7 @@ module.exports.policies = {
     'rate': 'isPost',
     'detail': true,
     'statistics': true,
+    'ack': ['isPost', 'isLogin']
   },
   JobController: {
     '*': false,
