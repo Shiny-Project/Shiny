@@ -65,6 +65,7 @@ module.exports = {
                         channel: event.channel,
                         data: eventData, // 以object类型推送
                         hash: event.hash,
+                        eventId: result.id,
                     };
                     PushService.sendSocket("normal", messageBody);
                     // 推送到微博
