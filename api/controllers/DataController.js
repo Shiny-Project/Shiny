@@ -182,10 +182,10 @@ https://console.kotori.moe/#/dashboard/event/${result.id}
             const event = await Data.findOne({
                 id: eventId,
             });
-            event.data = JSON.parse(event.data);
             if (!event) {
                 return response.error(404, "event_not_found", "事件不存在");
             }
+            event.data = JSON.parse(event.data);
             const jobs = await PushHistory.find({
                 event_id: eventId,
             }).populate("logs");
