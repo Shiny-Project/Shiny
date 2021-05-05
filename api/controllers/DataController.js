@@ -222,4 +222,41 @@ https://console.kotori.moe/#/dashboard/event/${result.id}
             return response.error(500, "database_error", "数据库读写错误");
         }
     },
+    /**
+     * 获得事件图片列表（公网地址）
+     * @param {*} request
+     * @param {*} response
+     * @returns
+     */
+    event_images: async (request, response) => {
+        const eventId = request.param("eventId");
+        if (!eventId) {
+            return response.error(400, "missing_parameters", "缺少必要参数");
+        }
+        if (!Number.isInteger(parseInt(eventId))) {
+            return response.error(400, "missing_parameters", "参数数据格式不正确");
+        }
+        try {
+            const event = await Data.findOne({
+                id: eventId,
+            });
+            if (!event) {
+                return response.error(404, "event_not_found", "事件不存在");
+            }
+            const eventData = JSON.parse(event.data);
+            if (!eventData?.shinyImages?.length) {
+                return response.success([]);
+            }
+            return response.success(
+                eventData.shinyImages.map((url) => {
+                    return url.startsWith("/")
+                        ? `${sails.config.common.IMAGE_HOST}${url.split("/").slice(-1).join()}`
+                        : url;
+                })
+            );
+        } catch (e) {
+            Sentry.captureException(e);
+            return response.error(500, "database_error", "数据库读写错误");
+        }
+    },
 };
