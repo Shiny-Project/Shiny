@@ -28,7 +28,7 @@
     "grunt-sails-linker": "^1.0",
     "grunt-sync": "^0.8.1",
     "include-all": "~0.1.6",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "node-uuid": "latest",
     "protobufjs": "^6.10.1",
     "puppeteer": "^1.19.0",
