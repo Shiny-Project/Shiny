@@ -40,7 +40,7 @@ module.exports.policies = {
     'recent': true,
     'detail': true,
     'statistics': true,
-    'ack': ['isPost', 'isLogin'],
+    'ack': ['isPost'],
     'event_images': ['isLogin']
   },
   JobController: {
