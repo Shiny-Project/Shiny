@@ -244,11 +244,18 @@ https://console.kotori.moe/#/dashboard/event/${result.id}
                 return response.error(404, "event_not_found", "事件不存在");
             }
             const eventData = JSON.parse(event.data);
-            if (!eventData?.shinyImages?.length) {
+            const images = [];
+            if (eventData?.images?.length) {
+                images.push(...eventData.images);
+            }
+            if (eventData?.shinyImages?.length) {
+                images.push(...eventData.shinyImages);
+            }
+            if (!images.length) {
                 return response.success([]);
             }
             return response.success(
-                eventData.shinyImages.map((url) => {
+                images.map((url) => {
                     return url.startsWith("/")
                         ? `${sails.config.common.IMAGE_HOST}${url.split("/").slice(-1).join()}`
                         : url;

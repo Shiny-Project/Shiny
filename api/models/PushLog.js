@@ -27,5 +27,6 @@ module.exports = {
         job_id: {
             model: "pushhistory",
         },
+        time: { type: "ref", columnType: "datetime" },
     },
 };
