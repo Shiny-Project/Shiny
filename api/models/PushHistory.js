@@ -37,6 +37,7 @@ module.exports = {
             columnType: "text",
             allowNull: true,
         },
+        time: { type: "ref", columnType: "datetime" },
         logs: {
             collection: "pushlog",
             via: "job_id",
