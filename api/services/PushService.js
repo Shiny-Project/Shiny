@@ -29,6 +29,7 @@ module.exports = {
                 pic: undefined,
             },
         ];
+        const parsingStartTime = Date.now();
         switch (event.spiderName) {
             case "CMAAlert": {
                 const parser = require("./EventParser/CMAAlert");
@@ -106,6 +107,7 @@ module.exports = {
                 return;
             }
         }
+        const parsingEndTime = Date.now();
         const pushRule = await PushRule.findOne({
             spider_name: event.spiderName,
         });
@@ -137,19 +139,49 @@ module.exports = {
                         }).set({
                             event_id: eventId,
                         });
+                        try {
+                            // 记录解析耗时
+                            const recordPromiseArr = [];
+                            for (const job of createdJobs) {
+                                recordPromiseArr.push(
+                                    PushLog.create({
+                                        channel: job.channel,
+                                        status: "parsing_start",
+                                        time: parsingStartTime,
+                                        info: "{}",
+                                        job_id: job.id,
+                                    })
+                                );
+                                recordPromiseArr.push(
+                                    PushLog.create({
+                                        channel: job.channel,
+                                        status: "parsing_end",
+                                        time: parsingEndTime,
+                                        info: "{}",
+                                        job_id: job.id,
+                                    })
+                                );
+                            }
+                            await Promise.all(recordPromiseArr);
+                        } catch (e) {
+                            Sentry.captureException(e);
+                        }
                         if (item.pic) {
                             // 创建上传图片任务
                             await QueueService.sendMessage({
-                                paths: [item.pic]
+                                paths: [item.pic],
                             });
-                            await Data.update({
-                                id: eventId
-                            }, {
-                                data: JSON.stringify({
-                                    ...event.data,
-                                    shinyImages: [item.pic]
-                                })
-                            });
+                            await Data.update(
+                                {
+                                    id: eventId,
+                                },
+                                {
+                                    data: JSON.stringify({
+                                        ...event.data,
+                                        shinyImages: [item.pic],
+                                    }),
+                                }
+                            );
                         }
                     } catch (e) {
                         console.log("与 Shiny-Push 通信失败");
