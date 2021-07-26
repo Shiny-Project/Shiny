@@ -29,7 +29,7 @@ module.exports = {
                 pic: undefined,
             },
         ];
-        const parsingStartTime = Date.now();
+        const parsingStartTime = new Date();
         switch (event.spiderName) {
             case "CMAAlert": {
                 const parser = require("./EventParser/CMAAlert");
@@ -107,7 +107,7 @@ module.exports = {
                 return;
             }
         }
-        const parsingEndTime = Date.now();
+        const parsingEndTime = new Date();
         const pushRule = await PushRule.findOne({
             spider_name: event.spiderName,
         });
