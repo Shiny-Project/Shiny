@@ -16,121 +16,124 @@
  * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.policies.html
  */
 
-
 module.exports.policies = {
+    /***************************************************************************
+     *                                                                          *
+     * Default policy for all controllers and actions (`true` allows public     *
+     * access)                                                                  *
+     *                                                                          *
+     ***************************************************************************/
 
-  /***************************************************************************
-   *                                                                          *
-   * Default policy for all controllers and actions (`true` allows public     *
-   * access)                                                                  *
-   *                                                                          *
-   ***************************************************************************/
-
-  // '*': true,
-  '*': false,
-  /***************************************************************************
-   *                                                                          *
-   * Here's an example of mapping some policies to run before a controller    *
-   * and its actions                                                          *
-   *                                                                          *
-   ***************************************************************************/
-  DataController: {
-    '*': false,
-    'add': ['isPost', 'authSign'],
-    'recent': true,
-    'detail': true,
-    'statistics': true,
-    'ack': ['isPost'],
-    'event_images': ['isLogin']
-  },
-  JobController: {
-    '*': false,
-    'query': ['isLatestVersion', 'authSign'],
-    'report': ['isPost', 'authSign'],
-    'recent': ['isLogin', 'isAdmin']
-  },
-  UserController: {
-    '*': false,
-    'create': 'isPost',
-    'info': true,
-    'login': 'isPost',
-    'logout': true,
-    'subscription': true,
-    'subscribe': ['isPost', 'isLogin'],
-    'unsubscribe': ['isPost', 'isLogin']
-  },
-  SpiderController: {
-    '*': false,
-    'list': true,
-    'updateFrequency': ['isPost', 'isLogin', 'isAdmin'],
-    'delete': ['isPost', 'isLogin', 'isAdmin'],
-    'update': ['isPost', 'isLogin', 'isAdmin']
-  },
-  SpiderIdentityController: {
-    '*': false,
-    'list': ['isLogin', 'isAdmin'],
-    'create': ['isPost', 'isLogin', 'isAdmin'],
-    'edit': ['isPost', 'isLogin', 'isAdmin'],
-    'delete': ['isPost', 'isLogin', 'isAdmin']
-  },
-  ServerController: {
-    '*': false,
-    'add': ['isPost', 'isLogin', 'isAdmin'],
-    'list': true,
-    'delete': ['isPost', 'isLogin', 'isAdmin']
-  },
-  PushAccountController: {
-    '*': false,
-    'create': ['isPost', 'isLogin', 'isAdmin'],
-    'list': ['isLogin', 'isAdmin'],
-    'delete': ['isPost', 'isLogin', 'isAdmin'],
-    'edit': ['isPost', 'isLogin', 'isAdmin']
-  },
-  PushRuleController: {
-    '*': false,
-    'create': ['isPost', 'isLogin', 'isAdmin'],
-    'list': ['isLogin', 'isAdmin'],
-    'delete': ['isPost', 'isLogin', 'isAdmin'],
-    'edit': ['isPost', 'isLogin', 'isAdmin']
-  },
-  ApplicationController: {
-    '*': false,
-    'createAPIKeyPairs': ['isPost', 'isLogin', 'isAdmin'],
-    'list': ['isLogin', 'isAdmin'],
-    'delete': ['isPost', 'isLogin', 'isAdmin']
-  },
-  LogController: {
-    '*': false,
-    'subscribe': true
-  },
-  ConfigController: {
-    '*': false,
-    'get': true,
-    'edit': ['isPost', 'isLogin', 'isAdmin'],
-    'list': ['isLogin', 'isAdmin'],
-    'delete': ['isPost', 'isLogin', 'isAdmin'],
-    'create': ['isPost', 'isLogin', 'isAdmin'],
-  },
-  SpecialPushLogController: {
-    '*': false,
-    'get': true
-  },
-  RepositoryController: {
-    '*': false,
-    'list': ['isLogin', 'isAdmin'],
-    'create': ['isPost', 'isLogin', 'isAdmin'],
-    'delete': ['isPost', 'isLogin', 'isAdmin'],
-    'update': ['isPost', 'isLogin', 'isAdmin'],
-    'webhook': ['isPost'],
-    'updateLines': ['isPost', 'authToken'],
-    'countLines': true
-  },
-  SystemController: {
-    '*': false,
-    'latency': true,
-  },
-  'Weather/JMAController': {
-    '*': false,
-    'query': ['isPost']
-  }
+    // '*': true,
+    "*": false,
+    /***************************************************************************
+     *                                                                          *
+     * Here's an example of mapping some policies to run before a controller    *
+     * and its actions                                                          *
+     *                                                                          *
+     ***************************************************************************/
+    DataController: {
+        "*": false,
+        add: ["isPost", "authSign"],
+        recent: true,
+        detail: true,
+        statistics: true,
+        ack: ["isPost"],
+        event_images: ["isLogin"],
+    },
+    JobController: {
+        "*": false,
+        query: ["isLatestVersion", "authSign"],
+        report: ["isPost", "authSign"],
+        recent: ["isLogin", "isAdmin"],
+    },
+    UserController: {
+        "*": false,
+        create: "isPost",
+        info: true,
+        login: "isPost",
+        logout: true,
+        subscription: true,
+        subscribe: ["isPost", "isLogin"],
+        unsubscribe: ["isPost", "isLogin"],
+    },
+    SpiderController: {
+        "*": false,
+        list: true,
+        updateFrequency: ["isPost", "isLogin", "isAdmin"],
+        delete: ["isPost", "isLogin", "isAdmin"],
+        update: ["isPost", "isLogin", "isAdmin"],
+    },
+    SpiderIdentityController: {
+        "*": false,
+        list: ["isLogin", "isAdmin"],
+        create: ["isPost", "isLogin", "isAdmin"],
+        edit: ["isPost", "isLogin", "isAdmin"],
+        delete: ["isPost", "isLogin", "isAdmin"],
+    },
+    ServerController: {
+        "*": false,
+        add: ["isPost", "isLogin", "isAdmin"],
+        list: true,
+        delete: ["isPost", "isLogin", "isAdmin"],
+    },
+    PushController: {
+        "*": false,
+        push: ["isPost", "isLogin", "isAdmin"],
+        channels: true,
+    },
+    PushAccountController: {
+        "*": false,
+        create: ["isPost", "isLogin", "isAdmin"],
+        list: ["isLogin", "isAdmin"],
+        delete: ["isPost", "isLogin", "isAdmin"],
+        edit: ["isPost", "isLogin", "isAdmin"],
+    },
+    PushRuleController: {
+        "*": false,
+        create: ["isPost", "isLogin", "isAdmin"],
+        list: ["isLogin", "isAdmin"],
+        delete: ["isPost", "isLogin", "isAdmin"],
+        edit: ["isPost", "isLogin", "isAdmin"],
+    },
+    ApplicationController: {
+        "*": false,
+        createAPIKeyPairs: ["isPost", "isLogin", "isAdmin"],
+        list: ["isLogin", "isAdmin"],
+        delete: ["isPost", "isLogin", "isAdmin"],
+    },
+    LogController: {
+        "*": false,
+        subscribe: true,
+    },
+    ConfigController: {
+        "*": false,
+        get: true,
+        edit: ["isPost", "isLogin", "isAdmin"],
+        list: ["isLogin", "isAdmin"],
+        delete: ["isPost", "isLogin", "isAdmin"],
+        create: ["isPost", "isLogin", "isAdmin"],
+    },
+    SpecialPushLogController: {
+        "*": false,
+        get: true,
+    },
+    RepositoryController: {
+        "*": false,
+        list: ["isLogin", "isAdmin"],
+        create: ["isPost", "isLogin", "isAdmin"],
+        delete: ["isPost", "isLogin", "isAdmin"],
+        update: ["isPost", "isLogin", "isAdmin"],
+        webhook: ["isPost"],
+        updateLines: ["isPost", "authToken"],
+        countLines: true,
+    },
+    SystemController: {
+        "*": false,
+        latency: true,
+    },
+    "Weather/JMAController": {
+        "*": false,
+        query: ["isPost"],
+    },
 };
