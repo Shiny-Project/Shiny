@@ -81,6 +81,7 @@ module.exports.policies = {
         "*": false,
         push: ["isPost", "isLogin", "isAdmin"],
         channels: true,
+        query: ["isLogin", "isAdmin"],
     },
     PushAccountController: {
         "*": false,

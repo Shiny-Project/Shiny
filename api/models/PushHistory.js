@@ -31,6 +31,7 @@ module.exports = {
         },
         event_id: {
             type: "number",
+            allowNull: true,
         },
         image: {
             type: "string",

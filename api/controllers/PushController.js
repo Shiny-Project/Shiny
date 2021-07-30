@@ -17,9 +17,9 @@ module.exports = {
      */
     push: async (request, response) => {
         const text = request.param("text");
-        const channels = request.param("channel");
+        const channels = request.param("channels");
         const account = request.param("account");
-        if (!text || !channel || !account) {
+        if (!text || !channels || !account) {
             return response.error(400, "missing_parameters", "缺少必要参数");
         }
         if (!Array.isArray(channels) || channels.some((channel) => !AVAILABLE_CHANNELS.includes(channel))) {
@@ -50,6 +50,27 @@ module.exports = {
             const accounts = await PushAccount.find();
             const channels = _.uniq(Array.from(accounts, (account) => account.platform));
             return response.success(channels);
+        } catch (e) {
+            Sentry.captureException(e);
+            return response.error(500, "database_error", "数据库读写错误");
+        }
+    },
+    /**
+     * 查询推送任务详情
+     * @param {*} request
+     * @param {*} response
+     */
+    query: async (request, response) => {
+        const jobIdsStr = request.param("jobIds");
+        if (!jobIdsStr) {
+            return response.error(400, "missing_parameters", "缺少必要参数");
+        }
+        const jobIds = jobIdsStr.split(",").map((id) => parseInt(id));
+        try {
+            const jobs = await PushHistory.find({
+                id: jobIds,
+            }).populate("logs");
+            return response.success(jobs);
         } catch (e) {
             Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
