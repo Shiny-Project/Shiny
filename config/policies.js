@@ -133,6 +133,10 @@ module.exports.policies = {
         "*": false,
         latency: true,
     },
+    EffectController: {
+        "*": false,
+        list: true,
+    },
     "Weather/JMAController": {
         "*": false,
         query: ["isPost"],
