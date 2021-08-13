@@ -68,6 +68,9 @@ module.exports = {
         if (!key) {
             return response.error(400, "missing_parameters", "缺少必要参数");
         }
+        if (typeof key !== 'string') {
+            return response.error(400, "invalid_key", "键值不合法");
+        }
         try {
             const effect = await Effect.findOne({
                 key,

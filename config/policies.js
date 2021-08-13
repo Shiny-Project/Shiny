@@ -136,6 +136,8 @@ module.exports.policies = {
     EffectController: {
         "*": false,
         list: true,
+        create: ["isPost", "isLogin", "isAdmin"],
+        delete: ["isPost", "isLogin", "isAdmin"],
     },
     "Weather/JMAController": {
         "*": false,

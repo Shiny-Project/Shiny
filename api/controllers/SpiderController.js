@@ -56,17 +56,25 @@ module.exports = {
     updateFrequency: async function (request, response) {
         const spiderId = request.param("spiderId");
         const frequency = request.param("frequency");
+        const cooldown = request.param("cooldown");
         if (!spiderId || !frequency) {
             return response.error(400, "missing_parameters", "缺少必要参数");
         }
         try {
+            const spider = await Spider.findOne({ id: spiderId });
+            if (!spider) {
+                return response.error(404, "spider_not_found", "爬虫不存在");
+            }
+            const currentInfo = JSON.parse(spider.info);
             await Spider.update(
                 {
                     id: spiderId,
                 },
                 {
                     info: JSON.stringify({
+                        ...currentInfo,
                         expires: parseInt(frequency),
+                        cooldown: parseInt(cooldown) || 0,
                     }),
                 }
             );
