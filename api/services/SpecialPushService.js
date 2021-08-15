@@ -17,11 +17,12 @@ module.exports = {
             return;
         }
         const nowTime = new Date().valueOf();
-        const lastTriggerTime = new Date(record.last_trigger).valueOf();
-        if (nowTime - lastTriggerTime < 600000) {
+        const lastTriggerTime = CacheService.get(`${name}_last_trigger_time`);
+        if (lastTriggerTime && nowTime - lastTriggerTime < 600000) {
             // 冷却时间 十分钟
             return;
         }
+        CacheService.set(`${name}_last_trigger_time`, nowTime);
         for (const text of SpecialPushTexts[name]) {
             try {
                 // 交由 Shiny Push 进行推送

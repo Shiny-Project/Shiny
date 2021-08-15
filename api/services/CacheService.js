@@ -29,19 +29,32 @@ class CacheService {
             delete this.cacheData[key];
             return;
         }
+        this.cleanup();
         return item.value;
     }
 
     /**
      * 使特定 key 数据失效
-     * @param {string} key 
-     * @returns 
+     * @param {string} key
+     * @returns
      */
     expire(key) {
         if (this.cacheData[key]) {
             const expiredData = this.cacheData[key];
             delete this.cacheData[key];
             return expiredData;
+        }
+    }
+
+    /**
+     * 定时清理过期数据
+     */
+    async cleanup() {
+        const now = Date.now();
+        for (const key of Object.keys(this.cacheData)) {
+            if (now - this.cacheData[key].time >= this.cacheData[key].ttl) {
+                delete this.cacheData[key];
+            }
         }
     }
 }
