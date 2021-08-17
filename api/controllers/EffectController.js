@@ -15,11 +15,7 @@ const EffectTypes = {
 module.exports = {
     list: async (request, response) => {
         try {
-            const effects = await Effect.find({
-                end: {
-                    ">=": CommonUtils.generateDateTimeByOffset(0),
-                },
-            });
+            const effects = await Effect.find();
             return response.success(effects);
         } catch (e) {
             Sentry.captureException(e);
@@ -36,8 +32,18 @@ module.exports = {
         if (!key || !value) {
             return response.error(400, "missing_parameters", "缺少必要参数");
         }
-        if (+type === EffectTypes.TEMPORARY && (!start || !end)) {
-            return response.error(400, "missing_parameters", "非永久有效需要指定开始结束时间");
+        if (+type === EffectTypes.TEMPORARY) {
+            if (!start || !end) {
+                return response.error(400, "missing_parameters", "非永久有效需要指定开始结束时间");
+            }
+            const startTime = new Date(start).valueOf();
+            const endTime = new Date(end).valueOf();
+            if (isNaN(startTime) || isNaN(endTime)) {
+                return response.error(400, "invalid_parameters", "开始结束时间格式错误");
+            }
+            if (startTime > endTime) {
+                return response.error(400, "invalid_parameters", "开始时间大于结束时间");
+            }
         }
         try {
             const existedRecord = await Effect.findOne({
@@ -68,7 +74,7 @@ module.exports = {
         if (!key) {
             return response.error(400, "missing_parameters", "缺少必要参数");
         }
-        if (typeof key !== 'string') {
+        if (typeof key !== "string") {
             return response.error(400, "invalid_key", "键值不合法");
         }
         try {
@@ -78,7 +84,7 @@ module.exports = {
             if (!effect) {
                 return response.error(404, "effect_not_found", "键值不存在");
             }
-            await effect.destroy();
+            await Effect.destroy({ key });
             return response.success();
         } catch (e) {
             Sentry.captureException(e);
