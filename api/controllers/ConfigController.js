@@ -5,6 +5,7 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 const Sentry = require("@sentry/node");
+
 module.exports = {
     /**
      * 获得设置项
@@ -40,6 +41,7 @@ module.exports = {
     edit: async (request, response) => {
         const key = request.param("key");
         const value = request.param("value");
+        const contentType = request.param("contentType") || "string";
         if (!key || !value) {
             return response.error(400, "missing_parameters", "缺少必要参数");
         }
@@ -49,12 +51,13 @@ module.exports = {
             })
                 .set({
                     value,
+                    contentType,
                 })
                 .fetch();
             if (configItems.length > 0) {
                 return response.success({
                     key: configItems[0].key,
-                    value: configItems[0].value,
+                    value: CommonUtils.convertType(configItems[0].value, configItems[0].contentType),
                 });
             } else {
                 return response.error(404, "config_not_found", "不存在该设置项");
@@ -72,7 +75,13 @@ module.exports = {
      */
     list: async (request, response) => {
         try {
-            return response.success(await Config.find());
+            const configItems = await Config.find();
+            return response.success(
+                configItems.map((item) => ({
+                    ...item,
+                    value: CommonUtils.convertType(item.value, item.contentType),
+                }))
+            );
         } catch (e) {
             Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
@@ -102,6 +111,7 @@ module.exports = {
     create: async (request, response) => {
         const key = request.param("key");
         const value = request.param("value");
+        const contentType = request.param("contentType") || "string";
         if (!key || !value) {
             return response.error(400, "missing_parameters", "缺少必要参数");
         }
@@ -115,6 +125,7 @@ module.exports = {
             const createdConfig = await Config.create({
                 key,
                 value,
+                contentType,
             }).fetch();
             return response.success(createdConfig);
         } catch (e) {

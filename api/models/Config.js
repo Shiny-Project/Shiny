@@ -16,5 +16,8 @@ module.exports = {
             type: "string",
             columnType: "text",
         },
+        contentType: {
+            type: "string",
+        },
     },
 };

@@ -111,7 +111,7 @@ module.exports.policies = {
         "*": false,
         get: true,
         edit: ["isPost", "isLogin", "isAdmin"],
-        list: ["isLogin", "isAdmin"],
+        list: true,
         delete: ["isPost", "isLogin", "isAdmin"],
         create: ["isPost", "isLogin", "isAdmin"],
     },

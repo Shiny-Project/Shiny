@@ -67,6 +67,25 @@ module.exports = {
         await browser.close();
         return outputPath;
     },
+    convertType: (data, type = 'string') => {
+        if (type === 'string') {
+            return data;
+        }
+        if (type === 'integer') {
+            return parseInt(data);
+        }
+        if (type === 'boolean') {
+            return data === 'true' ? true : false;
+        }
+        if (type === 'json') {
+            try {
+                return JSON.parse(data);
+            } catch (e) {
+                // pass
+            }
+        }
+        return data;
+    },
     // Sleep
     sleep: (time) => new Promise((resolve) => setTimeout(resolve, time)),
 };
