@@ -16,7 +16,10 @@ module.exports = {
     list: async (request, response) => {
         try {
             const effects = await Effect.find();
-            return response.success(effects);
+            return response.success(effects.map(effect => ({
+                ...effect,
+                value: CommonUtils.convertType(effect.value, effect.contentType)
+            })));
         } catch (e) {
             Sentry.captureException(e);
             return response.error(500, "database_error", "数据库读写错误");
@@ -29,6 +32,7 @@ module.exports = {
         const end = request.param("end");
         const type = request.param("type");
         const desc = request.param("desc");
+        const contentType = request.param("contentType") || "string";
         if (!key || !value) {
             return response.error(400, "missing_parameters", "缺少必要参数");
         }
@@ -57,6 +61,7 @@ module.exports = {
                 value,
                 type,
                 desc,
+                contentType,
             };
             if (+type === EffectTypes.TEMPORARY) {
                 newEffect.start = start;

@@ -24,6 +24,9 @@ module.exports = {
             type: "number",
             defaultsTo: 1
         },
+        contentType: {
+            type: "string",
+        },
         start: {
             type: "ref",
             columnType: "datetime",
