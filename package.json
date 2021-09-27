@@ -5,13 +5,13 @@
   "description": "Shiny Central Control",
   "keywords": [],
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.4.1",
-    "@influxdata/influxdb-client": "^1.6.0",
-    "@sentry/node": "^6.9.0",
-    "@sentry/tracing": "^6.9.0",
+    "@aws-sdk/client-sqs": "^3.34.0",
+    "@influxdata/influxdb-client": "^1.18.0",
+    "@sentry/node": "^6.13.2",
+    "@sentry/tracing": "^6.13.2",
     "async": "2.1.4",
-    "axios": "^0.21.1",
-    "bcryptjs": "latest",
+    "axios": "^0.21.4",
+    "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.5",
     "cheerio": "^0.20.0",
     "ejs": "2.5.5",
@@ -41,7 +41,7 @@
     "sails-hook-orm": "^2.0.1",
     "sails-hook-sockets": "^1.5.3",
     "sails-mysql": "^1.0.0",
-    "socket.io-client": "^4.0.1"
+    "socket.io-client": "^4.2.0"
   },
   "scripts": {
     "debug": "node debug app.js",
