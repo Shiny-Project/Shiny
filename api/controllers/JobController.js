@@ -45,7 +45,7 @@ module.exports = {
                     // 随机从可用凭据里取一个
                     spider.identity = JSON.parse(identities[Math.floor(Math.random() * identities.length)].identity);
                 }
-                const spiderEffect = EffectService.get(`spider_${spider.name}`);
+                const spiderEffect = await EffectService.get(`spider_${spider.name}`);
                 if (spiderEffect) {
                     spider.effect = spiderEffect;
                 }
