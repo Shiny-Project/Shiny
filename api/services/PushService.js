@@ -125,13 +125,11 @@ module.exports = {
                     // 一般推送内容
                     try {
                         // 交由 Shiny Push 进行推送
-                        const createdJobs = (
-                            await axios.post("http://push.shiny.kotori.moe/push/send", {
-                                channels: parsedRule.channels,
-                                text: item.text,
-                                images: item.pic ? [item.pic] : undefined,
-                            })
-                        ).data;
+                        const createdJobs = await ShinyPushService.push({
+                            channels: parsedRule.channels,
+                            text: item.text,
+                            images: item.pic ? [item.pic] : undefined,
+                        });
                         const jobIds = Array.from(createdJobs, (i) => i.id);
                         // 绑定任务与事件
                         await PushHistory.update({
