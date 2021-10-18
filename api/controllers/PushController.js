@@ -7,7 +7,7 @@
 const axios = require("axios");
 const Sentry = require("@sentry/node");
 const _ = require("lodash");
-const AVAILABLE_CHANNELS = ["weibo", "twitter"];
+const AVAILABLE_CHANNELS = ["weibo", "twitter", "telegram"];
 module.exports = {
     /**
      * 手动 Push
