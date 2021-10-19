@@ -112,84 +112,79 @@ module.exports = {
             spider_name: event.spiderName,
         });
         if (!pushRule) {
-            // 无对应规则 fallback到旧模式
-            const WeiboPusher = require("./Pusher/Weibo");
-            for (const result of parseResults) {
-                await WeiboPusher.sendWeibo(result.text, eventId, result.pic);
-                await CommonUtils.sleep(2000);
-            }
-        } else {
-            const parsedRule = JSON.parse(pushRule.rule);
-            for (const item of parseResults) {
-                if (item.text) {
-                    // 一般推送内容
+            Sentry.captureMessage(`无对应推送规则 spiderName=${event.spiderName}`);
+            return;
+        }
+        const parsedRule = JSON.parse(pushRule.rule);
+        for (const item of parseResults) {
+            if (item.text) {
+                // 一般推送内容
+                try {
+                    // 交由 Shiny Push 进行推送
+                    const createdJobs = await ShinyPushService.push({
+                        channels: parsedRule.channels,
+                        text: item.text,
+                        images: item.pic ? [item.pic] : undefined,
+                    });
+                    const jobIds = Array.from(createdJobs, (i) => i.id);
+                    // 绑定任务与事件
+                    await PushHistory.update({
+                        id: { in: jobIds },
+                    }).set({
+                        event_id: eventId,
+                    });
                     try {
-                        // 交由 Shiny Push 进行推送
-                        const createdJobs = await ShinyPushService.push({
-                            channels: parsedRule.channels,
-                            text: item.text,
-                            images: item.pic ? [item.pic] : undefined,
-                        });
-                        const jobIds = Array.from(createdJobs, (i) => i.id);
-                        // 绑定任务与事件
-                        await PushHistory.update({
-                            id: { in: jobIds },
-                        }).set({
-                            event_id: eventId,
-                        });
-                        try {
-                            // 记录解析耗时
-                            const recordPromiseArr = [];
-                            for (const job of createdJobs) {
-                                recordPromiseArr.push(
-                                    PushLog.create({
-                                        channel: job.channel,
-                                        status: "parsing_start",
-                                        time: parsingStartTime,
-                                        info: "{}",
-                                        job_id: job.id,
-                                    })
-                                );
-                                recordPromiseArr.push(
-                                    PushLog.create({
-                                        channel: job.channel,
-                                        status: "parsing_end",
-                                        time: parsingEndTime,
-                                        info: "{}",
-                                        job_id: job.id,
-                                    })
-                                );
-                            }
-                            await Promise.all(recordPromiseArr);
-                        } catch (e) {
-                            Sentry.captureException(e);
-                        }
-                        if (item.pic) {
-                            // 创建上传图片任务
-                            await QueueService.sendMessage({
-                                paths: [item.pic],
-                            });
-                            await Data.update(
-                                {
-                                    id: eventId,
-                                },
-                                {
-                                    data: JSON.stringify({
-                                        ...event.data,
-                                        shinyImages: [item.pic],
-                                    }),
-                                }
+                        // 记录解析耗时
+                        const recordPromiseArr = [];
+                        for (const job of createdJobs) {
+                            recordPromiseArr.push(
+                                PushLog.create({
+                                    channel: job.channel,
+                                    status: "parsing_start",
+                                    time: parsingStartTime,
+                                    info: "{}",
+                                    job_id: job.id,
+                                })
+                            );
+                            recordPromiseArr.push(
+                                PushLog.create({
+                                    channel: job.channel,
+                                    status: "parsing_end",
+                                    time: parsingEndTime,
+                                    info: "{}",
+                                    job_id: job.id,
+                                })
                             );
                         }
+                        await Promise.all(recordPromiseArr);
                     } catch (e) {
-                        console.log("与 Shiny-Push 通信失败");
                         Sentry.captureException(e);
                     }
+                    if (item.pic) {
+                        // 创建上传图片任务
+                        await QueueService.sendMessage({
+                            paths: [item.pic],
+                        });
+                        await Data.update(
+                            {
+                                id: eventId,
+                            },
+                            {
+                                data: JSON.stringify({
+                                    ...event.data,
+                                    shinyImages: [item.pic],
+                                }),
+                            }
+                        );
+                    }
+                } catch (e) {
+                    console.log("与 Shiny-Push 通信失败");
+                    Sentry.captureException(e);
                 }
-                if (item.special) {
-                    // 特别推送内容
-                    SpecialPushService.push(item.special, parsedRule.channels, eventId);
-                }
+            }
+            if (item.special) {
+                // 特别推送内容
+                SpecialPushService.push(item.special, parsedRule.channels, eventId);
             }
         }
     },
