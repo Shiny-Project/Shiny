@@ -125,6 +125,7 @@ module.exports = {
                         channels: parsedRule.channels,
                         text: item.text,
                         images: item.pic ? [item.pic] : undefined,
+                        eventId,
                     });
                     const jobIds = Array.from(createdJobs, (i) => i.id);
                     // 绑定任务与事件
@@ -160,6 +161,11 @@ module.exports = {
                     } catch (e) {
                         Sentry.captureException(e);
                     }
+                } catch (e) {
+                    console.log("与 Shiny-Push 通信失败");
+                    Sentry.captureException(e);
+                }
+                try {
                     if (item.pic) {
                         // 创建上传图片任务
                         await QueueService.sendMessage({
@@ -178,7 +184,7 @@ module.exports = {
                         );
                     }
                 } catch (e) {
-                    console.log("与 Shiny-Push 通信失败");
+                    console.log("添加上传图片任务失败");
                     Sentry.captureException(e);
                 }
             }

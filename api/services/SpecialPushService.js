@@ -1,6 +1,6 @@
 const Sentry = require("@sentry/node");
 const SpecialPushTexts = require("./SpecialPush/Texts");
-const axios = require("axios");
+
 module.exports = {
     /**
      * 特别文本推送
@@ -26,12 +26,10 @@ module.exports = {
         for (const text of SpecialPushTexts[name]) {
             try {
                 // 交由 Shiny Push 进行推送
-                const createdJobs = (
-                    await axios.post("http://push.shiny.kotori.moe/push/send", {
-                        channels: channels,
-                        text,
-                    })
-                ).data;
+                const createdJobs = await ShinyPushService.push({
+                    channels: channels,
+                    text,
+                });
                 const jobIds = Array.from(createdJobs, (i) => i.id);
                 // 绑定任务与事件
                 await PushHistory.update({
