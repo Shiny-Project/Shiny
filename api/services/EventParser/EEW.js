@@ -1,5 +1,5 @@
 module.exports = {
-    parse: async (event, sendWeibo) => {
+    parse: async (event) => {
         const parseResult = [];
         if (event.data.content.match(/强烈摇晃的地区:\n(.+)\n/) === null) {
             return [

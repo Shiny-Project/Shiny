@@ -99,10 +99,11 @@ module.exports = {
             }
             default: {
                 if (event.level === 4 || event.level === 5) {
-                    const WeiboPusher = require("./Pusher/Weibo");
-                    WeiboPusher.sendWeibo(`${event.data.title} : ${event.data.content}`, eventId).then(() => {
-                        //
-                    });
+                    parseResults = [
+                        {
+                            text: `${event.data.title} : ${event.data.content}`,
+                        },
+                    ];
                 }
                 return;
             }
@@ -126,6 +127,9 @@ module.exports = {
                         text: item.text,
                         images: item.pic ? [item.pic] : undefined,
                         eventId,
+                        title: event.data.title,
+                        level: event.level,
+                        link: event.data.link,
                     });
                     const jobIds = Array.from(createdJobs, (i) => i.id);
                     // 绑定任务与事件
