@@ -94,14 +94,11 @@ module.exports = {
                 break;
             }
             default: {
-                if (event.level === 4 || event.level === 5) {
-                    parseResults = [
-                        {
-                            text: `${event.data.title} : ${event.data.content}`,
-                        },
-                    ];
-                }
-                return;
+                parseResults = [
+                    {
+                        text: `${event.data.title} : ${event.data.content}`,
+                    },
+                ];
             }
         }
         const parsingEndTime = new Date();
