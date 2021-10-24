@@ -12,10 +12,6 @@ module.exports = {
         const pusher = require("./Pusher/Websocket");
         pusher.sendSocket(type, body);
     },
-    sendTeleGram: function (text) {
-        const pusher = require("./Pusher/Telegram");
-        pusher.sendTeleGram(text);
-    },
     /**
      * 推送到社交平台
      * @param event

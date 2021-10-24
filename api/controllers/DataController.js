@@ -70,12 +70,6 @@ module.exports = {
                     PushService.sendSocket("normal", messageBody);
                     // 推送到微博
                     PushService.pushSocial(event, result.id);
-                    // 推送到 Telegram
-                    PushService.sendTeleGram(`Level.${event.level} - ${event.data.title}
-${event.data.content}
-${event.data.link}
-https://console.kotori.moe/#/dashboard/event/${result.id}
-`);
                 }
             }
         } catch (e) {

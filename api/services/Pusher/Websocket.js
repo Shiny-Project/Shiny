@@ -1,7 +1,7 @@
 module.exports = {
     sendSocket: (type, body) => {
-        let io = require("socket.io-client");
-        let socket = io.connect("http://websocket.shiny.kotori.moe:3737", {
+        const io = require("socket.io-client");
+        const socket = io.connect("http://websocket.shiny.kotori.moe:3737", {
             reconnect: true,
         });
         socket.on("connect", function () {
