@@ -47,7 +47,7 @@ module.exports = {
                 }
                 const spiderEffect = await EffectService.get(`spider_${spider.name}`);
                 if (spiderEffect) {
-                    spider.effect = spiderEffect;
+                    spider.effect = JSON.parse(spiderEffect);
                 }
                 needFresh.push(spider);
             }
