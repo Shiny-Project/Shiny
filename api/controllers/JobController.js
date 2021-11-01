@@ -91,13 +91,10 @@ module.exports = {
             newJob.spider = spider.name;
             newJob.path = spider.path;
             newJob.status = "processing";
-            if (spider.identity) {
-                newJob.info = JSON.stringify({
-                    identity: spider.identity,
-                });
-            } else {
-                newJob.info = "{}";
-            }
+            newJob.info = JSON.stringify({
+                ...(spider.identity ? { identity: spider.identity } : {}),
+                ...(spider.effect ? { effect: spider.effect } : {}),
+            });
             try {
                 // 把新的任务记录到数据库
                 const result = await Job.create(newJob).fetch();
