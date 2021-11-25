@@ -59,7 +59,7 @@ module.exports = {
         if (new Date(startTime).valueOf() < new Date("2010-01-01 00:00:00+0900").valueOf()) {
             return response.error(400, "bad_time_start_point", "时间起点超出范围");
         }
-        if (new Date(endTime).valueOf() > new Date().valueOf() + 86400 * 1000) {
+        if (new Date(endTime).valueOf() > Date.now() + 86400 * 1000) {
             return response.error(400, "bad_time_end_point", "时间终点超出范围");
         }
         let query =

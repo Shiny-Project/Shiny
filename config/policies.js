@@ -118,10 +118,11 @@ module.exports.policies = {
     SpecialPushLogController: {
         "*": false,
         get: true,
+        list: true,
     },
     RepositoryController: {
         "*": false,
-        list: ["isLogin", "isAdmin"],
+        list: true,
         create: ["isPost", "isLogin", "isAdmin"],
         delete: ["isPost", "isLogin", "isAdmin"],
         update: ["isPost", "isLogin", "isAdmin"],
