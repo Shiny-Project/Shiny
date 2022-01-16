@@ -1,318 +1,373 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-<head>
-  <link rel="stylesheet" href="../base.css">
-  <script src="../base.js"></script>
-</head>
-<body>
-<header>
-  <span class="title">地震速报(USGS)</span>
-</header>
-<div class="container">
-  <div class="map-container">
-    <img id="map"
-         src="">
-  </div>
-  <div class="earthquake_description">
-    <p id="description-title">
-      {earthquake}
-    </p>
-    <p id="description-detail">
-      无详细信息
-    </p>
-  </div>
-</div>
-<footer></footer>
-</body>
-<style>
-  .container {
-    display: flex;
-    justify-items: center;
-  }
-
-  .map-container, .earthquake_description {
-    width: 49.5vw;
-    height: 90vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
-  }
-
-  .earthquake_description {
-    display: block;
-    margin-top: 20vh;
-    justify-content: center;
-    padding-left: 2rem;
-    font-size: 4vh;
-  }
-
-  #description-title {
-    font-weight: bold;
-  }
-
-  #description-detail {
-    padding-right: 7vw;
-  }
-
-  .alert_icon img {
-    width: 500px;
-  }
-</style>
-<script>
-  const translate = (str) => {
-    return {
-      "Abkhazia": "阿布哈兹",
-      "Afghanistan": "阿富汗",
-      "Albania": "阿尔巴尼亚",
-      "Algeria": "阿尔及利亚",
-      "Andorra": "安道尔",
-      "Angola": "安哥拉",
-      "Antigua and Barbuda": "安提瓜和巴布达",
-      "Argentina": "阿根廷",
-      "Armenia": "亚美尼亚",
-      "Artsakh": "阿尔扎赫",
-      "Australia": "澳大利亚",
-      "Austria": "奥地利",
-      "Azerbaijan": "阿塞拜疆",
-      "Bahamas": "巴哈马",
-      "Bahrain": "巴林",
-      "Bangladesh": "孟加拉国",
-      "Barbados": "巴巴多斯",
-      "Belarus": "白俄罗斯",
-      "Belgium": "比利时",
-      "Belize": "伯利兹",
-      "Benin": "贝宁",
-      "Bhutan": "不丹",
-      "Bolivia": "玻利维亚",
-      "Bosnia and Herzegovina": "波斯尼亚和黑塞哥维那",
-      "Botswana": "博茨瓦纳",
-      "Brazil": "巴西",
-      "Brunei": "文莱",
-      "Bulgaria": "保加利亚",
-      "Burkina Faso": "布基纳法索",
-      "Burundi": "布隆迪",
-      "Cambodia": "柬埔寨",
-      "Cameroon": "喀麦隆",
-      "Canada": "加拿大",
-      "Cape Verde": "佛得角",
-      "Central African Republic": "中非",
-      "Chad": "乍得",
-      "Chile": "智利",
-      "China": "中国",
-      "Colombia": "哥伦比亚",
-      "Comoros": "科摩罗",
-      "Congo (Brazzaville)": "刚果（布）",
-      "Congo (Kinshasa)": "刚果（金）",
-      "Cook Islands": "库克群岛（新西兰）",
-      "Costa Rica": "哥斯达黎加",
-      "Côte d'Ivoire": "科特迪瓦",
-      "Croatia": "克罗地亚",
-      "Cuba": "古巴",
-      "Cyprus": "塞浦路斯",
-      "Czech Republic": "捷克",
-      "Denmark": "丹麦",
-      "Djibouti": "吉布提",
-      "Dominica": "多米尼克",
-      "Dominican Republic": "多米尼加",
-      "Donetsk": "顿涅茨克",
-      "Ecuador": "厄瓜多尔",
-      "Egypt": "埃及",
-      "El Salvador": "萨尔瓦多",
-      "Equatorial Guinea": "赤道几内亚",
-      "Eritrea": "厄立特里亚",
-      "Estonia": "爱沙尼亚",
-      "Ethiopia": "埃塞俄比亚",
-      "Fiji": "斐济",
-      "Finland": "芬兰",
-      "France": "法国",
-      "Gabon": "加蓬",
-      "Gambia": "冈比亚",
-      "Georgia": "格鲁吉亚",
-      "Germany": "德国",
-      "Ghana": "加纳",
-      "Greece": "希腊",
-      "Grenada": "格林纳达",
-      "Guatemala": "危地马拉",
-      "Guinea": "几内亚",
-      "Guinea-Bissau": "几内亚比绍",
-      "Guyana": "圭亚那",
-      "Haiti": "海地",
-      "Honduras": "洪都拉斯",
-      "Hungary": "匈牙利",
-      "Iceland": "冰岛",
-      "India": "印度",
-      "Indonesia": "印尼",
-      "Iran": "伊朗",
-      "Iraq": "伊拉克",
-      "Ireland": "爱尔兰",
-      "Israel": "以色列",
-      "Italy": "意大利",
-      "Jamaica": "牙买加",
-      "Japan": "日本",
-      "Jordan": "约旦",
-      "Kazakhstan": "哈萨克斯坦",
-      "Kenya": "肯尼亚",
-      "Kiribati": "基里巴斯",
-      "Kosovo": "科索沃",
-      "Kuwait": "科威特",
-      "Kyrgyzstan": "吉尔吉斯斯坦",
-      "Laos": "老挝",
-      "Latvia": "拉脱维亚",
-      "Lebanon": "黎巴嫩",
-      "Lesotho": "莱索托",
-      "Liberia": "利比里亚",
-      "Libya": "利比亚",
-      "Liechtenstein": "列支敦士登",
-      "Lithuania": "立陶宛",
-      "Luhansk": "卢甘斯克",
-      "Luxembourg": "卢森堡",
-      "Macedonia": "马其顿",
-      "Madagascar": "马达加斯加",
-      "Malawi": "马拉维",
-      "Malaysia": "马来西亚",
-      "Maldives": "马尔代夫",
-      "Mali": "马里",
-      "Malta": "马耳他",
-      "Marshall Islands": "马绍尔群岛",
-      "Mauritania": "毛里塔尼亚",
-      "Mauritius": "毛里求斯",
-      "Mexico": "墨西哥",
-      "Micronesia": "密克罗尼西亚联邦",
-      "Moldova": "摩尔多瓦",
-      "Monaco": "摩纳哥",
-      "Mongolia": "蒙古",
-      "Montenegro": "黑山",
-      "Morocco": "摩洛哥",
-      "Mozambique": "莫桑比克",
-      "Myanmar": "缅甸",
-      "Namibia": "纳米比亚",
-      "Nauru": "瑙鲁",
-      "Nepal": "尼泊尔",
-      "Netherlands": "荷兰",
-      "New Zealand": "新西兰",
-      "Nicaragua": "尼加拉瓜",
-      "Niger": "尼日尔",
-      "Nigeria": "尼日利亚",
-      "Niue": "纽埃（新西兰）",
-      "North Korea": "朝鲜",
-      "Northern Cyprus": "北塞浦路斯",
-      "Norway": "挪威",
-      "Oman": "阿曼",
-      "Pakistan": "巴基斯坦",
-      "Palau": "帕劳",
-      "Palestine": "巴勒斯坦",
-      "Panama": "巴拿马",
-      "Papua New Guinea": "巴布亚新几内亚",
-      "Paraguay": "巴拉圭",
-      "Peru": "秘鲁",
-      "Philippines": "菲律宾",
-      "Poland": "波兰",
-      "Portugal": "葡萄牙",
-      "Pridnestrovie": "德涅斯特河沿岸",
-      "Qatar": "卡塔尔",
-      "Romania": "罗马尼亚",
-      "Russia": "俄罗斯",
-      "Rwanda": "卢旺达",
-      "Saint Christopher and Nevis": "圣基茨和尼维斯",
-      "Saint Lucia": "圣卢西亚",
-      "Saint Vincent and the Grenadines": "圣文森特和格林纳丁斯",
-      "Samoa": "萨摩亚",
-      "San Marino": "圣马力诺",
-      "São Tomé and Príncipe": "圣多美和普林西比",
-      "Saudi Arabia": "沙特阿拉伯",
-      "Senegal": "塞内加尔",
-      "Serbia": "塞尔维亚",
-      "Seychelles": "塞舌尔",
-      "Sierra Leone": "塞拉利昂",
-      "Singapore": "新加坡",
-      "Slovakia": "斯洛伐克",
-      "Slovenia": "斯洛文尼亚",
-      "Solomon Islands": "所罗门群岛",
-      "Somali": "索马里",
-      "Somaliland": "索马里兰",
-      "South Africa": "南非",
-      "South Korea": "韩国",
-      "South Ossetia": "南奥塞梯",
-      "South Sudan": "南苏丹",
-      "Spain": "西班牙",
-      "Sri Lanka": "斯里兰卡",
-      "Sudan": "苏丹",
-      "Suriname": "苏里南",
-      "Swaziland": "斯威士兰",
-      "Sweden": "瑞典",
-      "Switzerland": "瑞士",
-      "Syria": "叙利亚",
-      "Taiwan": "中国台湾",
-      "Tajikistan": "塔吉克斯坦",
-      "Tanzania": "坦桑尼亚",
-      "Thailand": "泰国",
-      "Timor-Leste": "东帝汶",
-      "Togo": "多哥",
-      "Tonga": "汤加",
-      "Trinidad and Tobago": "特立尼达和多巴哥",
-      "Tunisia": "突尼斯",
-      "Turkey": "土耳其",
-      "Turkmenistan": "土库曼斯坦",
-      "Tuvalu": "图瓦卢",
-      "Uganda": "乌干达",
-      "Ukraine": "乌克兰",
-      "United Arab Emirates": "阿联酋",
-      "United Kingdom": "英国",
-      "United States": "美国",
-      "Uruguay": "乌拉圭",
-      "Uzbekistan": "乌兹别克斯坦",
-      "Vanuatu": "瓦努阿图",
-      "The Holy See": "梵蒂冈",
-      "Venezuela": "委内瑞拉",
-      "Vietnam": "越南",
-      "Western Sahara": "西撒哈拉",
-      "Yemen": "也门",
-      "Zambia": "赞比亚",
-      "Zimbabwe": "津巴布韦",
-      "Alaska": "阿拉斯加（美国）"
-    }[str] || str;
-  };
-  const parseDirection = (direction) => {
-    return {
-      'N': '北',
-      'NE': '东北',
-      'NW': '西北',
-      'E': '东',
-      'SE': '东南',
-      'S': '南',
-      'SW': '西南',
-      'W': '西',
-      'NNE': '东北偏北',
-      'ENE': '东北偏东',
-      'ESE': '东南偏东',
-      'SSE': '东南偏南',
-      'SSW': '西南偏南',
-      'WSW': '西南偏西',
-      'WNW': '西北偏西',
-      'NNW': '西北偏北'
-    }[direction] || direction;
-  };
-  const event = utils.getParameter();
-  const content = event.content;
-  document.getElementById('description-title').innerText = content;
-  const coordinate = event.location.split(' ');
-  const depth = event.depth;
-  const region = content.split(',')[1].slice(1);
-  const place = content.match(/-(.+),/)[1];
-  const city = place.match(/of (.+)/)[1];
-  const direction = place.match(/km (.+) of/)[1];
-  const distance = place.match(/(\d+)[ ]*km/)[1];
-  const magnitude = event.content.match(/M ([\d.]+)/)[1];
-  const apiKey = event.__apiKeys.GOOGLE_API_KEY;
-  document.getElementById('description-title').innerText = `${translate(region)}
-  ${city} ${parseDirection(direction)}方 ${distance} 千米发生地震`;
-  document.getElementById('description-detail').innerText = `震级: M${magnitude}
-  ${parseFloat(coordinate[0]) > 0 ? '北纬' : '南纬'}${Math.abs(coordinate[0])}° ${parseFloat(coordinate[1]) > 0 ? '东经' : '西经'}${Math.abs(coordinate[1])}°
-  震源深度: ${depth / 1000}千米
-  (后续可能发生修订 请以最新情报为准)
-  `;
-  document.getElementById('map').src = `https://maps.google.com/maps/api/staticmap?key=${apiKey}&center=${coordinate[0]},${coordinate[1]}&size=500x500&zoom=6&markers=red|${coordinate[0]},${coordinate[1]}&lanuage=zh-CN&region=CN`
-</script>
+    <head>
+        <link rel="stylesheet" href="../base_new.css" />
+        <script src="../base.js"></script>
+    </head>
+    <body>
+        <header>
+            <div class="title">全球显著地震速报</div>
+            <div class="subtitle">USGS Significant Earthquakes</div>
+        </header>
+        <main>
+            <div class="left">
+                <div class="map-image-container">
+                    <img class="map" id="map" />
+                </div>
+            </div>
+            <div class="right">
+                <div class="description-title" id="desp-title">{title}</div>
+                <div class="description-subtitle" id="desp-subtitle">{subtitle}</div>
+                <div class="info-container">
+                    <div class="row">
+                        <div class="column">震级</div>
+                        <div class="column" id="magnitude">{magnitude}</div>
+                    </div>
+                    <div class="row">
+                        <div class="column">震中</div>
+                        <div class="column" id="epicenter">{epicenter}</div>
+                    </div>
+                    <div class="row">
+                        <div class="column">深度</div>
+                        <div class="column" id="depth">{depth}</div>
+                    </div>
+                    <div class="row tip">
+                        <span>后续可能发生修订 请以最新情报为准</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer></footer>
+    </body>
+    <style>
+        main {
+            display: flex;
+        }
+        .left,
+        .right {
+            width: 9.6rem;
+            flex-shrink: 0;
+        }
+        .left {
+            padding-top: 0.24rem;
+            display: flex;
+            justify-content: center;
+        }
+        .map-image-container {
+            width: 8.4rem;
+            height: 7.4rem;
+            background-color: #fff;
+        }
+        .map {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .right {
+            display: flex;
+            flex-direction: column;
+            padding-left: 0.32rem;
+        }
+        .description-title {
+            font-size: 0.72rem;
+            color: #764b8e;
+            font-weight: bold;
+        }
+        .description-subtitle {
+            margin-top: 0.26rem;
+            font-size: 0.36rem;
+            color: #764b8e;
+            font-weight: bold;
+        }
+        .info-container {
+            margin-top: 0.67rem;
+            display: flex;
+            flex-direction: column;
+            color: #9775aa;
+            font-size: 0.36rem;
+            font-weight: bold;
+        }
+        .row {
+            display: flex;
+            flex-shrink: 0;
+            line-height: 0.47rem;
+            margin-top: 0.33rem;
+        }
+        .row:first-child {
+            margin-top: 0;
+        }
+        .column {
+            margin-left: 1.06rem;
+        }
+        .column:first-child {
+            margin-left: 0;
+        }
+        .tip {
+            margin-top: 2.45rem;
+            color: #764b8e;
+            line-height: 0.46rem;
+        }
+    </style>
+    <script>
+        const translate = (str) => {
+            return (
+                {
+                    Abkhazia: "阿布哈兹",
+                    Afghanistan: "阿富汗",
+                    Albania: "阿尔巴尼亚",
+                    Algeria: "阿尔及利亚",
+                    Andorra: "安道尔",
+                    Angola: "安哥拉",
+                    "Antigua and Barbuda": "安提瓜和巴布达",
+                    Argentina: "阿根廷",
+                    Armenia: "亚美尼亚",
+                    Artsakh: "阿尔扎赫",
+                    Australia: "澳大利亚",
+                    Austria: "奥地利",
+                    Azerbaijan: "阿塞拜疆",
+                    Bahamas: "巴哈马",
+                    Bahrain: "巴林",
+                    Bangladesh: "孟加拉国",
+                    Barbados: "巴巴多斯",
+                    Belarus: "白俄罗斯",
+                    Belgium: "比利时",
+                    Belize: "伯利兹",
+                    Benin: "贝宁",
+                    Bhutan: "不丹",
+                    Bolivia: "玻利维亚",
+                    "Bosnia and Herzegovina": "波斯尼亚和黑塞哥维那",
+                    Botswana: "博茨瓦纳",
+                    Brazil: "巴西",
+                    Brunei: "文莱",
+                    Bulgaria: "保加利亚",
+                    "Burkina Faso": "布基纳法索",
+                    Burundi: "布隆迪",
+                    Cambodia: "柬埔寨",
+                    Cameroon: "喀麦隆",
+                    Canada: "加拿大",
+                    "Cape Verde": "佛得角",
+                    "Central African Republic": "中非",
+                    Chad: "乍得",
+                    Chile: "智利",
+                    China: "中国",
+                    Colombia: "哥伦比亚",
+                    Comoros: "科摩罗",
+                    "Congo (Brazzaville)": "刚果（布）",
+                    "Congo (Kinshasa)": "刚果（金）",
+                    "Cook Islands": "库克群岛（新西兰）",
+                    "Costa Rica": "哥斯达黎加",
+                    "Côte d'Ivoire": "科特迪瓦",
+                    Croatia: "克罗地亚",
+                    Cuba: "古巴",
+                    Cyprus: "塞浦路斯",
+                    "Czech Republic": "捷克",
+                    Denmark: "丹麦",
+                    Djibouti: "吉布提",
+                    Dominica: "多米尼克",
+                    "Dominican Republic": "多米尼加",
+                    Donetsk: "顿涅茨克",
+                    Ecuador: "厄瓜多尔",
+                    Egypt: "埃及",
+                    "El Salvador": "萨尔瓦多",
+                    "Equatorial Guinea": "赤道几内亚",
+                    Eritrea: "厄立特里亚",
+                    Estonia: "爱沙尼亚",
+                    Ethiopia: "埃塞俄比亚",
+                    Fiji: "斐济",
+                    Finland: "芬兰",
+                    France: "法国",
+                    Gabon: "加蓬",
+                    Gambia: "冈比亚",
+                    Georgia: "格鲁吉亚",
+                    Germany: "德国",
+                    Ghana: "加纳",
+                    Greece: "希腊",
+                    Grenada: "格林纳达",
+                    Guatemala: "危地马拉",
+                    Guinea: "几内亚",
+                    "Guinea-Bissau": "几内亚比绍",
+                    Guyana: "圭亚那",
+                    Haiti: "海地",
+                    Honduras: "洪都拉斯",
+                    Hungary: "匈牙利",
+                    Iceland: "冰岛",
+                    India: "印度",
+                    Indonesia: "印尼",
+                    Iran: "伊朗",
+                    Iraq: "伊拉克",
+                    Ireland: "爱尔兰",
+                    Israel: "以色列",
+                    Italy: "意大利",
+                    Jamaica: "牙买加",
+                    Japan: "日本",
+                    Jordan: "约旦",
+                    Kazakhstan: "哈萨克斯坦",
+                    Kenya: "肯尼亚",
+                    Kiribati: "基里巴斯",
+                    Kosovo: "科索沃",
+                    Kuwait: "科威特",
+                    Kyrgyzstan: "吉尔吉斯斯坦",
+                    Laos: "老挝",
+                    Latvia: "拉脱维亚",
+                    Lebanon: "黎巴嫩",
+                    Lesotho: "莱索托",
+                    Liberia: "利比里亚",
+                    Libya: "利比亚",
+                    Liechtenstein: "列支敦士登",
+                    Lithuania: "立陶宛",
+                    Luhansk: "卢甘斯克",
+                    Luxembourg: "卢森堡",
+                    Macedonia: "马其顿",
+                    Madagascar: "马达加斯加",
+                    Malawi: "马拉维",
+                    Malaysia: "马来西亚",
+                    Maldives: "马尔代夫",
+                    Mali: "马里",
+                    Malta: "马耳他",
+                    "Marshall Islands": "马绍尔群岛",
+                    Mauritania: "毛里塔尼亚",
+                    Mauritius: "毛里求斯",
+                    Mexico: "墨西哥",
+                    Micronesia: "密克罗尼西亚联邦",
+                    Moldova: "摩尔多瓦",
+                    Monaco: "摩纳哥",
+                    Mongolia: "蒙古",
+                    Montenegro: "黑山",
+                    Morocco: "摩洛哥",
+                    Mozambique: "莫桑比克",
+                    Myanmar: "缅甸",
+                    Namibia: "纳米比亚",
+                    Nauru: "瑙鲁",
+                    Nepal: "尼泊尔",
+                    Netherlands: "荷兰",
+                    "New Zealand": "新西兰",
+                    Nicaragua: "尼加拉瓜",
+                    Niger: "尼日尔",
+                    Nigeria: "尼日利亚",
+                    Niue: "纽埃（新西兰）",
+                    "North Korea": "朝鲜",
+                    "Northern Cyprus": "北塞浦路斯",
+                    Norway: "挪威",
+                    Oman: "阿曼",
+                    Pakistan: "巴基斯坦",
+                    Palau: "帕劳",
+                    Palestine: "巴勒斯坦",
+                    Panama: "巴拿马",
+                    "Papua New Guinea": "巴布亚新几内亚",
+                    Paraguay: "巴拉圭",
+                    Peru: "秘鲁",
+                    Philippines: "菲律宾",
+                    Poland: "波兰",
+                    Portugal: "葡萄牙",
+                    Pridnestrovie: "德涅斯特河沿岸",
+                    Qatar: "卡塔尔",
+                    Romania: "罗马尼亚",
+                    Russia: "俄罗斯",
+                    Rwanda: "卢旺达",
+                    "Saint Christopher and Nevis": "圣基茨和尼维斯",
+                    "Saint Lucia": "圣卢西亚",
+                    "Saint Vincent and the Grenadines": "圣文森特和格林纳丁斯",
+                    Samoa: "萨摩亚",
+                    "San Marino": "圣马力诺",
+                    "São Tomé and Príncipe": "圣多美和普林西比",
+                    "Saudi Arabia": "沙特阿拉伯",
+                    Senegal: "塞内加尔",
+                    Serbia: "塞尔维亚",
+                    Seychelles: "塞舌尔",
+                    "Sierra Leone": "塞拉利昂",
+                    Singapore: "新加坡",
+                    Slovakia: "斯洛伐克",
+                    Slovenia: "斯洛文尼亚",
+                    "Solomon Islands": "所罗门群岛",
+                    Somali: "索马里",
+                    Somaliland: "索马里兰",
+                    "South Africa": "南非",
+                    "South Korea": "韩国",
+                    "South Ossetia": "南奥塞梯",
+                    "South Sudan": "南苏丹",
+                    Spain: "西班牙",
+                    "Sri Lanka": "斯里兰卡",
+                    Sudan: "苏丹",
+                    Suriname: "苏里南",
+                    Swaziland: "斯威士兰",
+                    Sweden: "瑞典",
+                    Switzerland: "瑞士",
+                    Syria: "叙利亚",
+                    Taiwan: "中国台湾",
+                    Tajikistan: "塔吉克斯坦",
+                    Tanzania: "坦桑尼亚",
+                    Thailand: "泰国",
+                    "Timor-Leste": "东帝汶",
+                    Togo: "多哥",
+                    Tonga: "汤加",
+                    "Trinidad and Tobago": "特立尼达和多巴哥",
+                    Tunisia: "突尼斯",
+                    Turkey: "土耳其",
+                    Turkmenistan: "土库曼斯坦",
+                    Tuvalu: "图瓦卢",
+                    Uganda: "乌干达",
+                    Ukraine: "乌克兰",
+                    "United Arab Emirates": "阿联酋",
+                    "United Kingdom": "英国",
+                    "United States": "美国",
+                    Uruguay: "乌拉圭",
+                    Uzbekistan: "乌兹别克斯坦",
+                    Vanuatu: "瓦努阿图",
+                    "The Holy See": "梵蒂冈",
+                    Venezuela: "委内瑞拉",
+                    Vietnam: "越南",
+                    "Western Sahara": "西撒哈拉",
+                    Yemen: "也门",
+                    Zambia: "赞比亚",
+                    Zimbabwe: "津巴布韦",
+                    Alaska: "阿拉斯加（美国）",
+                }[str] || str
+            );
+        };
+        const parseDirection = (direction) => {
+            return (
+                {
+                    N: "北",
+                    NE: "东北",
+                    NW: "西北",
+                    E: "东",
+                    SE: "东南",
+                    S: "南",
+                    SW: "西南",
+                    W: "西",
+                    NNE: "东北偏北",
+                    ENE: "东北偏东",
+                    ESE: "东南偏东",
+                    SSE: "东南偏南",
+                    SSW: "西南偏南",
+                    WSW: "西南偏西",
+                    WNW: "西北偏西",
+                    NNW: "西北偏北",
+                }[direction] || direction
+            );
+        };
+        const event = utils.getParameter();
+        const content = event.content;
+        const coordinate = event.location.split(" ");
+        const depth = event.depth;
+        const region = content.split(",")[1].slice(1);
+        const place = content.match(/-(.+),/)[1];
+        const city = place.match(/of (.+)/)[1];
+        const direction = place.match(/km (.+) of/)[1];
+        const distance = place.match(/(\d+)[ ]*km/)[1];
+        const magnitude = event.content.match(/M ([\d.]+)/)[1];
+        const apiKey = event.__apiKeys.GOOGLE_API_KEY;
+        document.getElementById("desp-title").innerText = `${translate(region)}`;
+        document.getElementById("desp-subtitle").innerText = `${city} ${parseDirection(
+            direction
+        )}方 ${distance} 千米发生地震`;
+        document.getElementById("magnitude").innerText = `M${magnitude}`;
+        document.getElementById("epicenter").innerText = `${parseFloat(coordinate[0]) > 0 ? "北纬" : "南纬"}${Math.abs(
+            coordinate[0]
+        )}° ${parseFloat(coordinate[1]) > 0 ? "东经" : "西经"}${Math.abs(coordinate[1])}°`;
+        document.getElementById("depth").innerText = `${depth / 1000}千米`;
+        document.getElementById(
+            "map"
+        ).src = `https://maps.google.com/maps/api/staticmap?key=${apiKey}&center=${coordinate[0]},${coordinate[1]}&size=1000x1000&zoom=6&markers=red|${coordinate[0]},${coordinate[1]}&lanuage=zh-CN&region=CN`;
+    </script>
 </html>

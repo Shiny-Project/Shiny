@@ -1,0 +1,50 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+html {
+    font-size: 5.20833333333vw; /* 1rem = 100px (in 1920px width) */
+    box-sizing: border-box;
+}
+body {
+    background-color: rgb(224, 221, 225);
+    font-family: "Noto Sans CJK SC", "思源黑体", serif;
+    line-height: normal;
+    font-size: 0.16rem;
+}
+body::-webkit-scrollbar {
+    display: none;
+}
+header {
+    height: 2.2rem;
+    padding: 0.16rem 0.54rem;
+    display: flex;
+    flex-direction: column;
+}
+.title {
+    font-size: 0.9rem;
+    line-height: 1.3rem;
+    color: #582a72;
+    font-weight: bold;
+}
+.subtitle {
+    font-size: 0.36rem;
+    line-height: 0.52rem;
+    color: #764b8e;
+    font-weight: bold;
+}
+main {
+    height: 8.6rem;
+}
+footer {
+    position: fixed;
+    bottom: 0.04rem;
+    right: 0.08rem;
+    opacity: 0.4;
+    font-size: 0.16rem;
+}
