@@ -58,7 +58,7 @@ module.exports = {
         const page = await browser.newPage();
         page.setViewport({
             width: 1920,
-            height: 950,
+            height: 1080,
         });
         await page.goto(url);
         await page.screenshot({
@@ -67,17 +67,17 @@ module.exports = {
         await browser.close();
         return outputPath;
     },
-    convertType: (data, type = 'string') => {
-        if (type === 'string') {
+    convertType: (data, type = "string") => {
+        if (type === "string") {
             return data;
         }
-        if (type === 'integer') {
+        if (type === "integer") {
             return parseInt(data);
         }
-        if (type === 'boolean') {
-            return data === 'true' ? true : false;
+        if (type === "boolean") {
+            return data === "true" ? true : false;
         }
-        if (type === 'json') {
+        if (type === "json") {
             try {
                 return JSON.parse(data);
             } catch (e) {
