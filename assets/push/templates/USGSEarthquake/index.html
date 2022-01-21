@@ -367,8 +367,8 @@
             coordinate[0]
         )}° ${parseFloat(coordinate[1]) > 0 ? "东经" : "西经"}${Math.abs(coordinate[1])}°`;
         document.getElementById("depth").innerText = `${depth / 1000}千米`;
-        // document.getElementById(
-        //     "map"
-        // ).src = `https://maps.google.com/maps/api/staticmap?key=${apiKey}&center=${coordinate[0]},${coordinate[1]}&size=1000x1000&zoom=6&markers=red|${coordinate[0]},${coordinate[1]}&lanuage=zh-CN&region=CN`;
+        document.getElementById(
+            "map"
+        ).src = `https://maps.google.com/maps/api/staticmap?key=${apiKey}&center=${coordinate[0]},${coordinate[1]}&size=1000x1000&zoom=6&markers=red|${coordinate[0]},${coordinate[1]}&lanuage=zh-CN&region=CN`;
     </script>
 </html>
