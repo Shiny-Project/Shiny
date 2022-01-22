@@ -79,15 +79,4 @@ module.exports = {
         });
         return response.success(parsedResult);
     },
-    test: async (request, response) => {
-        const path = await CommonUtils.screenshot(
-            "http://localhost/Shiny/assets/push/templates/USGSEarthquake/#JTdCJTIyY29udGVudCUyMiUzQSUyMk0lMjA2LjYlMjAtJTIwODglMjBrbSUyMFNXJTIwb2YlMjBMYWJ1YW4lMkMlMjBJbmRvbmVzaWElMjIlMkMlMjJjb3ZlciUyMiUzQSUyMiUyMiUyQyUyMmRlcHRoJTIyJTNBJTIyLTM3MTkwJTIyJTJDJTIybGluayUyMiUzQSUyMmh0dHBzJTNBJTJGJTJGZWFydGhxdWFrZS51c2dzLmdvdiUyRmVhcnRocXVha2VzJTJGZXZlbnRwYWdlJTJGdXM3MDAwZ2J1NCUyMiUyQyUyMmxvY2F0aW9uJTIyJTNBJTIyLTYuOTI5MSUyMDEwNS4yNTEzJTIyJTJDJTIydGl0bGUlMjIlM0ElMjJVU0dTJUU1JTlDJUIwJUU5JTlDJTg3JUU5JTgwJTlGJUU2JThBJUE1JTIyJTJDJTIyX19hcGlLZXlzJTIyJTNBJTdCJTIyR09PR0xFX0FQSV9LRVklMjIlM0ElMjJBSXphU3lBbEFmbG9VVmFQOXh4clhpMlczME5xSC1nMkdRZjdmS2slMjIlN0QlMkMlMjJzaGlueUltYWdlcyUyMiUzQSU1QiUyMiUyRnJvb3QlMkZTaGlueSUyRm91dHB1dCUyRnVzZ3NfZWFydGhxdWFrZV8xNjQyMTUyNDE1OTczLnBuZyUyMiU1RCU3RA==",
-            "usgs_earthquake"
-        );
-        return [
-            {
-                pic: path,
-            },
-        ];
-    },
 };

@@ -39,7 +39,7 @@ module.exports.policies = {
         detail: true,
         statistics: true,
         ack: ["isPost"],
-        event_images: ["isLogin"],
+        event_images: true,
     },
     JobController: {
         "*": false,
@@ -133,7 +133,6 @@ module.exports.policies = {
     SystemController: {
         "*": false,
         latency: true,
-        test: true,
     },
     EffectController: {
         "*": false,
