@@ -68,7 +68,7 @@ module.exports = {
                     args: ["--no-sandbox"],
                 });
                 const page = await browser.newPage();
-                page.setViewport({
+                await page.setViewport({
                     width: 1920,
                     height: 1080,
                 });
@@ -79,6 +79,7 @@ module.exports = {
                 await browser.close();
                 resolve(outputPath);
             } catch (e) {
+                console.log(e);
                 resolve();
                 Sentry.captureException(e);
             } finally {
