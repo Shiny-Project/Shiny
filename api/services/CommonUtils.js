@@ -52,7 +52,7 @@ module.exports = {
         return Buffer.from(encodeURIComponent(JSON.stringify(data))).toString("base64");
     },
     screenshot: async (url, prefix = "image") => {
-        return new Promise(async (resolve, reject) => {
+        return new Promise(async (resolve) => {
             try {
                 const outputPath = path.resolve(
                     __dirname,
@@ -64,7 +64,7 @@ module.exports = {
                 });
                 setTimeout(() => {
                     // Timeout
-                    console.log('Rendering timeout');
+                    Sentry.captureMessage("Rendering images timeout.");
                     browser.close();
                     resolve();
                 }, 15000);
@@ -80,7 +80,6 @@ module.exports = {
                 await browser.close();
                 resolve(outputPath);
             } catch (e) {
-                console.log(e);
                 resolve();
                 Sentry.captureException(e);
             }
