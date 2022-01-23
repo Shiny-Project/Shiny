@@ -1,4 +1,6 @@
 const path = require("path");
+const Sentry = require("@sentry/node");
+
 module.exports = {
     /**
      * 生成一个随机Token
@@ -50,22 +52,39 @@ module.exports = {
         return Buffer.from(encodeURIComponent(JSON.stringify(data))).toString("base64");
     },
     screenshot: async (url, prefix = "image") => {
-        const outputPath = path.resolve(__dirname, `../../output/${prefix}_${new Date().valueOf().toString()}.png`);
-        const puppeteer = require("puppeteer");
-        const browser = await puppeteer.launch({
-            args: ["--no-sandbox"],
+        return new Promise(async (resolve, reject) => {
+            setTimeout(() => {
+                // Timeout
+                resolve();
+            }, 15000);
+            Sentry.captureMessage("Start rendering images.");
+            try {
+                const outputPath = path.resolve(
+                    __dirname,
+                    `../../output/${prefix}_${new Date().valueOf().toString()}.png`
+                );
+                const puppeteer = require("puppeteer");
+                const browser = await puppeteer.launch({
+                    args: ["--no-sandbox"],
+                });
+                const page = await browser.newPage();
+                page.setViewport({
+                    width: 1920,
+                    height: 1080,
+                });
+                await page.goto(url);
+                await page.screenshot({
+                    path: outputPath,
+                });
+                await browser.close();
+                resolve(outputPath);
+            } catch (e) {
+                resolve();
+                Sentry.captureException(e);
+            } finally {
+                Sentry.captureMessage("End of rendering images.");
+            }
         });
-        const page = await browser.newPage();
-        page.setViewport({
-            width: 1920,
-            height: 1080,
-        });
-        await page.goto(url);
-        await page.screenshot({
-            path: outputPath,
-        });
-        await browser.close();
-        return outputPath;
     },
     convertType: (data, type = "string") => {
         if (type === "string") {

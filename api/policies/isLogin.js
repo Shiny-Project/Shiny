@@ -13,7 +13,6 @@ module.exports = function (req, res, next) {
         next();
         return;
     }
-    //console.log(req.session);
     if (req.session.uid) {
         next();
     } else {

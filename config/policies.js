@@ -133,6 +133,7 @@ module.exports.policies = {
     SystemController: {
         "*": false,
         latency: true,
+        test: true,
     },
     EffectController: {
         "*": false,
