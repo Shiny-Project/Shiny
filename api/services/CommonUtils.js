@@ -53,11 +53,6 @@ module.exports = {
     },
     screenshot: async (url, prefix = "image") => {
         return new Promise(async (resolve, reject) => {
-            setTimeout(() => {
-                // Timeout
-                resolve();
-            }, 15000);
-            Sentry.captureMessage("Start rendering images.");
             try {
                 const outputPath = path.resolve(
                     __dirname,
@@ -67,6 +62,12 @@ module.exports = {
                 const browser = await puppeteer.launch({
                     args: ["--no-sandbox"],
                 });
+                setTimeout(() => {
+                    // Timeout
+                    console.log('Rendering timeout');
+                    browser.close();
+                    resolve();
+                }, 15000);
                 const page = await browser.newPage();
                 await page.setViewport({
                     width: 1920,
@@ -82,8 +83,6 @@ module.exports = {
                 console.log(e);
                 resolve();
                 Sentry.captureException(e);
-            } finally {
-                Sentry.captureMessage("End of rendering images.");
             }
         });
     },
