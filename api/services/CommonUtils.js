@@ -53,35 +53,35 @@ module.exports = {
     },
     screenshot: async (url, prefix = "image") => {
         return new Promise(async (resolve) => {
+            let transaction;
             try {
                 const outputPath = path.resolve(
                     __dirname,
                     `../../output/${prefix}_${new Date().valueOf().toString()}.png`
                 );
-                const puppeteer = require("puppeteer");
-                const browser = await puppeteer.launch({
-                    args: ["--no-sandbox"],
+                transaction = Sentry.startTransaction({
+                    op: "render",
+                    name: `${prefix}_${new Date().valueOf().toString()}.png`,
                 });
+                const browser = await BrowserService.getBrowser();
+                const page = await browser.newPage();
                 setTimeout(() => {
                     // Timeout
                     Sentry.captureMessage("Rendering images timeout.");
-                    browser.close();
+                    page.close();
                     resolve();
                 }, 15000);
-                const page = await browser.newPage();
-                await page.setViewport({
-                    width: 1920,
-                    height: 1080,
-                });
                 await page.goto(url);
                 await page.screenshot({
                     path: outputPath,
                 });
-                await browser.close();
+                await page.close();
                 resolve(outputPath);
             } catch (e) {
                 resolve();
                 Sentry.captureException(e);
+            } finally {
+                transaction.finish();
             }
         });
     },
