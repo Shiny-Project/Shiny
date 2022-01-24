@@ -54,6 +54,7 @@ module.exports = {
     screenshot: async (url, prefix = "image") => {
         return new Promise(async (resolve) => {
             let transaction;
+            let rendered = false;
             try {
                 const outputPath = path.resolve(
                     __dirname,
@@ -67,15 +68,18 @@ module.exports = {
                 const page = await browser.newPage();
                 setTimeout(() => {
                     // Timeout
-                    Sentry.captureMessage("Rendering images timeout.");
-                    page.close();
-                    resolve();
+                    if (!rendered) {
+                        Sentry.captureMessage("Rendering images timeout.");
+                        page.close();
+                        resolve();
+                    }
                 }, 15000);
                 await page.goto(url);
                 await page.screenshot({
                     path: outputPath,
                 });
                 await page.close();
+                rendered = true;
                 resolve(outputPath);
             } catch (e) {
                 resolve();
