@@ -7,7 +7,15 @@ class BrowserService {
         (async () => {
             try {
                 const browser = await puppeteer.launch({
-                    args: ["--no-sandbox", "--disable-setuid-sandbox", "--ignore-certificate-errors", "--no-first-run"],
+                    args: [
+                        "--no-sandbox",
+                        "--disable-setuid-sandbox",
+                        "--ignore-certificate-errors",
+                        "--no-first-run",
+                        "--disable-gpu",
+                        "--disable-dev-shm-usage",
+                        "--disable-accelerated-2d-canvas",
+                    ],
                     devtools: false,
                     defaultViewport: {
                         width: 1920,
