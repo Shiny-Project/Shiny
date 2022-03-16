@@ -16,16 +16,16 @@ module.exports = {
                 "请注意强烈摇晃" +
                 "\n" +
                 `${
-                    event.data.content.match(/ 震度.+ (.+?) M/)
-                        ? "震中：" + event.data.content.match(/ 震度.+ (.+?) M/)[1]
+                    event.data.forecast?.epicenter
+                        ? "震中：" + event.data.forecast.epicenter
                         : ""
                 }` +
                 `${
-                    event.data.content.match(/M(.+?) /) ? " 预估震级：M" + event.data.content.match(/M(.+?) /)[1] : ""
+                    !!event.data.forecast && !event.data.forecast.plum ? " 预估震级：M" + event.data.forecast.magnitude : ""
                 }` +
                 `${
-                    event.data.content.match(/震度(.+?) /)
-                        ? " 预估最大震度：" + event.data.content.match(/震度(.+?) /)[1]
+                    event.data.forecast?.max_seismic_intensity
+                        ? " 预估最大震度：" + event.data.forecast.max_seismic_intensity
                         : ""
                 }`,
         });
