@@ -30,7 +30,7 @@
     "include-all": "~0.1.6",
     "lodash": "^4.17.21",
     "node-uuid": "latest",
-    "protobufjs": "^6.10.1",
+    "protobufjs": "^6.10.3",
     "puppeteer": "^13.1.1",
     "rc": "^1.2.8",
     "sails": "^1.2.4",
