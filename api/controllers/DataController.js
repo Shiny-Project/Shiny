@@ -57,6 +57,15 @@ module.exports = {
 
                 createdEvents.push(result);
 
+                try {
+                    // do post process
+                    createdEvents.forEach((event) => {
+                        DataPostProcessService.doPostProcess(event);
+                    });
+                } catch (e) {
+                    Sentry.captureException(e);
+                }
+
                 if (event.level > 0) {
                     // 推送部分
                     const messageBody = {

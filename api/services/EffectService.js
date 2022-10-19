@@ -1,3 +1,4 @@
+const Sentry = require("@sentry/node");
 class EffectService {
     async get(key) {
         const cachedValue = CacheService.get(`effect_${key}`);
