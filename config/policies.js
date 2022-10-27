@@ -144,5 +144,6 @@ module.exports.policies = {
     "Weather/JMAController": {
         "*": false,
         query: ["isPost"],
+        queryTyphoonTimeSeries: true,
     },
 };

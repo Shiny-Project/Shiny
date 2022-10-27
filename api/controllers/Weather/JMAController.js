@@ -6,6 +6,7 @@
  */
 const { InfluxDB, flux } = require("@influxdata/influxdb-client");
 const _ = require("lodash");
+const Sentry = require("@sentry/node");
 const Protobufs = require("../../../proto");
 module.exports = {
     query: async (request, response) => {
@@ -107,5 +108,25 @@ module.exports = {
         return response.success({
             result: Buffer.from(encodedResult).toString("base64"),
         });
+    },
+    queryTyphoonTimeSeries: async (request, response) => {
+        const number = request.param("number");
+        if (!number) {
+            return response.error(404, "bad_parameters", "需要指定台风编号");
+        }
+        try {
+            const data = await DataTimeSeries.find({
+                key: `jma_typhoon_${number}`,
+            }).sort("id desc");
+            return response.success({
+                result: data.map((i) => ({
+                    ...i,
+                    data: JSON.parse(i.data),
+                })),
+            });
+        } catch (e) {
+            Sentry.captureException(e);
+            return response.error(500, "database_error", "数据库读写错误");
+        }
     },
 };
