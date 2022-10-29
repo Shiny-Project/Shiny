@@ -99,9 +99,9 @@ module.exports = {
         if (currentData.current.status !== 1) {
             if (StatusRemarkMap[currentData.current.status]) {
                 const response = await axios.post("http://localhost:3000/Map/typhoon_info", {
-                    typhoon_info: {
+                    typhoon_info: JSON.stringify({
                         remark: StatusRemarkMap[currentData.current.status],
-                    },
+                    }),
                 });
                 return [
                     {
@@ -149,9 +149,9 @@ module.exports = {
         }
 
         const response = await axios.post("http://localhost:3000/Map/typhoon_info", {
-            typhoon_info: {
+            typhoon_info: JSON.stringify({
                 points: result,
-            },
+            }),
         });
 
         return [
