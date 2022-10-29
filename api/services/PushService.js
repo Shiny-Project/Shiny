@@ -85,6 +85,11 @@ module.exports = {
                 parseResults = await parser.parse(event);
                 break;
             }
+            case "JMATyphoon": {
+                const parser = require("./EventParser/JMATyphoon");
+                parseResults = await parser.parse(event);
+                break;
+            }
             case "jma": {
                 parseResults = [
                     {
