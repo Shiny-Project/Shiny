@@ -105,14 +105,14 @@ module.exports = {
                 });
                 return [
                     {
-                        text: event.data.content,
+                        text: CommonUtils.replaceCensorshipWords(event.data.content),
                         pic: response.data.path,
                     },
                 ];
             }
             return [
                 {
-                    text: event.data.content,
+                    text: CommonUtils.replaceCensorshipWords(event.data.content),
                 },
             ];
         }
@@ -156,7 +156,7 @@ module.exports = {
 
         return [
             {
-                text: event.data.content,
+                text: CommonUtils.replaceCensorshipWords(event.data.content),
                 pic: response.data.path,
             },
         ];

@@ -110,4 +110,16 @@ module.exports = {
     },
     // Sleep
     sleep: (time) => new Promise((resolve) => setTimeout(resolve, time)),
+    // 审查黑名单词替换
+    replaceCensorshipWords: (text) => {
+        const TextMap = {
+            '台湾': '中国台湾',
+            '尖閣諸島': '钓鱼岛',
+        };
+        let result = text;
+        for (const key of Object.keys(TextMap)) {
+            result = result.replaceAll(key, TextMap[key]);
+        }
+        return result;
+    }
 };
