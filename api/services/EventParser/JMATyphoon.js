@@ -69,11 +69,13 @@ module.exports = {
                     direction: DirectionMap[area.wide_side.direction],
                 });
             }
-            if (DirectionMap[area.narrow_side.direction]) {
-                result.push({
-                    radius: parseInt(area.narrow_side.radius) * 1000,
-                    direction: DirectionMap[area.narrow_side.direction],
-                });
+            if (area.narrow_side) {
+                if (DirectionMap[area.narrow_side.direction]) {
+                    result.push({
+                        radius: parseInt(area.narrow_side.radius) * 1000,
+                        direction: DirectionMap[area.narrow_side.direction],
+                    });
+                }
             }
             return result;
         };
