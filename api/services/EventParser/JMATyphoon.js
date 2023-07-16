@@ -15,6 +15,20 @@ module.exports = {
             key: `jma_typhoon_${number}`,
         }).sort("id desc");
 
+        if (!data?.length) {
+            const response = await axios.post("http://localhost:3000/Map/typhoon_info", {
+                typhoon_info: JSON.stringify({
+                    remark: "台风命名",
+                }),
+            });
+            return [
+                {
+                    text: CommonUtils.replaceCensorshipWords(event.data.content),
+                    pic: response.data.path,
+                },
+            ];
+        }
+
         const current = data[0];
         const currentTyphoonRecordId = current.id;
         const parseCoordinate = (coordinateStr) => {
