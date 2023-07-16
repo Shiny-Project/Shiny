@@ -149,7 +149,7 @@ module.exports = {
             };
             const parseAreas = (area) => {
                 const result = [];
-                if (!area.wide_side.radius) {
+                if (!area.wide_side?.radius) {
                     return result;
                 }
                 if (area.wide_side.direction === "全域" || area.wide_side.direction === "") {
