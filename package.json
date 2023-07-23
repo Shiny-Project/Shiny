@@ -9,7 +9,7 @@
         "@influxdata/influxdb-client": "^1.18.0",
         "@sentry/node": "^6.13.2",
         "@sentry/tracing": "^6.13.2",
-        "async": "2.1.4",
+        "async": "2.6.4",
         "axios": "^0.21.4",
         "bcryptjs": "^2.4.3",
         "bluebird": "^3.5.5",
