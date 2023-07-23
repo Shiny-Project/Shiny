@@ -29,7 +29,7 @@
     "grunt-sync": "^0.8.1",
     "include-all": "~4.0.3",
     "lodash": "^4.17.21",
-    "protobufjs": "^6.10.1",
+    "protobufjs": "^7.2.4",
     "puppeteer": "^13.1.1",
     "rc": "^1.2.8",
     "sails": "^1.5.7",
