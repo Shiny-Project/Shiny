@@ -27,7 +27,7 @@
     "grunt-contrib-watch": "^1.1.0",
     "grunt-sails-linker": "^1.0",
     "grunt-sync": "^0.8.1",
-    "include-all": "~0.1.6",
+    "include-all": "~4.0.3",
     "lodash": "^4.17.21",
     "protobufjs": "^6.10.1",
     "puppeteer": "^13.1.1",
