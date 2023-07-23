@@ -105,8 +105,9 @@ module.exports = {
             });
 
             if (!user.token) {
-                const newToken = new Buffer(require("node-uuid").v4()).toString("base64");
-                user.token = new Buffer(require("node-uuid").v4()).toString("base64");
+                const crypto = require("crypto");
+                const newToken = Buffer.from(crypto.randomUUID()).toString('base64');
+                user.token = Buffer.from(crypto.randomUUID()).toString('base64');
                 await User.update(
                     {
                         email,

@@ -6,9 +6,9 @@ module.exports = {
      * 生成一个随机Token
      */
     generateToken: function () {
-        var uuid = require("node-uuid").v4();
-        var crypto = require("crypto");
-        var shasum = crypto.createHash("sha1");
+        const crypto = require("crypto");
+        const uuid = crypto.randomUUID();
+        const shasum = crypto.createHash("sha1");
         return shasum.update(uuid).digest("hex");
     },
     /**
@@ -113,13 +113,13 @@ module.exports = {
     // 审查黑名单词替换
     replaceCensorshipWords: (text) => {
         const TextMap = {
-            '台湾': '中国台湾',
-            '尖閣諸島': '钓鱼岛',
+            台湾: "中国台湾",
+            尖閣諸島: "钓鱼岛",
         };
         let result = text;
         for (const key of Object.keys(TextMap)) {
             result = result.replaceAll(key, TextMap[key]);
         }
         return result;
-    }
+    },
 };

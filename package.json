@@ -29,7 +29,6 @@
     "grunt-sync": "^0.8.1",
     "include-all": "~0.1.6",
     "lodash": "^4.17.21",
-    "node-uuid": "latest",
     "protobufjs": "^6.10.1",
     "puppeteer": "^13.1.1",
     "rc": "^1.2.8",
@@ -38,7 +37,7 @@
     "sails-hook-grunt": "^3.1.1",
     "sails-hook-orm": "^2.0.1",
     "sails-hook-sockets": "^1.5.3",
-    "sails-mysql": "^1.0.0",
+    "sails-mysql": "^3.0.1",
     "socket.io-client": "^4.2.0"
   },
   "scripts": {
