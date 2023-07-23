@@ -33,7 +33,7 @@
     "protobufjs": "^6.10.1",
     "puppeteer": "^13.1.1",
     "rc": "^1.2.8",
-    "sails": "^1.2.4",
+    "sails": "^1.5.7",
     "sails-disk": "^1.0.1",
     "sails-hook-grunt": "^3.1.1",
     "sails-hook-orm": "^2.0.1",
