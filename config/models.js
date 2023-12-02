@@ -31,8 +31,8 @@ module.exports.models = {
     // timestamps.  By default, "sails new" will generate these two attributes as numbers,
     // giving you the most flexibility.  But for compatibility with your existing project,
     // we'll define them as strings.
-    createdAt: { type: 'number', autoCreatedAt: true, },
-    updatedAt: { type: 'number', autoUpdatedAt: true, },
+    createdAt: { type: 'ref', columnType: 'timestamp', autoCreatedAt: true, },
+    updatedAt: { type: 'ref', columnType: 'timestamp', autoUpdatedAt: true, },
     // In Sails 1.0, the primary key field is no longer created for you, and `autoPK` is
     // not a valid model option.  Instead, you define it yourself and tell Sails which
     // attribute to use as the primary key by setting the `primaryKey` setting on the model.
