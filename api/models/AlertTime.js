@@ -16,6 +16,9 @@ module.exports = {
         action_type: {
             type: "string",
         },
+        name: {
+            type: "string",
+        },
         level: {
             type: "string",
         },
