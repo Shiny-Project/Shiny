@@ -20,5 +20,9 @@ module.exports = {
             type: "string",
             columnType: "text",
         },
+        config: {
+            type: "string",
+            columnType: "text",
+        }
     },
 };
