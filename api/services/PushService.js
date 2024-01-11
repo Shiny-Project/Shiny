@@ -1,6 +1,6 @@
 const Sentry = require("@sentry/node");
-const axios = require("axios");
-const CommonUtils = require("./CommonUtils");
+const dayjs = require("dayjs");
+const _ = require("lodash");
 
 module.exports = {
     /**
@@ -115,6 +115,19 @@ module.exports = {
             return;
         }
         const parsedRule = JSON.parse(pushRule.rule);
+        // // 查询过去24小时推送数量 部分渠道有推送数量限制
+        // try {
+        //     const records = await PushHistory.find({
+        //         createdAt: {
+        //             ">": dayjs().subtract(1, "day").toISOString(),
+        //         },
+        //     });
+        //     const groupedRecords = _.groupBy(records, "channel");
+        //     for (const channel of parsedRule.channels) {
+                
+        //     }
+
+        // } catch {}
         for (const item of parseResults) {
             if (item.text) {
                 // 一般推送内容
@@ -128,6 +141,7 @@ module.exports = {
                         title: event.data.title,
                         level: event.level,
                         link: event.data.link,
+                        account: "shiny"
                     });
                     const jobIds = Array.from(createdJobs, (i) => i.id);
                     // 绑定任务与事件
