@@ -16,6 +16,9 @@ module.exports = {
         channel: {
             type: "string",
         },
+        account: {
+            type: "string",
+        },
         status: {
             type: "string",
         },
