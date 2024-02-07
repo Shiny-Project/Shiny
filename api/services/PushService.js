@@ -115,19 +115,25 @@ module.exports = {
             return;
         }
         const parsedRule = JSON.parse(pushRule.rule);
-        // // 查询过去24小时推送数量 部分渠道有推送数量限制
-        // try {
-        //     const records = await PushHistory.find({
-        //         createdAt: {
-        //             ">": dayjs().subtract(1, "day").toISOString(),
-        //         },
-        //     });
-        //     const groupedRecords = _.groupBy(records, "channel");
-        //     for (const channel of parsedRule.channels) {
-                
-        //     }
+        // 查询过去24小时推送数量 部分渠道有推送数量限制
+        try {
+            const records = await PushHistory.find({
+                createdAt: {
+                    ">": dayjs().subtract(1, "day").toISOString(),
+                },
+            });
+            const groupedRecords = _.groupBy(records, "channel");
+            for (const channel of parsedRule.channels) {
+                if (groupedRecords[channel]) {
+                    const filteredRecords = groupedRecords[channel].filter(record => record.account === 'shiny');
+                    if (filteredRecords.length >= 40 && event.level <= 3) {
+                        // 该渠道shiny账号24小时已经超过40条 只发送lv4以上消息
+                        parseResults = [];
+                    }
+                }
+            }
 
-        // } catch {}
+        } catch {}
         for (const item of parseResults) {
             if (item.text) {
                 // 一般推送内容
