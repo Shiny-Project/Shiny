@@ -125,15 +125,17 @@ module.exports = {
             const groupedRecords = _.groupBy(records, "channel");
             for (const channel of parsedRule.channels) {
                 if (groupedRecords[channel]) {
-                    const filteredRecords = groupedRecords[channel].filter(record => record.account === 'shiny');
+                    const filteredRecords = groupedRecords[channel].filter((record) => record.account === "shiny");
                     if (filteredRecords.length >= 40 && event.level <= 3) {
                         // 该渠道shiny账号24小时已经超过40条 只发送lv4以上消息
                         parseResults = [];
+                        Sentry.captureMessage(`推送渠道 ${channel} 超过日推送上限`);
                     }
                 }
             }
-
-        } catch {}
+        } catch (e) {
+            Sentry.captureException(e);
+        }
         for (const item of parseResults) {
             if (item.text) {
                 // 一般推送内容
@@ -147,7 +149,7 @@ module.exports = {
                         title: event.data.title,
                         level: event.level,
                         link: event.data.link,
-                        account: "shiny"
+                        account: "shiny",
                     });
                     const jobIds = Array.from(createdJobs, (i) => i.id);
                     // 绑定任务与事件
