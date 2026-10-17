@@ -29,6 +29,10 @@ module.exports = {
         }
         try {
             for (const event of events) {
+                // 临时静默跳过无法控制的外部旧 EW 爬虫。
+                if (event?.spiderName === "ew") {
+                    continue;
+                }
                 if (!(event.spiderName && event.level && event.hash && event.data)) {
                     return response.error(400, "missing_parameters", "事件缺少必要参数");
                 }

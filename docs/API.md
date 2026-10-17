@@ -146,7 +146,7 @@
 | `shindo_early_report` | Shiny-Map | 震度速报 |
 | `shindo_report` | Shiny-Map | 各地区震度信息 |
 | `tsunami_warning` | Shiny-Map | 海啸警报 |
-| `ew`  | 中控 | （气象）特别警报 |
+| `JMAEW` | Shiny-Map | JMA 气象特别警报 |
 | `CMAAlert` | 中控 | CMA全国气象预警 |
 | `Flood` | 中控 | 洪水警报 |
 | `USGSEarthquake` | 中控 | USGS全球显著地震速报 |
@@ -160,16 +160,13 @@
 
 无需额外参数（外部爬虫格式配合）。
 
-### （气象）特别警报
+### JMA 气象特别警报
 
-在`data`中添加以下字段
+`spiderName` 为 `JMAEW`。在 `data` 中添加以下字段：
 
 | 字段名 | 类型 | 说明 |
 | ------| ------| ---|
-| isRelease | boolean | 是否为发布 |
-| alertType | string | 警报类型 |
-| areas | string[] | 警报区域 |
-
+| warning | object | Shiny-Map `/Map/ew` 的 `warning` 对象，包含 `active`、`ended`、`status`、`infoType` |
 
 ### CMA全国气象预警
 
