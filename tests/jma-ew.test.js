@@ -34,6 +34,7 @@ test("legacy ew submissions succeed silently without storage or push", async (t)
 test("JMAEW submissions retain their payload when legacy ew items appear in the same batch", async (t) => {
     const input = event("JMAEW");
     let saved, pushed;
+    const social = [];
     setGlobal(t, "Data", {
         findOne: async () => undefined,
         create: (record) => ({ fetch: async () => (saved = { ...record, id: 1 }) }),
@@ -41,7 +42,7 @@ test("JMAEW submissions retain their payload when legacy ew items appear in the 
     setGlobal(t, "DataPostProcessService", { doPostProcess() {} });
     setGlobal(t, "PushService", {
         sendSocket(type, message) { assert.equal(type, "normal"); pushed = message; },
-        pushSocial(received, id) { assert.deepEqual(received, input); assert.equal(id, 1); },
+        pushSocial(received, id) { social.push({ received, id }); },
     });
     for (const batch of [input, [event("ew"), input, { spiderName: "ew" }]]) {
         const result = await controller.add({ param: () => JSON.stringify(batch) }, response());
@@ -51,7 +52,10 @@ test("JMAEW submissions retain their payload when legacy ew items appear in the 
         assert.deepEqual(JSON.parse(saved.data), input.data);
         assert.equal(pushed.spiderName, "JMAEW");
         assert.deepEqual(pushed.data.warning, input.data.warning);
+        await new Promise(setImmediate);
+        assert.deepEqual(social.at(-1), { received: input, id: 1 });
     }
+    assert.equal(social.length, 2);
 });
 
 test("JMAEW renders through Shiny-Map and keeps the emergency notice for active normal warnings", async (t) => {

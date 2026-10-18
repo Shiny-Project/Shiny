@@ -61,14 +61,12 @@ module.exports = {
 
                 createdEvents.push(result);
 
-                try {
-                    // do post process
-                    createdEvents.forEach((event) => {
-                        DataPostProcessService.doPostProcess(event);
+                // Run derived-data writes in the background without delaying this request.
+                const postProcess = Promise.resolve()
+                    .then(() => DataPostProcessService.doPostProcess(result))
+                    .catch((e) => {
+                        Sentry.captureException(e);
                     });
-                } catch (e) {
-                    Sentry.captureException(e);
-                }
 
                 if (event.level > 0) {
                     // 推送部分
@@ -81,8 +79,12 @@ module.exports = {
                         eventId: result.id,
                     };
                     PushService.sendSocket("normal", messageBody);
-                    // 推送到微博
-                    PushService.pushSocial(event, result.id);
+                    // Social rendering depends on derived data; wait only in the background.
+                    postProcess
+                        .then(() => PushService.pushSocial(event, result.id))
+                        .catch((e) => {
+                            Sentry.captureException(e);
+                        });
                 }
             }
         } catch (e) {

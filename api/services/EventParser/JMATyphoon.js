@@ -155,10 +155,14 @@ module.exports = {
                 ...currentData.estimations.map((item) => {
                     const coordinate = parseCoordinate(item.coordinate || item.probability_circle?.base_point);
                     const intensity = parseIntensity(item);
+                    const errorRadius = Number(item.probability_circle?.radius) * 1000;
                     return {
                         type: 3,
                         coordinate,
                         intensity,
+                        ...(Number.isFinite(errorRadius) && errorRadius > 0
+                            ? { circles: [{ type: 3, radius: errorRadius }] }
+                            : {}),
                     };
                 })
             );
