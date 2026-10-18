@@ -52,6 +52,11 @@ module.exports = {
                 parseResults = await parser.parse(event);
                 break;
             }
+            case "JMAVolcano": {
+                const parser = require("./EventParser/JMAVolcano");
+                parseResults = await parser.parse(event);
+                break;
+            }
             case "shindo_early_report": {
                 const parser = require("./EventParser/ShindoEarlyReport");
                 parseResults = await parser.parse(event);
