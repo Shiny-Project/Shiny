@@ -1,0 +1,149 @@
+[
+  {
+    "spiderName": "JMAEruption",
+    "level": 4,
+    "hash": "jma_eruption_629c18df5edfa95c24da8a3e05680f3456f99b2b7dd22ad015be2293a4e631aa",
+    "data": {
+      "content": "御嶽山 喷火速报 · 发生喷发\n涉及市町村：長野県王滝村、長野県木曽町、岐阜県高山市、岐阜県下呂市\n御嶽山で、平成２６年９月２７日１１時５３分頃、噴火が発生しました。",
+      "eruption": {
+        "eventId": "20140927120000_312",
+        "status": "通常",
+        "infoType": "発表",
+        "areas": [
+          {
+            "code": "2042900",
+            "name": "長野県王滝村"
+          },
+          {
+            "code": "2043200",
+            "name": "長野県木曽町"
+          },
+          {
+            "code": "2120300",
+            "name": "岐阜県高山市"
+          },
+          {
+            "code": "2122000",
+            "name": "岐阜県下呂市"
+          }
+        ],
+        "volcano": {
+          "code": "312",
+          "name": "御嶽山"
+        },
+        "kind": "52",
+        "time": "2014-09-27T11:53:00+09:00",
+        "timePrecision": "yyyy-mm-ddThh:mm",
+        "timeDubious": "頃"
+      },
+      "hash": "jma_eruption_629c18df5edfa95c24da8a3e05680f3456f99b2b7dd22ad015be2293a4e631aa",
+      "link": "https://example.test/67_01_01_140927_VFVO56.xml",
+      "title": "御嶽山 喷火速报 · 发生喷发"
+    }
+  },
+  {
+    "spiderName": "JMAEruption",
+    "level": 4,
+    "hash": "jma_eruption_61c894485197b2c87b7a29b97b103fa6f8e775d460552916a8c9ac3a5db4715f",
+    "data": {
+      "content": "御嶽山 喷火速报 · 疑似喷发\n涉及市町村：長野県王滝村、長野県木曽町、岐阜県高山市、岐阜県下呂市\n御嶽山で、平成２６年９月２７日１１時５３分頃、噴火が発生したもよう。",
+      "eruption": {
+        "eventId": "20140927120000_312",
+        "status": "通常",
+        "infoType": "発表",
+        "areas": [
+          {
+            "code": "2042900",
+            "name": "長野県王滝村"
+          },
+          {
+            "code": "2043200",
+            "name": "長野県木曽町"
+          },
+          {
+            "code": "2120300",
+            "name": "岐阜県高山市"
+          },
+          {
+            "code": "2122000",
+            "name": "岐阜県下呂市"
+          }
+        ],
+        "volcano": {
+          "code": "312",
+          "name": "御嶽山"
+        },
+        "kind": "62",
+        "time": "2014-09-27T11:53:00+09:00",
+        "timePrecision": "yyyy-mm-ddThh:mm",
+        "timeDubious": "頃"
+      },
+      "hash": "jma_eruption_61c894485197b2c87b7a29b97b103fa6f8e775d460552916a8c9ac3a5db4715f",
+      "link": "https://example.test/67_01_02_140927_VFVO56.xml",
+      "title": "御嶽山 喷火速报 · 疑似喷发"
+    }
+  },
+  {
+    "spiderName": "JMAEruption",
+    "level": 4,
+    "hash": "jma_eruption_68a95373cfdf8cd54763e7ee2d398d145d68e60a80570319d5452d1aed2eccdf",
+    "data": {
+      "content": "御嶽山 喷火速报 · 疑似喷发（订正）\n涉及市町村：長野県王滝村、長野県木曽町、岐阜県高山市、岐阜県下呂市\n御嶽山で、平成２６年９月２７日１１時５２分頃、噴火が発生したもよう。\n噴火時刻を１１時５２分に修正",
+      "eruption": {
+        "eventId": "20140927120000_312",
+        "status": "通常",
+        "infoType": "訂正",
+        "areas": [
+          {
+            "code": "2042900",
+            "name": "長野県王滝村"
+          },
+          {
+            "code": "2043200",
+            "name": "長野県木曽町"
+          },
+          {
+            "code": "2120300",
+            "name": "岐阜県高山市"
+          },
+          {
+            "code": "2122000",
+            "name": "岐阜県下呂市"
+          }
+        ],
+        "volcano": {
+          "code": "312",
+          "name": "御嶽山"
+        },
+        "kind": "62",
+        "time": "2014-09-27T11:52:00+09:00",
+        "timePrecision": "yyyy-mm-ddThh:mm",
+        "timeDubious": "頃"
+      },
+      "hash": "jma_eruption_68a95373cfdf8cd54763e7ee2d398d145d68e60a80570319d5452d1aed2eccdf",
+      "link": "https://example.test/67_01_03_140927_VFVO56.xml",
+      "title": "御嶽山 喷火速报 · 疑似喷发（订正）"
+    }
+  },
+  {
+    "spiderName": "JMAEruption",
+    "level": 4,
+    "hash": "jma_eruption_585abcb0637d150dfe5c2e1452afbeb6c3233f955a2f51374ef16f79df4055e7",
+    "data": {
+      "content": "御嶽山 喷火速报（电文取消）\n平成２６年９月２７日１２時００分に発表した御嶽山の噴火速報を取り消します。",
+      "eruption": {
+        "eventId": "20140927120000_312",
+        "status": "通常",
+        "infoType": "取消",
+        "areas": [],
+        "volcano": {
+          "code": "312",
+          "name": "御嶽山"
+        }
+      },
+      "hash": "jma_eruption_585abcb0637d150dfe5c2e1452afbeb6c3233f955a2f51374ef16f79df4055e7",
+      "link": "https://example.test/67_01_04_140927_VFVO56.xml",
+      "title": "御嶽山 喷火速报（电文取消）"
+    }
+  }
+]
