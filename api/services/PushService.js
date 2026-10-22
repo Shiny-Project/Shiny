@@ -57,6 +57,11 @@ module.exports = {
                 parseResults = await parser.parse(event);
                 break;
             }
+            case "JMAFlood": {
+                const parser = require("./EventParser/JMAFlood");
+                parseResults = await parser.parse(event);
+                break;
+            }
             case "JMAEruption": {
                 parseResults = [{ text: event.data.content }];
                 break;
@@ -214,6 +219,7 @@ module.exports = {
                                 id: eventId,
                             },
                             {
+                                level: event.level,
                                 data: JSON.stringify({
                                     ...event.data,
                                     shinyImages: [item.pic],

@@ -18,7 +18,6 @@ module.exports = {
         },
         key: {
             type: "string",
-            unique: true,
         },
     },
 };

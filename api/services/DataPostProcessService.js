@@ -1,9 +1,44 @@
+// Serialize pending writes per key; historical data stays in data_time_series.
+const timeSeriesWrites = new Map();
+
 class DataPostProcessService {
     async doPostProcess(event) {
         const { publisher, data } = event;
         const parsedData = JSON.parse(data);
         if (publisher === "JMATyphoon") {
             await this.recordJMATyphoon(parsedData);
+        }
+        if (publisher === "JMAFlood") {
+            await this.recordJMAFlood(parsedData, event.hash);
+        }
+        if (publisher === "JMAVolcano") {
+            await this.recordJMAVolcano(parsedData, event.hash);
+        }
+    }
+    async recordJMAFlood(parsedData, hash) {
+        const source = parsedData.flood_data;
+        if (typeof source?.code !== "string" || !/^\d{12}$/.test(source.code)) {
+            throw new Error("洪水电文缺少有效的河川预报区");
+        }
+        await this.recordTimeSeries(`jma_flood_${source.code}`, { ...source, hash });
+    }
+    async recordJMAVolcano(parsedData, hash) {
+        const source = parsedData.volcano_data;
+        if (!source) return; // Older spiders submit only the warning payload.
+        if (typeof source.code !== "string" || !/^\d{3}$/.test(source.code)) {
+            throw new Error("火山电文缺少有效的目标火山代码");
+        }
+        await this.recordTimeSeries(`jma_volcano_${source.code}`, { ...source, hash });
+    }
+    async recordTimeSeries(key, source) {
+        const data = JSON.stringify(source);
+        const previous = timeSeriesWrites.get(key) || Promise.resolve();
+        const write = previous.catch(() => {}).then(() => DataTimeSeries.create({ key, data }));
+        timeSeriesWrites.set(key, write);
+        try {
+            await write;
+        } finally {
+            if (timeSeriesWrites.get(key) === write) timeSeriesWrites.delete(key);
         }
     }
     async recordJMATyphoon(parsedData) {
