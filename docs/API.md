@@ -174,7 +174,13 @@
 
 ### USGS全球显著地震速报
 
-无需额外参数
+在 `data` 中提供以下地震信息：
+
+| 字段名 | 类型 | 说明 |
+| --- | --- | --- |
+| content | string | USGS 标题，如 `M 6.3 - 197 km NW of Port-Olry, Vanuatu` |
+| location | string | `georss:point`，顺序为 `纬度 经度` |
+| depth | string / number | `georss:elev`，单位米，向上为正，例如 `-16000` 表示深度 16 千米 |
 
 ### 洪水警报
 

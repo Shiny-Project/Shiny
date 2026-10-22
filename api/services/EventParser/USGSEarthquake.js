@@ -1,14 +1,17 @@
 module.exports = {
     parse: async (event) => {
-        const encodedData = CommonUtils.encodeBase64(event);
-        const path = await CommonUtils.screenshot(
-            "http://localhost:1337/push/templates/USGSEarthquake/index.html#" + encodedData,
-            "usgs_earthquake"
-        );
+        const axios = require("axios");
+        const { content, location, depth } = event.data;
+        const response = await axios.post("http://localhost:3000/Map/earthquake", {
+            earthquake: JSON.stringify({ content, location, depth, source: "USGS" }),
+        }, { timeout: 30000 });
+        if (typeof response.data.path !== "string" || !response.data.path) {
+            throw new Error("USGS 地震地图未返回图片路径");
+        }
         return [
             {
                 text: `【USGS 地震速报】\r\n${event.data.content}\r\n`,
-                pic: path,
+                pic: response.data.path,
             },
         ];
     },
