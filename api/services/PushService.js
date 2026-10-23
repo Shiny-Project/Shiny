@@ -2,6 +2,9 @@ const Sentry = require("@sentry/node");
 const dayjs = require("dayjs");
 const _ = require("lodash");
 
+const DAILY_LIMITED_CHANNELS = ["weibo", "twitter"];
+const DAILY_PUSH_LIMIT = 40;
+
 module.exports = {
     /**
      * 向中控发送websocket包
@@ -134,26 +137,32 @@ module.exports = {
             return;
         }
         const parsedRule = JSON.parse(pushRule.rule);
-        // 查询过去24小时推送数量 部分渠道有推送数量限制
-        try {
-            const records = await PushHistory.find({
-                createdAt: {
-                    ">": dayjs().subtract(1, "day").toISOString(),
-                },
-            });
-            const groupedRecords = _.groupBy(records, "channel");
-            for (const channel of parsedRule.channels) {
-                if (groupedRecords[channel]) {
-                    const filteredRecords = groupedRecords[channel].filter((record) => record.account === "shiny");
-                    if (filteredRecords.length >= 40 && event.level <= 3) {
-                        // 该渠道shiny账号24小时已经超过40条 只发送lv4以上消息
-                        parseResults = [];
-                        Sentry.captureMessage(`推送渠道 ${channel} 超过日推送上限`);
+        let channels = parsedRule.channels;
+        const limitedChannels = channels.filter((channel) => DAILY_LIMITED_CHANNELS.includes(channel));
+        // 仅微博和 Twitter 的 shiny 账号保留过去24小时40条的本地限额，Telegram 不设日限额。
+        if (event.level <= 3 && limitedChannels.length > 0) {
+            try {
+                const records = await PushHistory.find({
+                    account: "shiny",
+                    channel: { in: limitedChannels },
+                    createdAt: {
+                        ">": dayjs().subtract(1, "day").toISOString(),
+                    },
+                });
+                const groupedRecords = _.groupBy(records, "channel");
+                channels = channels.filter((channel) => {
+                    if (limitedChannels.includes(channel) && groupedRecords[channel]?.length >= DAILY_PUSH_LIMIT) {
+                        Sentry.captureMessage(`推送渠道 ${channel} 达到本地24小时推送限额（${DAILY_PUSH_LIMIT}条）`);
+                        return false;
                     }
-                }
+                    return true;
+                });
+            } catch (e) {
+                Sentry.captureException(e);
             }
-        } catch (e) {
-            Sentry.captureException(e);
+        }
+        if (channels.length === 0) {
+            return;
         }
         for (const item of parseResults) {
             if (item.text) {
@@ -161,7 +170,7 @@ module.exports = {
                 try {
                     // 交由 Shiny Push 进行推送
                     const createdJobs = await ShinyPushService.push({
-                        channels: parsedRule.channels,
+                        channels,
                         text: item.text,
                         images: item.pic ? [item.pic] : undefined,
                         eventId,
@@ -234,7 +243,7 @@ module.exports = {
             }
             if (item.special) {
                 // 特别推送内容
-                SpecialPushService.push(item.special, parsedRule.channels, eventId);
+                SpecialPushService.push(item.special, channels, eventId);
             }
         }
     },
